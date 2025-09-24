@@ -1,0 +1,24 @@
+.searchBar {
+  display: flex;
+  justify-content: center;
+  width: 100%;          /* mejor que 180%, evita overflow */
+  width: 400px;     /* limita el ancho */    /* centra con margen */
+}
+
+.searchBar input {
+  flex: 1;                          /* ocupa todo el espacio disponible */
+  border-radius: 2rem;
+  padding: 0.75rem 1.25rem;          /* padding más equilibrado */
+  background-color: #6d9bff22;       /* color más sutil */
+  border: none;       /* borde suave para mejor contraste */
+  font-size: 0.8rem;
+  height: auto;                      /* deja que el padding defina altura */
+  outline: none;                     /* quita el azul por defecto */
+  transition: all 0.3s ease;         /* animaciones suaves */
+}
+
+.searchBar input:focus {
+  background-color: #6d9bff22;
+  border: 1px solid;            /* resalta al escribir */
+  border-color: #6d9bff;  /* glow sutil */
+}

@@ -1,0 +1,50 @@
+/* Reset básico sin auto */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* mejor práctica */
+}
+
+.navbar {
+  position: sticky;
+  top: 0;                           
+  z-index: 1000;                    
+  background-color: #0E121D;
+  padding: 0.75rem;          
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.navbar ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  list-style: none;
+}
+
+.logoGamehub {
+  margin-left: 4rem;
+}
+
+.logoPerfil {
+  margin-right: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar a:hover {
+  color: #6d9bff;
+  transform: translateY(-2px);
+}
