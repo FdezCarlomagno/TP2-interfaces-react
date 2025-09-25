@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Header from './components/header/Header'
 import Dashboard from './components/dashboard/Dashboard'
+import CarruselPrincipal from './components/carruseles/carrusel.principal/CarruselPrincipal'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,6 +16,7 @@ function App() {
      <div className='appBody'>
         <h1>GAMEHUB.COM</h1>
         <p className='subtitleMain'>Todos tus juegos favoritos están acá</p>
+        <CarruselPrincipal></CarruselPrincipal>
       </div>
     </>
   )

@@ -1,0 +1,343 @@
+/* Completely redesigned carousel for multi-item view without background color */
+.carousel-container {
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 1rem;
+
+  /* Removed background color as requested */
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.carousel-slides {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* New track for multi-item display (2.5 items visible) */
+.carousel-track {
+  display: flex;
+  height: 100%;
+  gap: 20px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.carousel-slide {
+  /* Fixed width to show 2.5 items */
+  min-width: calc((100% - 40px) / 2.5);
+  flex-shrink: 0;
+  height: 100%;
+  position: relative;
+}
+
+.game-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.game-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* Images no longer stretched, proper aspect ratio */
+.game-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.6s ease;
+}
+
+.game-card:hover .game-image {
+  transform: scale(1.1);
+}
+
+/* Simplified overlay with only important information */
+.game-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9));
+  padding: 40px 20px 20px;
+  color: white;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.game-card:hover .game-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.game-info {
+  text-align: left;
+}
+
+.game-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.game-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.game-rating {
+  background: rgba(255, 215, 0, 0.9);
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.game-year {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  backdrop-filter: blur(10px);
+}
+
+/* Chevron buttons occupy full height with improved hover effects */
+.carousel-button {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(10px);
+}
+
+.carousel-button:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: scaleY(1.05);
+}
+
+.carousel-button:active {
+  transform: scaleY(0.95);
+}
+
+.carousel-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.carousel-button-prev {
+  left: 0;
+  border-radius: 0 16px 16px 0;
+}
+
+.carousel-button-next {
+  right: 0;
+  border-radius: 16px 0 0 16px;
+}
+
+.carousel-button svg {
+  transition: transform 0.2s ease;
+}
+
+.carousel-button:hover svg {
+  transform: scale(1.2);
+}
+
+/* Beautiful bullet indicators */
+.carousel-indicators {
+  display: flex;
+  gap: 16px;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  background-color: gray;
+}
+
+.indicator:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.2);
+}
+
+.indicator.active {
+  background: white;
+  border-color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.indicator.active::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: ripple 2s infinite;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Loading and error states */
+.loading-spinner,
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #333;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner p,
+.error-message p {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .carousel-slide {
+    min-width: calc((100% - 20px) / 2);
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    height: 80vh;
+    padding: 0 10px;
+  }
+
+  .carousel-wrapper {
+    height: 60vh;
+  }
+
+  .carousel-slide {
+    min-width: calc(100% - 20px);
+  }
+
+  .carousel-button {
+    width: 50px;
+  }
+
+  .game-title {
+    font-size: 1.2rem;
+  }
+
+  .game-overlay {
+    padding: 30px 15px 15px;
+  }
+
+  .carousel-indicators {
+    margin-top: 30px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    height: 75vh;
+  }
+
+  .carousel-wrapper {
+    height: 55vh;
+  }
+
+  .game-title {
+    font-size: 1rem;
+  }
+
+  .game-meta {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .carousel-button {
+    width: 40px;
+  }
+
+  .carousel-button svg {
+    width: 24px;
+    height: 24px;
+  }
+}
