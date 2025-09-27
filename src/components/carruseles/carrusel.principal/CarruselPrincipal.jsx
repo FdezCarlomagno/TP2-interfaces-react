@@ -60,9 +60,9 @@ const VideogamesCarousel = () => {
 
   if (loading) {
     return (
-      <div className="carousel-container">
-        <div className="loading-spinner">
-          <div className="spinner"></div>
+      <div className="main-carousel-container">
+        <div className="main-loading-spinner">
+          <div className="main-spinner"></div>
           <p>Cargando videojuegos...</p>
         </div>
       </div>
@@ -71,8 +71,8 @@ const VideogamesCarousel = () => {
 
   if (games.length === 0) {
     return (
-      <div className="carousel-container">
-        <div className="error-message">
+      <div className="main-carousel-container">
+        <div className="main-error-message">
           <p>No se pudieron cargar los videojuegos</p>
         </div>
       </div>
@@ -80,10 +80,10 @@ const VideogamesCarousel = () => {
   }
 
   return (
-    <div className="carousel-container">
-      <div className="carousel-wrapper">
+    <div className="main-carousel-container">
+      <div className="main-carousel-wrapper">
         <button
-          className="carousel-button carousel-button-prev"
+          className="main-carousel-button main-carousel-button-prev"
           onClick={prevSlide}
           disabled={isTransitioning || currentIndex === 0}
         >
@@ -98,29 +98,29 @@ const VideogamesCarousel = () => {
           </svg>
         </button>
 
-        <div className="carousel-slides">
+        <div className="main-carousel-slides">
           <div
-            className="carousel-track"
+            className="main-carousel-track"
             style={{
               transform: `translateX(-${currentIndex * 33.333}%)`,
               transition: isTransitioning ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
             }}
           >
             {games.map((game, index) => (
-              <div key={game.id} className="carousel-slide">
-                <div className="game-card">
+              <div key={game.id} className="main-carousel-slide">
+                <div className="main-game-card">
                   <img
                     src={game.background_image || "/placeholder.svg"}
                     alt={game.name}
-                    className="game-image"
+                    className="main-game-image"
                     loading="lazy"
                   />
-                  <div className="game-overlay">
-                    <div className="game-info">
-                      <h3 className="game-title">{game.name}</h3>
-                      <div className="game-meta">
-                        <span className="game-rating">★ {game.rating}</span>
-                        <span className="game-year">{new Date(game.released).getFullYear()}</span>
+                  <div className="main-game-overlay">
+                    <div className="main-game-info">
+                      <h3 className="main-game-title">{game.name}</h3>
+                      <div className="main-game-meta">
+                        <span className="main-game-rating">★ {game.rating}</span>
+                        <span className="main-game-year">{new Date(game.released).getFullYear()}</span>
                       </div>
                     </div>
                   </div>
@@ -131,7 +131,7 @@ const VideogamesCarousel = () => {
         </div>
 
         <button
-          className="carousel-button carousel-button-next"
+          className="main-carousel-button main-carousel-button-next"
           onClick={nextSlide}
           disabled={isTransitioning || currentIndex >= Math.max(0, games.length - 3)}
         >
@@ -147,11 +147,11 @@ const VideogamesCarousel = () => {
         </button>
       </div>
 
-      <div className="carousel-indicators">
+      <div className="main-carousel-indicators">
         {Array.from({ length: Math.max(1, games.length - 2) }, (_, index) => (
           <button
             key={index}
-            className={`indicator ${index === currentIndex ? "active" : ""}`}
+            className={`main-indicator ${index === currentIndex ? "active" : ""}`}
             onClick={() => goToSlide(index)}
             disabled={isTransitioning}
           />

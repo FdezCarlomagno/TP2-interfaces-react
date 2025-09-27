@@ -1,5 +1,6 @@
+/* Adding "main-" prefix to all classes to prevent collisions with reusable carousel */
 /* Completely redesigned carousel for multi-item view without background color */
-.carousel-container {
+.main-carousel-container {
   width: 100%;
   height: 60vh;
   display: flex;
@@ -8,11 +9,10 @@
   align-items: center;
   position: relative;
   margin-top: 1rem;
-
   /* Removed background color as requested */
 }
 
-.carousel-wrapper {
+.main-carousel-wrapper {
   position: relative;
   width: 100%;
   max-width: 1400px;
@@ -22,22 +22,23 @@
   overflow: hidden;
 }
 
-.carousel-slides {
+.main-carousel-slides {
   flex: 1;
   height: 100%;
   overflow: hidden;
   position: relative;
+  margin: 0 20px;
 }
 
 /* New track for multi-item display (2.5 items visible) */
-.carousel-track {
+.main-carousel-track {
   display: flex;
   height: 100%;
   gap: 20px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.carousel-slide {
+.main-carousel-slide {
   /* Fixed width to show 2.5 items */
   min-width: calc((100% - 40px) / 2.5);
   flex-shrink: 0;
@@ -45,23 +46,23 @@
   position: relative;
 }
 
-.game-card {
+.main-game-card {
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.game-card:hover {
+.main-game-card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
 }
 
 /* Images no longer stretched, proper aspect ratio */
-.game-image {
+.main-game-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -69,12 +70,12 @@
   transition: transform 0.6s ease;
 }
 
-.game-card:hover .game-image {
+.main-game-card:hover .main-game-image {
   transform: scale(1.1);
 }
 
 /* Simplified overlay with only important information */
-.game-overlay {
+.main-game-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -87,16 +88,16 @@
   transition: all 0.4s ease;
 }
 
-.game-card:hover .game-overlay {
+.main-game-card:hover .main-game-overlay {
   opacity: 1;
   transform: translateY(0);
 }
 
-.game-info {
+.main-game-info {
   text-align: left;
 }
 
-.game-title {
+.main-game-title {
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0 0 8px 0;
@@ -108,13 +109,13 @@
   overflow: hidden;
 }
 
-.game-meta {
+.main-game-meta {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-.game-rating {
+.main-game-rating {
   background: rgba(255, 215, 0, 0.9);
   color: #000;
   padding: 4px 8px;
@@ -123,7 +124,7 @@
   font-size: 0.8rem;
 }
 
-.game-year {
+.main-game-year {
   background: rgba(255, 255, 255, 0.2);
   padding: 4px 8px;
   border-radius: 12px;
@@ -133,7 +134,7 @@
 }
 
 /* Chevron buttons occupy full height with improved hover effects */
-.carousel-button {
+.main-carousel-button {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -150,71 +151,71 @@
   backdrop-filter: blur(10px);
 }
 
-.carousel-button:hover {
+.main-carousel-button:hover {
   background: rgba(0, 0, 0, 0.6);
   transform: scaleY(1.05);
 }
 
-.carousel-button:active {
+.main-carousel-button:active {
   transform: scaleY(0.95);
 }
 
-.carousel-button:disabled {
+.main-carousel-button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   transform: none;
 }
 
-.carousel-button-prev {
+.main-carousel-button-prev {
   left: 0;
   border-radius: 0 16px 16px 0;
 }
 
-.carousel-button-next {
+.main-carousel-button-next {
   right: 0;
   border-radius: 16px 0 0 16px;
 }
 
-.carousel-button svg {
+.main-carousel-button svg {
   transition: transform 0.2s ease;
 }
 
-.carousel-button:hover svg {
+.main-carousel-button:hover svg {
   transform: scale(1.2);
 }
 
 /* Beautiful bullet indicators */
-.carousel-indicators {
+.main-carousel-indicators {
   display: flex;
   gap: 16px;
-  margin-top: 2rem;
+  margin-top: 40px;
   justify-content: center;
 }
 
-.indicator {
-  width: 12px;
-  height: 12px;
+.main-indicator {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
-  background-color: gray;
 }
 
-.indicator:hover {
+.main-indicator:hover {
   border-color: rgba(255, 255, 255, 0.6);
   transform: scale(1.2);
 }
 
-.indicator.active {
+.main-indicator.active {
   background: white;
   border-color: white;
-  transform: scale(1.1);
+  transform: scale(1.3);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
-.indicator.active::before {
+.main-indicator.active::before {
   content: "";
   position: absolute;
   top: -6px;
@@ -223,10 +224,10 @@
   bottom: -6px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  animation: ripple 2s infinite;
+  animation: main-ripple 2s infinite;
 }
 
-@keyframes ripple {
+@keyframes main-ripple {
   0% {
     transform: scale(1);
     opacity: 1;
@@ -238,8 +239,8 @@
 }
 
 /* Loading and error states */
-.loading-spinner,
-.error-message {
+.main-loading-spinner,
+.main-error-message {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -248,17 +249,17 @@
   color: #333;
 }
 
-.spinner {
+.main-spinner {
   width: 50px;
   height: 50px;
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-top: 4px solid #333;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: main-spin 1s linear infinite;
   margin-bottom: 20px;
 }
 
-@keyframes spin {
+@keyframes main-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -267,8 +268,8 @@
   }
 }
 
-.loading-spinner p,
-.error-message p {
+.main-loading-spinner p,
+.main-error-message p {
   font-size: 1.2rem;
   margin: 0;
   font-weight: 500;
@@ -276,67 +277,67 @@
 
 /* Responsive design */
 @media (max-width: 1024px) {
-  .carousel-slide {
+  .main-carousel-slide {
     min-width: calc((100% - 20px) / 2);
   }
 }
 
 @media (max-width: 768px) {
-  .carousel-container {
+  .main-carousel-container {
     height: 80vh;
     padding: 0 10px;
   }
 
-  .carousel-wrapper {
+  .main-carousel-wrapper {
     height: 60vh;
   }
 
-  .carousel-slide {
+  .main-carousel-slide {
     min-width: calc(100% - 20px);
   }
 
-  .carousel-button {
+  .main-carousel-button {
     width: 50px;
   }
 
-  .game-title {
+  .main-game-title {
     font-size: 1.2rem;
   }
 
-  .game-overlay {
+  .main-game-overlay {
     padding: 30px 15px 15px;
   }
 
-  .carousel-indicators {
+  .main-carousel-indicators {
     margin-top: 30px;
     gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .carousel-container {
+  .main-carousel-container {
     height: 75vh;
   }
 
-  .carousel-wrapper {
+  .main-carousel-wrapper {
     height: 55vh;
   }
 
-  .game-title {
+  .main-game-title {
     font-size: 1rem;
   }
 
-  .game-meta {
+  .main-game-meta {
     flex-direction: column;
     gap: 6px;
     align-items: flex-start;
   }
 
-  .carousel-button {
+  .main-carousel-button {
     width: 40px;
   }
 
-  .carousel-button svg {
+  .main-carousel-button svg {
     width: 24px;
     height: 24px;
   }

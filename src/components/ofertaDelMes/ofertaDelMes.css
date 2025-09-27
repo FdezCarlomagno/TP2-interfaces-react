@@ -1,0 +1,72 @@
+.ofertaDelMes-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #0E121D;
+  border: 2px solid #6D9BFF;
+  color: #fff;
+}
+
+/* Título del juego */
+.ofertaDelMes-game-title {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+
+.boton-jugar-container {
+    margin-top: 2rem;
+
+}
+
+.ofertaDelMes-info-game {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.ofertaDelMes-game-title {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Info lateral */
+.ofertaDelMes-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 2rem;
+  color: rgba(255, 255, 255, 0.808);
+}
+
+/* Texto "Oferta del mes" */
+.ofertaDelMes {
+  font-size: 36px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  justify-content: flex-start;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ofertaDelMes-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .ofertaDelMes-game-title {
+    font-size: 22px;
+  }
+
+  .ofertaDelMes {
+    font-size: 36px;
+  }
+}

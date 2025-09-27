@@ -1,0 +1,48 @@
+.boton-jugar {
+  border: none;
+  border-radius: 48px;
+  background: linear-gradient(135deg, #6D9BFF, #2D70FF);
+  background-size: 200% 200%;
+  padding: 0.7rem;
+  width: 250px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  transition: transform 0.3s ease;
+}
+
+.boton-jugar:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+/* Capa de shimmer */
+.boton-jugar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  z-index: 1;
+}
+
+/* Animación solo en hover */
+.boton-jugar:hover::before {
+  animation: shimmer 1.2s ease forwards;
+}
+
+@keyframes shimmer {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}

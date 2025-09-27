@@ -1,0 +1,369 @@
+/* Adding "reusable-" prefix to all classes to prevent collisions with main carousel */
+.reusable-carousel-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: "Nunito", sans-serif;
+  padding: 1rem;
+
+}
+
+.reusable-carousel-title {
+  font-size: 20px;
+  font-weight: 100;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.reusable-carousel-wrapper {
+  position: relative;
+  display: flex;
+}
+
+/* Navigation buttons with large chevrons */
+.reusable-carousel-nav-btn {
+  position: relative;
+  width: 48px;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.reusable-carousel-nav-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+.reusable-carousel-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reusable-chevron-icon {
+  width: 32px;
+  height: 32px;
+  color: #ffffff;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Games container showing 5.5 games */
+.reusable-carousel-games-container {
+  flex: 1;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.reusable-carousel-games-track {
+  display: flex;
+  width: 1400px;
+  gap: 15px;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.reusable-carousel-games-track.transitioning {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Game cards with 12px border radius */
+.reusable-game-card {
+  flex: 0 0 calc(20% - 12px);
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.reusable-game-card-image :hover {
+
+  transform: translateY(-4px);
+}
+
+/* Game image container */
+.reusable-game-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 12px 12px 8px 8px;
+  flex-shrink: 0;
+}
+
+/* Configurable image sizes */
+.reusable-carousel-image-small {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.reusable-carousel-image-medium {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.reusable-carousel-image-large {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.reusable-game-card:hover .reusable-game-image,
+.reusable-game-card:hover .reusable-game-image-fallback {
+  transform: scale(1.1);
+}
+
+/* Image fallback styling */
+.reusable-game-image-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.reusable-fallback-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.reusable-game-image-fallback p {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Glassmorphism hover overlay */
+.reusable-game-hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+ .reusable-game-card:hover .reusable-game-hover-overlay {
+  border-radius: 12px;
+  border: 2px solid #6d9bff;
+  opacity: 1;
+}
+
+/* Play icon for free games */
+.reusable-play-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(109, 155, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: reusable-pulse 2s infinite;
+}
+
+.reusable-play-icon svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
+/* Lock icon for premium games */
+.reusable-premium-lock-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(220, 53, 69, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  animation: reusable-shake 0.5s ease-in-out;
+}
+
+.reusable-premium-lock-icon svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+  stroke-width: 2;
+}
+
+/* Game info section */
+.reusable-game-info {
+  padding: 8px 8px;
+  background: transparent;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.reusable-game-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.3;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  justify-content: center;
+}
+
+/* Premium crown indicator */
+.reusable-premium-crown {
+  font-size: 16px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+  animation: reusable-glow 2s ease-in-out infinite alternate;
+}
+
+.reusable-premium-text {
+  font-size: 11px;
+  color: #ff6b6b;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  text-align: center;
+}
+
+/* Loading and error states */
+.reusable-carousel-loading,
+.reusable-carousel-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.reusable-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(109, 155, 255, 0.3);
+  border-top: 4px solid #6d9bff;
+  border-radius: 50%;
+  animation: reusable-spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+/* Animations */
+@keyframes reusable-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes reusable-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes reusable-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes reusable-glow {
+  from {
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+  }
+  to {
+    filter: drop-shadow(1px 1px 8px rgba(255, 215, 0, 0.8));
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .reusable-game-card {
+    flex: 0 0 calc(25% - 12px);
+    height: auto;
+  }
+
+  .reusable-game-image-container {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
+  .reusable-carousel-nav-btn {
+    width: 50px;
+    height: 250px;
+  }
+
+  .reusable-chevron-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .reusable-game-card {
+    flex: 0 0 calc(33.333% - 10px);
+    height: auto;
+  }
+
+  .reusable-game-image-container {
+    aspect-ratio: 16 / 9;
+  }
+
+  .reusable-carousel-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reusable-game-card {
+    flex: 0 0 calc(50% - 8px);
+    height: auto;
+  }
+
+  .reusable-game-image-container {
+    aspect-ratio: 16 / 9;
+  }
+}
