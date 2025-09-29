@@ -1,6 +1,11 @@
-* {
-  margin: 0 auto;
-  padding: 0 auto;
+html, body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenedor principal de la página */
+main {
+  flex: 1; /* ocupa todo el espacio disponible empujando el footer abajo */
 }
 
 

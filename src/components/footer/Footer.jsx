@@ -4,10 +4,10 @@ import Logo from '../../assets/logo.svg';
 export default function Footer() {
   return (
     <footer className="footer">
-         <div className="footer-logo">
-          <img src={Logo} alt="Gamehub Logo" />
-        </div>
-      <div className="footer-top">       
+      <div className="footer-logo">
+        <img src={Logo} alt="Gamehub Logo" />
+      </div>
+      <div className="footer-top">
 
         {/* Columnas */}
         <div className="footer-columns">
@@ -41,6 +41,17 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+        {/* Redes Sociales */}
+        <div className="footer-bottom">
+          <h3>REDES SOCIALES</h3>
+          <div className="social-icons">
+            <img src="/icons/instagram.svg" alt="Instagram" />
+            <img src="/icons/tiktok.svg" alt="TikTok" />
+            <img src="/icons/facebook.svg" alt="Facebook" />
+            <img src="/icons/twitter.svg" alt="Twitter" />
+            <img src="/icons/linkedin.svg" alt="LinkedIn" />
+          </div>
+        </div>
 
         {/* Contacto */}
         <div className="footer-contact">
@@ -49,17 +60,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Redes Sociales */}
-      <div className="footer-bottom">
-        <h3>REDES SOCIALES</h3>
-        <div className="social-icons">
-          <img src="/icons/instagram.svg" alt="Instagram" />
-          <img src="/icons/tiktok.svg" alt="TikTok" />
-          <img src="/icons/facebook.svg" alt="Facebook" />
-          <img src="/icons/twitter.svg" alt="Twitter" />
-          <img src="/icons/linkedin.svg" alt="LinkedIn" />
-        </div>
-      </div>
+
     </footer>
   );
 }

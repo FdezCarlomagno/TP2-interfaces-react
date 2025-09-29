@@ -1,7 +1,5 @@
 /* Reset básico sin auto */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box; /* mejor práctica */
 }
 
@@ -15,12 +13,11 @@
   background-color: #0E121D;
   padding: 0.6rem;          
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  height: 72px;
+  height: 54px;
 }
 
 .navbar ul {
   display: flex;
-  flex-direction: row;
   flex: 1;
   justify-content: space-between;
   align-items: center;
@@ -34,15 +31,20 @@
 }
 
 .logoGamehub {
-  margin-left: 4rem;
+  margin-left: 2rem;
+}
+
+.logoGamehub img {
+  width: 48px;
+  height: auto;
 }
 
 .logoPerfil {
   margin-right: 0;
 }
 .logoPerfil img{
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
 }
 
 .navbar a {

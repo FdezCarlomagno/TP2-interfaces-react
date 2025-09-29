@@ -1,25 +1,87 @@
 .searchBar {
   display: flex;
-  justify-content: center;
-  width: 100%;          /* mejor que 180%, evita overflow */
-  width: 400px;     /* limita el ancho */    /* centra con margen */
+  justify-content: center;  /* más ancha en X */ 
+  position: relative; 
 }
 
 .searchBar input {
-  flex: 1;                          /* ocupa todo el espacio disponible */
-  border-radius: 2rem;
-  padding: 0.4rem 1.25rem;          /* padding más equilibrado */
-  background-color: #6d9bff22;       /* color más sutil */
-  border: none;       /* borde suave para mejor contraste */
-  font-size: 0.8rem;
-  height: auto;                      /* deja que el padding defina altura */
-  outline: none;                     /* quita el azul por defecto */
-  transition: all 0.3s ease;         /* animaciones suaves */
+  flex: 1;
+  border-radius: 2.5rem;      /* barra redondeada */
+  padding: 0.35rem 1.5rem;    /* menos padding vertical, mismo horizontal */
+  background-color: #6d9bff22;
+  border: none;
+  font-size: 1rem;
+  height: auto;
+  outline: none;
+  transition: all 0.3s ease;
   color: azure;
+  width: 400px; 
 }
 
 .searchBar input:focus {
-  background-color: #6d9bff22;
-  border: 1px solid;            /* resalta al escribir */
-  border-color: #6d9bff;  /* glow sutil */
+  border: 1px solid #6d9bff;
+  box-shadow: 0 0 10px #6d9bff55;
+}
+
+
+/* Dropdown vertical debajo de la search bar */
+.dropdown {
+  position: absolute;
+  top: 110%; 
+  left: 0;
+  right: 0;
+  background: #0e121d;
+  border-radius: 0.8rem;
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  animation: fadeIn 0.2s ease-in-out;
+  z-index: 10;
+  padding: 0.5rem;
+  overflow-x: hidden;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.8rem;   /* un poco más compacto */
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border-radius: 0.6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 400px; 
+}
+
+.dropdown-item:hover {
+  background: #1f2b48;
+}
+
+.dropdown-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.dropdown-item h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.dropdown-item p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #aaa;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }

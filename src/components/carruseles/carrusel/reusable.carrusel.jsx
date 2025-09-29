@@ -1,21 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { VideogamesService } from "../../../api/VideogamesService"
+import { useState } from "react"
+import { useAppContext } from "../../../context/AppContext"
 import "./reusable.carrusel.css"
 
-const ReusableGamesCarousel = ({ title = "Juegos", imageSize = "medium", startIndex = 0, endIndex = 10 }) => {
-  const [games, setGames] = useState([])
+const ReusableGamesCarousel = ({
+  title = "Juegos",
+  imageSize = "medium",
+  startIndex = 0,
+  endIndex = 10,
+}) => {
+  const { games: allGames, loading } = useAppContext() // juegos del contexto
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [loading, setLoading] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [imageErrors, setImageErrors] = useState({})
 
-  const videogamesService = new VideogamesService()
+  // Seleccionamos solo el rango de juegos que corresponde
+  const games = allGames.slice(startIndex, Math.min(endIndex, allGames.length))
 
-  const isPremiumGame = (gameId) => {
-    return gameId % 5 < 2 // This makes 40% of games premium (2 out of 5)
-  }
+  const isPremiumGame = (gameId) => gameId % 5 < 2
 
   const getImageSizeClass = () => {
     switch (imageSize) {
@@ -27,24 +30,6 @@ const ReusableGamesCarousel = ({ title = "Juegos", imageSize = "medium", startIn
         return "reusable-carousel-image-medium"
     }
   }
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const data = await videogamesService.fetchVideogames()
-        if (data && !data.message) {
-          const slicedGames = data.slice(startIndex, Math.min(endIndex, startIndex + 10))
-          setGames(slicedGames)
-        }
-      } catch (error) {
-        console.error("Error fetching games:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchGames()
-  }, [startIndex, endIndex])
 
   const handleImageError = (gameId) => {
     setImageErrors((prev) => ({ ...prev, [gameId]: true }))
@@ -114,7 +99,7 @@ const ReusableGamesCarousel = ({ title = "Juegos", imageSize = "medium", startIn
             className={`reusable-carousel-games-track ${isTransitioning ? "transitioning" : ""}`}
             style={{ transform: `translateX(-${currentIndex * 20}%)` }}
           >
-            {games.map((game, index) => {
+            {games.map((game) => {
               const isPremium = isPremiumGame(game.id)
               const hasImageError = imageErrors[game.id]
 
