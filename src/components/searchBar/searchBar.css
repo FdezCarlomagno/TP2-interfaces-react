@@ -15,6 +15,7 @@
   height: auto;                      /* deja que el padding defina altura */
   outline: none;                     /* quita el azul por defecto */
   transition: all 0.3s ease;         /* animaciones suaves */
+  color: azure;
 }
 
 .searchBar input:focus {

@@ -7,6 +7,7 @@ import Dashboard from './components/dashboard/Dashboard'
 import CarruselPrincipal from './components/carruseles/carrusel.principal/CarruselPrincipal'
 import ReusableGamesCarousel from './components/carruseles/carrusel/reusable.carrusel'
 import OfertaDelMes from './components/ofertaDelMes/OfertaDelMes'
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
       </div>
         </main>
       </div>
+      <Footer/>
     </>
   )
 }

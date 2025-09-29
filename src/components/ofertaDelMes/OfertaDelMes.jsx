@@ -1,5 +1,6 @@
 import "./ofertaDelMes.css"
 import BotonJugar from "../buttons/button.jugar"
+import pegImage from '../../assets/pegImg.svg'
 
 const OfertaDelMes = () => {
     return <>
@@ -18,12 +19,13 @@ const OfertaDelMes = () => {
                     </p>
                     
 
-                    <img src="" alt="IMAGEN DE MESSI SOLITAIRE" />
+                    <img src={pegImage} alt="IMAGEN DE MESSI SOLITAIRE" />
                 </div>
                 <div className="boton-jugar-container">
                    <BotonJugar />
                 </div>
             </div>
+    
         </section>
     </>
 }

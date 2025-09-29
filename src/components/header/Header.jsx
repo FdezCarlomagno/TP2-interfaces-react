@@ -1,6 +1,7 @@
 import '../header/header.css'
 import SearchBar from '../searchBar/SearchBar'
-
+import Logo from '../../assets/logo.svg'
+import Avatar from '../../assets/avatar.png'
 const Header = () => {
     return <>
         <nav className="navbar">
@@ -9,7 +10,7 @@ const Header = () => {
                  * Aca va el logo de gamehub
                 */}
                 <li className='logoGamehub'>
-                    <img src="src" alt="GAMEHUB" />
+                    <img src={Logo} alt="GAMEHUB" />
                 </li>
                  {/**
                  * Aca va la navbar
@@ -21,7 +22,7 @@ const Header = () => {
                  * Aca el icono del perfil
                 */}
                 <li className='logoPerfil'>
-                    <img src="src" alt="Perfil" />
+                    <img src={Avatar} alt="Perfil" />
                 </li>
             </ul>
         </nav>
