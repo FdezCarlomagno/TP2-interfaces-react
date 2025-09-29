@@ -6,21 +6,26 @@
 }
 
 .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;                           
   z-index: 1000;                    
   background-color: #0E121D;
   padding: 0.6rem;          
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  height: 72px;
 }
 
 .navbar ul {
   display: flex;
   flex-direction: row;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-  margin: 0;
+  margin:0;
   padding: 0;
 }
 
@@ -34,6 +39,10 @@
 
 .logoPerfil {
   margin-right: 0;
+}
+.logoPerfil img{
+  width: 44px;
+  height: 44px;
 }
 
 .navbar a {
