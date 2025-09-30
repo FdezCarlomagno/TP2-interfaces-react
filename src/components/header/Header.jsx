@@ -3,6 +3,7 @@ import SearchBar from '../searchBar/SearchBar'
 import Logo from '../../assets/logo.svg'
 import Avatar from '../../assets/avatar.png'
 import { useAppContext } from "../../context/AppContext"  // 👈 importamos el contexto
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   const { games } = useAppContext() // 👈 traemos del contexto
@@ -21,9 +22,9 @@ const Header = () => {
         </li>
 
         {/* Avatar perfil */}
-        <li className='logoPerfil'>
+       <Link to={'/login'}><li className='logoPerfil'>
           <img src={Avatar} alt="Perfil" />
-        </li>
+        </li></Link>
       </ul>
     </nav>
   )

@@ -1,40 +1,20 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { VideogamesService } from "../../../api/VideogamesService"
+import { useState } from "react"
+import { useAppContext } from "../../../context/AppContext" // ajusta la ruta según tu estructura
 import "./carruselPrincipal.css"
 
 const VideogamesCarousel = () => {
-  const [games, setGames] = useState([])
+  const { games : contextGames, loading } = useAppContext()
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [loading, setLoading] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
-
-  const videogamesService = new VideogamesService()
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const data = await videogamesService.fetchVideogames()
-        if (data && !data.message) {
-          setGames(data.slice(0, 6))
-        }
-      } catch (error) {
-        console.error("Error fetching games:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchGames()
-  }, [])
+  const games = contextGames.slice(0, 6)
 
   const nextSlide = () => {
     if (isTransitioning || games.length === 0) return
 
     setIsTransitioning(true)
-    // Move by one item, but consider the visible items (2.5)
-    const maxIndex = Math.max(0, games.length - 3) // Show last 3 items at most
+    const maxIndex = Math.max(0, games.length - 3) // Mostrar hasta los últimos 3
     setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, maxIndex))
 
     setTimeout(() => setIsTransitioning(false), 500)
@@ -103,10 +83,12 @@ const VideogamesCarousel = () => {
             className="main-carousel-track"
             style={{
               transform: `translateX(-${currentIndex * 33.333}%)`,
-              transition: isTransitioning ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
+              transition: isTransitioning
+                ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+                : "none",
             }}
           >
-            {games.map((game, index) => (
+            {games.slice(0, 6).map((game) => (
               <div key={game.id} className="main-carousel-slide">
                 <div className="main-game-card">
                   <img
@@ -120,7 +102,9 @@ const VideogamesCarousel = () => {
                       <h3 className="main-game-title">{game.name}</h3>
                       <div className="main-game-meta">
                         <span className="main-game-rating">★ {game.rating}</span>
-                        <span className="main-game-year">{new Date(game.released).getFullYear()}</span>
+                        <span className="main-game-year">
+                          {new Date(game.released).getFullYear()}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -133,7 +117,9 @@ const VideogamesCarousel = () => {
         <button
           className="main-carousel-button main-carousel-button-next"
           onClick={nextSlide}
-          disabled={isTransitioning || currentIndex >= Math.max(0, games.length - 3)}
+          disabled={
+            isTransitioning || currentIndex >= Math.max(0, games.length - 3)
+          }
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
             <path
@@ -151,7 +137,9 @@ const VideogamesCarousel = () => {
         {Array.from({ length: Math.max(1, games.length - 2) }, (_, index) => (
           <button
             key={index}
-            className={`main-indicator ${index === currentIndex ? "active" : ""}`}
+            className={`main-indicator ${
+              index === currentIndex ? "active" : ""
+            }`}
             onClick={() => goToSlide(index)}
             disabled={isTransitioning}
           />

@@ -16,7 +16,7 @@ main {
   margin-bottom: 2rem;
 }
 
-p, input {
+p, input, h3 {
   font-family: "Nunito", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
