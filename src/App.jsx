@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 import CarruselPrincipal from './components/carruseles/carrusel.principal/CarruselPrincipal';
 import ReusableGamesCarousel from './components/carruseles/carrusel/reusable.carrusel';
 import OfertaDelMes from './components/ofertaDelMes/OfertaDelMes';
@@ -36,6 +37,7 @@ function App() {
 
         {/* Rutas sin Layout (ej: login independiente) */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

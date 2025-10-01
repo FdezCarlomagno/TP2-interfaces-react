@@ -2,12 +2,14 @@
 
 import { useState } from "react"
 import "./loginForm.css"
+import { useNavigate } from "react-router-dom"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({})
+  const navigate = useNavigate()
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -116,7 +118,7 @@ export default function LoginForm() {
 
           <p className="register-text">
             ¿Todavía no tenés cuenta?{" "}
-            <a href="#" className="register-link">
+            <a href="#" className="register-link" onClick={(e) => { e.preventDefault(); navigate("/register") }}>
               <strong>Registrate</strong>
             </a>
           </p>
