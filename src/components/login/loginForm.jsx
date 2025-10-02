@@ -31,7 +31,8 @@ export default function LoginForm() {
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Login successful")
+      // Login exitoso
+      navigate("/")
     }
   }
 

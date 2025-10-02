@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
+import ProfileMenu from "./components/profileMenu/profileMenu";
 import CarruselPrincipal from './components/carruseles/carrusel.principal/CarruselPrincipal';
 import ReusableGamesCarousel from './components/carruseles/carrusel/reusable.carrusel';
 import OfertaDelMes from './components/ofertaDelMes/OfertaDelMes';

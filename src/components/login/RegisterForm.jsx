@@ -44,8 +44,8 @@ export default function RegisterForm() {
     if (!captchaValue) newErrors.captcha = "Confirme que no es un robot"
     setErrors(newErrors)
     if (Object.keys(newErrors).length === 0) {
-      // Aquí iría la lógica de registro
-      alert("¡Registro exitoso!")
+      // Registro exitoso
+      navigate("/")
     }
   }
 
