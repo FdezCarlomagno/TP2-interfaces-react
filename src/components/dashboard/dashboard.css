@@ -1,68 +1,94 @@
+/* =====================
+   RESET Y BASE
+===================== */
 * {
-    padding: 0 auto;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* =====================
+   SIDEBAR
+===================== */
 .dashboard {
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 2.6rem; /* ancho cerrado */
-    padding-top: 5rem;
-    box-sizing: border-box;
-    background-color: #0A0A0A;
+    width: 3rem; /* ancho móvil cerrado */
+    padding-top: 4rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    z-index: 9999;
+    background-color: #0A0A0A;
     border-right: 1px solid rgba(128, 128, 128, 0.43);
-    transition: width 0.3s ease; /* animación de apertura */
+    transition: width 0.3s ease;
+    z-index: 9999;
 }
 
+/* Ítems */
 .dashboardItem {
     width: 100%;
-    height: auto;
     display: flex;
-    justify-content: center; /* centrado cuando está cerrado */
+    justify-content: center;
     align-items: center;
-    padding: 0.5rem 0.5rem;
-    box-sizing: border-box;
+    padding: 0.5rem;
+    gap: 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    gap: 0.5rem;
 }
 
-/* Sidebar abierto */
-.dashboard.open {
-    width: 8rem;
-}
-
-/* Ítems alineados al abrir */
-.dashboard.open .dashboardItem {
-    justify-content: flex-start;
-    padding-left: 1rem;
-}
-
-.dashboard img {
+.dashboardItem img {
     width: 24px;
     height: auto;
-    margin: 0;
 }
 
-.dashboardItem:hover {
-    border-left: 3px solid white;
-    background-color: #000000;
-}
-
-/* Texto opcional para acompañar el icono */
 .dashboardItem span {
     opacity: 0;
     white-space: nowrap;
     transition: opacity 0.3s ease;
 }
 
+/* Hover */
+.dashboardItem:hover {
+    border-left: 3px solid white;
+    background-color: #000000;
+}
 
+/* =====================
+   SIDEBAR ABIERTO
+===================== */
+.dashboard.open {
+    width: 6rem; /* ancho en móvil al abrir */
+}
+
+.dashboard.open .dashboardItem {
+    justify-content: flex-start;
+    padding-left: 1rem;
+}
 
 .dashboard.open .dashboardItem span {
     opacity: 1;
+}
+
+/* =====================
+   DESKTOP (media query)
+===================== */
+@media (min-width: 768px) {
+    .dashboard {
+        width: 2.6rem; /* cerrado en desktop */
+        padding-top: 5rem;
+    }
+
+    .dashboard.open {
+        width: 8rem; /* abierto en desktop */
+    }
+
+    .dashboard.open .dashboardItem {
+        padding-left: 1rem;
+    }
+
+    .dashboard.open .dashboardItem span {
+        opacity: 1;
+    }
 }

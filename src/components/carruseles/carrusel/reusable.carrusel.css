@@ -1,7 +1,7 @@
 /* Adding "reusable-" prefix to all classes to prevent collisions with main carousel */
 .reusable-carousel-container {
   width: 100%;
-  max-width: 1400px;
+  /* max-width: 1400px; */
   font-family: "Nunito", sans-serif;
   padding: 1rem;
 
