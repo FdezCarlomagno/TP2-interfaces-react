@@ -108,7 +108,7 @@ const ReusableGamesCarousel = ({
                   <div className="reusable-game-image-container">
                     {!hasImageError ? (
                       <img
-                        src={game.background_image || "/placeholder.svg"}
+                        src={game.background_image_low_res || "/placeholder.svg"}
                         alt={game.name}
                         className={`reusable-game-image ${getImageSizeClass()}`}
                         onError={() => handleImageError(game.id)}

@@ -28,7 +28,7 @@ const SearchBar = ({ games }) => {
           {hasResults ? (
             filteredGames.map((game) => (
               <li key={game.id} className="dropdown-item">
-                <img src={game.background_image} alt={game.name} />
+                <img src={game.background_image_low_res} alt={game.name} />
                 <div>
                   <h4>{game.name}</h4>
                   <p>

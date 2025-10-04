@@ -92,7 +92,7 @@ const VideogamesCarousel = () => {
               <div key={game.id} className="main-carousel-slide">
                 <div className="main-game-card">
                   <img
-                    src={game.background_image || "/placeholder.svg"}
+                    src={game.background_image_low_res || "/placeholder.svg"}
                     alt={game.name}
                     className="main-game-image"
                     loading="lazy"

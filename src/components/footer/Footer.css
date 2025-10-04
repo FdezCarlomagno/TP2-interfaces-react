@@ -15,7 +15,7 @@
 .footer-top {
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 6rem;
   padding-right: 2rem;
   padding-left: 2rem;
   flex-wrap: wrap; /* responsive */
@@ -34,13 +34,13 @@
 .footer-columns {
   display: flex;
   justify-content: space-between;
-  gap: 3rem;
+  flex-direction: row;
+  gap: 7rem;
   flex-wrap: wrap; /* responsive */
 }
 
-.footer-col h3 {
+.footer-col h2 {
   font-weight: bold;
-  font-size: 1.1rem;
   margin-bottom: 1rem;
   border-top: 1px solid #444;
   padding-top: 1rem;
@@ -63,11 +63,10 @@
 
 /* Contacto */
 .footer-contact {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
+  margin-bottom: 3rem;
 }
+
+
 .footer-contact button {
   background-color: #1f2b48;
   color: #fff;
@@ -76,6 +75,7 @@
   border: none;
   cursor: pointer;
   font-weight: bold;
+  margin-bottom: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   transition: background 0.3s ease;
 }
@@ -86,7 +86,12 @@
   color: #a0a0a0;
 }
 
-.footer-bottom h3 {
+.social-icons {
+  margin-bottom: 2rem;
+}
+
+
+.footer-bottom h2 {
   font-weight: bold;
   margin-bottom: 1rem;
 }

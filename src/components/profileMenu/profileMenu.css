@@ -101,7 +101,7 @@
 .divider {
   height: 1px;
   background: #1f2937;
-  margin: 24px 0;
+  margin: 8px 0;
 }
 
 .menu-items {
@@ -113,7 +113,7 @@
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   padding: 14px 12px;
   background: transparent;
   border: none;
