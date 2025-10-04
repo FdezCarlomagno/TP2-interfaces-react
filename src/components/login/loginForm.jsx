@@ -3,6 +3,7 @@
 import { useState } from "react"
 import "./loginForm.css"
 import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
@@ -14,6 +15,10 @@ export default function LoginForm() {
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return re.test(email)
+  }
+
+  const toastSuccess = (msg) => {
+    return toast.success(msg)
   }
 
   const handleSubmit = (e) => {
@@ -32,6 +37,7 @@ export default function LoginForm() {
 
     if (Object.keys(newErrors).length === 0) {
       // Login exitoso
+      toastSuccess('¡Login exitoso!')
       navigate("/")
     }
   }

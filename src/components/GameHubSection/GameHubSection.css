@@ -1,0 +1,175 @@
+.gamehub-section {
+  min-height: 100vh;
+  padding: 60px 20px;
+  color: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-align: center;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+  padding: 15px 0;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.4s ease;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+.tab:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tab.active {
+  color: white;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #4a9eff;
+  animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+  animation: fadeIn 0.6s ease;
+  /* Agregando gradiente y sombra al container */
+  background: linear-gradient(to top left, #3d0e1d 20%, #0a0a0a 60%, #0e121d 90%);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-content {
+  padding-right: 20px;
+}
+
+.content-title {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+.content-text {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+
+.content-text strong {
+  font-weight: 700;
+  color: white;
+}
+
+.image-content {
+  position: relative;
+  animation: slideInRight 0.6s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.content-image {
+  width: 100%;
+  height: 320px; /* 🔹 ajustá este valor según quieras menos o más altura */
+  object-fit: cover; /* recorta la imagen pero mantiene proporción */
+  object-position: center; /* centra la parte visible */
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+
+.content-image:hover {
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 1.3rem;
+  }
+
+  .tabs {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    font-size: 0.9rem;
+  }
+
+  .content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .content-title {
+    font-size: 1.5rem;
+  }
+
+  .content-text {
+    font-size: 0.95rem;
+  }
+}

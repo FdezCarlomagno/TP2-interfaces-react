@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useAppContext } from "../../../context/AppContext"
 import "./reusable.carrusel.css"
+import { useNavigate } from "react-router-dom"
 
 const ReusableGamesCarousel = ({
   title = "Juegos",
@@ -10,10 +11,20 @@ const ReusableGamesCarousel = ({
   startIndex = 0,
   endIndex = 10,
 }) => {
-  const { games: allGames, loading } = useAppContext() // juegos del contexto
+  const { games: allGames, loading, setSelectedGame } = useAppContext() // juegos del contexto
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [imageErrors, setImageErrors] = useState({})
+  const nav = useNavigate()
+
+  const handleClick = (game) => {
+
+    setSelectedGame({
+      gameInfo: game,
+      isPremium: isPremiumGame(game.id)
+    })
+    nav(`/${game.id}`)
+  }
 
   // Seleccionamos solo el rango de juegos que corresponde
   const games = allGames.slice(startIndex, Math.min(endIndex, allGames.length))
@@ -105,7 +116,7 @@ const ReusableGamesCarousel = ({
 
               return (
                 <div key={game.id} className="reusable-game-card">
-                  <div className="reusable-game-image-container">
+                  <div className="reusable-game-image-container" onClick={() => handleClick(game)}>
                     {!hasImageError ? (
                       <img
                         src={game.background_image_low_res || "/placeholder.svg"}

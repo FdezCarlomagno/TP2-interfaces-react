@@ -8,6 +8,10 @@ export function AppProvider({ children }) {
     const [games, setGames] = useState([])
     const [loading, setLoading] = useState(true)
     const videogamesService = new VideogamesService()
+    const [selectedGame, setSelectedGame] = useState({
+      gameInfo: {},
+      isPremium: false
+    })
 
       useEffect(() => {
         const fetchGames = async () => {
@@ -27,7 +31,7 @@ export function AppProvider({ children }) {
       }, [])
 
     return (
-        <AppContext.Provider value={{ games, setGames, loading, setLoading }}>
+        <AppContext.Provider value={{ games, setGames, loading, setLoading, selectedGame, setSelectedGame }}>
             {children}
         </AppContext.Provider>
     );

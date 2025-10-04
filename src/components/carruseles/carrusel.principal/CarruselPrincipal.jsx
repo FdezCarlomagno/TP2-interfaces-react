@@ -3,12 +3,14 @@
 import { useState } from "react"
 import { useAppContext } from "../../../context/AppContext" // ajusta la ruta según tu estructura
 import "./carruselPrincipal.css"
+import { useNavigate } from "react-router-dom"
 
 const VideogamesCarousel = () => {
-  const { games : contextGames, loading } = useAppContext()
+  const { games : contextGames, loading, setSelectedGame } = useAppContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const games = contextGames.slice(0, 6)
+  const nav = useNavigate()
 
   const nextSlide = () => {
     if (isTransitioning || games.length === 0) return
@@ -59,6 +61,15 @@ const VideogamesCarousel = () => {
     )
   }
 
+  const handleClick = (game) => {
+
+      setSelectedGame({
+        gameInfo: game,
+        isPremium: false
+      })
+      nav(`/${game.id}`)
+  }
+
   return (
     <div className="main-carousel-container">
       <div className="main-carousel-wrapper">
@@ -90,7 +101,7 @@ const VideogamesCarousel = () => {
           >
             {games.slice(0, 6).map((game) => (
               <div key={game.id} className="main-carousel-slide">
-                <div className="main-game-card">
+                <div className="main-game-card" onClick={() => handleClick(game)}>
                   <img
                     src={game.background_image_low_res || "/placeholder.svg"}
                     alt={game.name}
