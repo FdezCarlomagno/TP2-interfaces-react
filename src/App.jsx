@@ -95,7 +95,7 @@ function App() {
           {/* Rutas con Layout fijo */}
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/:gameId" element={<Game />}/>
+            <Route path="juegos/:gameId" element={<Game />}/>
             {/* Podés meter más páginas aquí y solo cambia el <Outlet /> */}
           </Route>
 

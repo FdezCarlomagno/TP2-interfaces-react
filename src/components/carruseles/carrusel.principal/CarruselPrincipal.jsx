@@ -67,7 +67,7 @@ const VideogamesCarousel = () => {
         gameInfo: game,
         isPremium: false
       })
-      nav(`/${game.id}`)
+      nav(`juegos/${game.id}`)
   }
 
   return (

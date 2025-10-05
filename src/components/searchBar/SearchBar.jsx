@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import '../searchBar/searchBar.css'
+import { useNavigate } from 'react-router-dom'
+import { useAppContext } from '../../context/AppContext'
 
 const SearchBar = ({ games }) => {
   const [search, setSearch] = useState("")
-
+  const nav = useNavigate()
+  const { setSelectedGame } = useAppContext()
   // Filtrar juegos según el texto buscado
   const filteredGames = games.filter(game =>
     game.name.toLowerCase().includes(search.toLowerCase())
   )
+  
+  const handleClick = (game) => {
+    setSelectedGame(game)
+    nav(`juegos/${game.id}`)
+  }
 
   const showDropdown = search !== ""
   const hasResults = filteredGames.length > 0
@@ -27,7 +35,7 @@ const SearchBar = ({ games }) => {
         <ul className="dropdown">
           {hasResults ? (
             filteredGames.map((game) => (
-              <li key={game.id} className="dropdown-item">
+              <li key={game.id} className="dropdown-item" onClick={() => handleClick(game)}>
                 <img src={game.background_image_low_res} alt={game.name} />
                 <div>
                   <h4>{game.name}</h4>
