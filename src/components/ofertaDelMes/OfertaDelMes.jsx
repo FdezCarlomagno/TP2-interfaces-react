@@ -3,8 +3,11 @@ import BotonJugar from "../buttons/button.jugar"
 import pegImage from '../../assets/pegImg.svg'
 import ic_puzzle from '../../assets/dashboardItemsImg/ic_puzzle.svg'
 import "./OfertaDelMes.css"
+import { useNavigate } from "react-router-dom";
+
 
 export default function OfertaDelMes() {
+    const navigate = useNavigate();
   return (
     <section className="oferta-container">
       <div className="oferta-header">
@@ -68,7 +71,7 @@ export default function OfertaDelMes() {
             Pon a prueba tu lógica y concentración junto al <strong>mejor del mundo</strong> en este adictivo reto
             solitario. ¿Serás capaz de dejar solo a <strong>Messi dominando el tablero</strong>?
           </p>
-          <BotonJugar></BotonJugar>
+          <BotonJugar onClick={()=>navigate('/peg')}></BotonJugar>
         </div>
 
         <div className="oferta-image">

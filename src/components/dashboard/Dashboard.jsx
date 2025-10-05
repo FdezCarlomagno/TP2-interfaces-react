@@ -3,6 +3,8 @@ import home from '../../assets/home.svg'
 import menu from '../../assets/menu.svg'
 import cross from '../../assets/cross.svg'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import ic_2players from '../../assets/dashboardItemsImg/ic_2players.svg'
 import ic_accion from '../../assets/dashboardItemsImg/ic_accion.svg'
 import ic_biblioteca from '../../assets/dashboardItemsImg/ic_biblioteca.svg'
@@ -12,7 +14,7 @@ import ic_deCartas from '../../assets/dashboardItemsImg/ic_deCartas.svg'
 import ic_futbol from '../../assets/dashboardItemsImg/ic_futbol.svg'
 import ic_nuevos from '../../assets/dashboardItemsImg/ic_nuevos.svg'
 import ic_populares from '../../assets/dashboardItemsImg/ic_populares.svg'
-import ic_puzzle from '../../assets/dashboardItemsImg/ic_puzzle.svg'
+// ic_puzzle import removed because it wasn't used
 import ic_shooters from '../../assets/dashboardItemsImg/ic_shooters.svg'
 
 const Dashboard = () => {
@@ -23,8 +25,8 @@ const Dashboard = () => {
   }
 
   const items = [
-    { src: ic_nuevos, name: "Nuevos" },
     { src: ic_populares, name: "Populares" },
+    { src: ic_nuevos, name: "Nuevos" },
     { src: ic_shooters, name: "Shooters" },
     { src: ic_2players, name: "2 Players" },
     { src: ic_accion, name: "Acción" },
@@ -33,6 +35,7 @@ const Dashboard = () => {
     { src: ic_carreras, name: "Carrera" },
     { src: ic_futbol, name: "Fútbol" },
   ]
+  const nav = useNavigate();
 
   return (
     <div className={menuOpen ? 'dashboard open' : 'dashboard'}>
@@ -48,6 +51,7 @@ const Dashboard = () => {
         src={home}
         alt="home"
         name="Inicio"
+        onClick={() => nav('/')}   
         menuOpen={menuOpen}
       />
       <DashboardItem

@@ -1,0 +1,95 @@
+/* Peg Solitaire styles */
+.peg-board {
+	display: inline-block;
+	background: #0e1621; /* tablero oscuro */
+	padding: 12px;
+	border-radius: 8px;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.peg-row {
+	display: flex;
+}
+
+.peg-cell {
+	width: 56px;
+	height: 56px;
+	margin: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	position: relative;
+	background: transparent;
+	transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.peg-cell.invalid {
+	visibility: hidden;
+	width: 56px;
+	height: 56px;
+	margin: 6px;
+}
+
+.peg-cell.empty {
+	background: rgba(255,255,255,0.03);
+	border: 1px dashed rgba(255,255,255,0.04);
+}
+
+.peg-cell.peg {
+	background: rgba(255,255,255,0.02);
+}
+
+.peg {
+	width: 36px;
+	height: 36px;
+	background: radial-gradient(circle at 30% 30%, #ffd36b, #ff8a00 70%);
+	border-radius: 50%;
+	box-shadow: 0 4px 8px rgba(0,0,0,0.45), inset 0 -6px 12px rgba(0,0,0,0.18);
+	transform: translateY(0);
+}
+
+.peg-cell.selected {
+	outline: 3px solid rgba(107,155,255,0.25);
+	transform: translateY(-4px);
+}
+
+.peg-cell.valid-move {
+	cursor: pointer;
+	background: linear-gradient(180deg, rgba(109,155,255,0.06), rgba(109,155,255,0.02));
+}
+
+.move-indicator {
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: rgba(109,155,255,0.95);
+	box-shadow: 0 2px 6px rgba(109,155,255,0.18);
+}
+
+.ps-reset-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 12px;
+	padding: 8px 14px;
+	background: linear-gradient(180deg,#1f2937,#111827);
+	color: #cfe3ff;
+	border: 1px solid rgba(109,155,255,0.12);
+	border-radius: 8px;
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.ps-reset-button .icon {
+	width: 18px;
+	height: 18px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+	.peg-cell { width: 42px; height: 42px; margin: 4px }
+	.peg { width: 28px; height: 28px }
+	.ps-reset-button { padding: 6px 10px }
+}
+

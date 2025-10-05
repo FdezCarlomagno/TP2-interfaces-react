@@ -84,7 +84,7 @@ export default function GameHubSection() {
         <div className="content-wrapper">
           <div className="text-content">
             <h2 className="content-title">{content[activeTab].title}</h2>
-            <p className="content-text">{content[activeTab].text}</p>
+            <div className="content-text">{content[activeTab].text}</div>
           </div>
 
           <div className="image-content">
