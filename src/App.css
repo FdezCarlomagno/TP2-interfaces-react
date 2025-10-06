@@ -70,3 +70,11 @@ h1, h2 {
 .read-the-docs {
   color: #888;
 }
+
+.title-main-section {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}

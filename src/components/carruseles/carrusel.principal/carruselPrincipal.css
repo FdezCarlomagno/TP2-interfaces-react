@@ -8,7 +8,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-top: 1rem;
   /* Removed background color as requested */
 }
 
@@ -35,15 +34,107 @@
   display: flex;
   height: 100%;
   gap: 20px;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Nueva animación: Efecto de tarjetas entrantes */
+@keyframes main-slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px) scale(0.9) rotateY(-10deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes main-slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px) scale(0.9) rotateY(10deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1) rotateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Efecto de profundidad 3D */
+@keyframes main-card3DEffect {
+  0% {
+    transform: perspective(1000px) rotateY(15deg) translateZ(50px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(0) translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* Efecto de deslizamiento suave con momentum */
+@keyframes main-momentumSlide {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Efecto de fade escalonado para items */
 .main-carousel-slide {
   /* Fixed width to show 2.5 items */
   min-width: calc((100% - 40px) / 2.5);
   flex-shrink: 0;
   height: 100%;
   position: relative;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: both;
+}
+
+/* Clases para diferentes direcciones de animación */
+.main-carousel-slide.slide-in-right {
+  animation-name: main-slideInRight;
+}
+
+.main-carousel-slide.slide-in-left {
+  animation-name: main-slideInLeft;
+}
+
+.main-carousel-slide.slide-3d {
+  animation-name: main-card3DEffect;
+}
+
+/* Efecto de superposición durante la transición */
+.main-carousel-track.transitioning {
+  position: relative;
+}
+
+.main-carousel-track.transitioning::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.1) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(0,0,0,0.1) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
 }
 
 .main-game-card {
@@ -52,13 +143,41 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 .main-game-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px) scale(1.02) rotateX(5deg);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Efecto de brillo en hover */
+.main-game-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.main-game-card:hover::before {
+  left: 100%;
 }
 
 /* Images no longer stretched, proper aspect ratio */
@@ -67,11 +186,12 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.6s ease;
+  transition: all 0.6s ease;
+  transform: scale(1.1);
 }
 
 .main-game-card:hover .main-game-image {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 /* Simplified overlay with only important information */
@@ -80,12 +200,17 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7) 50%, rgba(0, 0, 0, 0.9));
+  background: linear-gradient(
+    transparent, 
+    rgba(0, 0, 0, 0.8) 40%, 
+    rgba(0, 0, 0, 0.95)
+  );
   padding: 40px 20px 20px;
   color: white;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.4s ease;
+  transform: translateY(100%);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(5px);
 }
 
 .main-game-card:hover .main-game-overlay {
@@ -95,51 +220,75 @@
 
 .main-game-info {
   text-align: left;
+  transform: translateY(20px);
+  transition: transform 0.4s ease 0.1s;
+}
+
+.main-game-card:hover .main-game-info {
+  transform: translateY(0);
 }
 
 .main-game-title {
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0 0 8px 0;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   line-height: 1.2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transform: translateX(-10px);
+  opacity: 0;
+  transition: all 0.4s ease 0.2s;
+}
+
+.main-game-card:hover .main-game-title {
+  transform: translateX(0);
+  opacity: 1;
 }
 
 .main-game-meta {
   display: flex;
   gap: 12px;
   align-items: center;
+  transform: translateX(10px);
+  opacity: 0;
+  transition: all 0.4s ease 0.3s;
+}
+
+.main-game-card:hover .main-game-meta {
+  transform: translateX(0);
+  opacity: 1;
 }
 
 .main-game-rating {
-  background: rgba(255, 215, 0, 0.9);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 195, 0, 0.9));
   color: #000;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: 12px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
 .main-game-year {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
   border-radius: 12px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.8rem;
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Chevron buttons occupy full height with improved hover effects */
+/* Chevron buttons with enhanced animations */
 .main-carousel-button {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 60px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   border: none;
   color: white;
   cursor: pointer;
@@ -147,44 +296,48 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .main-carousel-button:hover {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   transform: scaleY(1.05);
+  width: 70px;
 }
 
 .main-carousel-button:active {
-  transform: scaleY(0.95);
+  transform: scaleY(0.98);
 }
 
 .main-carousel-button:disabled {
-  opacity: 0.3;
+  opacity: 0.2;
   cursor: not-allowed;
   transform: none;
 }
 
 .main-carousel-button-prev {
   left: 0;
-  border-radius: 0 16px 16px 0;
+  border-radius: 0 20px 20px 0;
 }
 
 .main-carousel-button-next {
   right: 0;
-  border-radius: 16px 0 0 16px;
+  border-radius: 20px 0 0 20px;
 }
 
 .main-carousel-button svg {
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .main-carousel-button:hover svg {
-  transform: scale(1.2);
+  transform: scale(1.3);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
-/* Beautiful bullet indicators */
+/* Beautiful bullet indicators with animation */
 .main-carousel-indicators {
   display: flex;
   gap: 16px;
@@ -193,26 +346,59 @@
 }
 
 .main-indicator {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background: transparent;
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
+  overflow: hidden;
+}
+
+.main-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.6s ease;
+}
+
+.main-indicator:hover::before {
+  left: 100%;
 }
 
 .main-indicator:hover {
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: scale(1.2);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.3);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 .main-indicator.active {
   background: white;
   border-color: white;
-  transform: scale(1.3);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  transform: scale(1.4);
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.6),
+    0 0 30px rgba(255, 255, 255, 0.3);
+  animation: main-indicatorPulse 2s infinite;
+}
+
+@keyframes main-indicatorPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(255, 255, 255, 0.4);
+  }
 }
 
 .main-indicator.active::before {
@@ -222,7 +408,7 @@
   left: -6px;
   right: -6px;
   bottom: -6px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   animation: main-ripple 2s infinite;
 }

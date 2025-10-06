@@ -1,0 +1,36 @@
+.tagSection {
+    display: flex;
+    flex-direction: row;
+     align-items: flex-end; /* 👈 Esto las baja al fondo */
+    align-self: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-left: 1rem;
+}
+
+.tag {
+    display: flex;
+    flex-direction: row; 
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    background-color: #0E121D;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid transparent; /* 👈 importante */
+    transition: all 200ms ease-in-out;
+}
+
+.tag p {
+    font-weight: bold;
+}
+
+.tag img {
+    width: 24px;
+    height: auto;
+}
+
+.tag:hover {
+    border: 1px solid #6D9BFF;
+}
+

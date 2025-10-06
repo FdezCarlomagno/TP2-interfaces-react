@@ -60,7 +60,7 @@ export default function OfertaDelMes() {
 
       <div className="oferta-content">
         <div className="oferta-text">
-          <h3 className="game-title">Messi Solitaire</h3>
+          <h3 className="game-title-oferta">Messi Solitaire</h3>
           <p className="game-description">
             Acompaña a <strong>Messi</strong> en un <strong>desafío único</strong> de ingenio: el{" "}
             <strong>Messi Solitaire</strong>. El objetivo es ayudarlo a superar{" "}

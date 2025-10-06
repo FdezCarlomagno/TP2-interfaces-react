@@ -23,7 +23,9 @@ const ReusableGamesCarousel = ({
       gameInfo: game,
       isPremium: isPremiumGame(game.id)
     })
-    nav(`juegos/${game.id}`)
+    
+   nav(`../juegos/${game.id}`, { replace: false })
+
   }
 
   // Seleccionamos solo el rango de juegos que corresponde

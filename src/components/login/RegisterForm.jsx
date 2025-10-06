@@ -55,7 +55,7 @@ export default function RegisterForm() {
         <form className="login-form" onSubmit={handleSubmit}>
           <h3 className="form-title">Registrarse</h3>
           <div className="form-group">
-            <label className="form-label">Nombre y apellido *</label>
+            <label className="form-label">Nombre y apellido <span className="red">*</span></label>
             <input
               type="text"
               className={`form-input ${errors.nombre ? "error" : ""}`}
@@ -80,7 +80,7 @@ export default function RegisterForm() {
               {errors.username && <span className="error-text">{errors.username}</span>}
             </div>
             <div className="form-group" style={{ flex: 1 }}>
-              <label className="form-label">Edad</label>
+              <label className="form-label">Edad <span className="red">*</span></label>
               <input
                 type="number"
                 className={`form-input ${errors.edad ? "error" : ""}`}
@@ -93,8 +93,9 @@ export default function RegisterForm() {
               {errors.edad && <span className="error-text">{errors.edad}</span>}
             </div>
           </div>
+          <div className="formLine"></div>
           <div className="form-group">
-            <label className="form-label">Email *</label>
+            <label className="form-label">Email <span className="red">*</span></label>
             <input
               type="text"
               className={`form-input ${errors.email ? "error" : ""}`}
@@ -106,7 +107,7 @@ export default function RegisterForm() {
             {errors.email && <span className="error-text">{errors.email}</span>}
           </div>
           <div className="form-group">
-            <label className="form-label">Contraseña *</label>
+            <label className="form-label">Contraseña <span className="red">*</span></label>
             <div className="password-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
@@ -126,7 +127,7 @@ export default function RegisterForm() {
             {errors.password && <span className="error-text">{errors.password}</span>}
           </div>
           <div className="form-group">
-            <label className="form-label">Repetir contraseña *</label>
+            <label className="form-label">Repetir contraseña <span className="red">*</span></label>
             <div className="password-wrapper">
               <input
                 type={showRepeatPassword ? "text" : "password"}
@@ -145,15 +146,16 @@ export default function RegisterForm() {
             </div>
             {errors.repeatPassword && <span className="error-text">{errors.repeatPassword}</span>}
           </div>
-          <div className="form-group" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div className="form-group recaptcha-container">
             <ReCAPTCHA
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Google test key
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
               onChange={setCaptchaValue}
             />
             {errors.captcha && <span className="error-text" style={{ marginTop: 8 }}>{errors.captcha}</span>}
           </div>
+
           <p className="register-text">
-            ¿Ya tenés una cuenta? <a href="#" className="register-link" onClick={e => {e.preventDefault(); navigate("/login")}}><strong>Iniciá sesión</strong></a>
+            ¿Ya tenés una cuenta? <a href="#" className="register-link" onClick={e => { e.preventDefault(); navigate("/login") }}><strong>Iniciá sesión</strong></a>
           </p>
           <button type="submit" className="submit-btn">
             Crear cuenta

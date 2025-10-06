@@ -13,12 +13,19 @@ import GameLoader from "./components/GameLoader/GameLoader"
 import GameHubSection from './components/GameHubSection/GameHubSection'
 import { Toaster } from "react-hot-toast"
 import Game from "./pages/Game"
+import TagSection from "./components/TagSection/TagSection"
 
 function Home() {
   return (
     <>
-      <h1>GAMEHUB.COM</h1>
-      <p className="subtitleMain">Todos tus juegos favoritos están acá</p>
+    <div className="title-main-section">
+      <div>
+        <h1>GAMEHUB.COM</h1>
+        <p className="subtitleMain">Todos tus juegos favoritos están acá</p>
+      </div>
+        {/**SECCION DE TAGS*/}
+        <TagSection></TagSection>
+      </div>
       <main>
         <CarruselPrincipal />
         <div>
@@ -81,21 +88,21 @@ function App() {
       {isLoading && <GameLoader onLoadComplete={handleLoadComplete} />}
 
       <BrowserRouter>
-         {/* Toaster global */}
-            <Toaster
-              toastOptions={{
-                style: {
-                  background: "#0e121d",
-                  color: "#6d9bff",
-                  border: "1px solid #6d9bff"
-                },
-              }}
-            />
+        {/* Toaster global */}
+        <Toaster
+          toastOptions={{
+            style: {
+              background: "#0e121d",
+              color: "#6d9bff",
+              border: "1px solid #6d9bff"
+            },
+          }}
+        />
         <Routes>
           {/* Rutas con Layout fijo */}
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="juegos/:gameId" element={<Game />}/>
+            <Route path="juegos/:gameId" element={<Game />} />
             {/* Podés meter más páginas aquí y solo cambia el <Outlet /> */}
           </Route>
 

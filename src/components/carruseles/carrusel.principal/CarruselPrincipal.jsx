@@ -1,44 +1,70 @@
 "use client"
 
-import { useState } from "react"
-import { useAppContext } from "../../../context/AppContext" // ajusta la ruta según tu estructura
+import { useState, useEffect } from "react"
+import { useAppContext } from "../../../context/AppContext"
 import "./carruselPrincipal.css"
 import { useNavigate } from "react-router-dom"
 
 const VideogamesCarousel = () => {
-  const { games : contextGames, loading, setSelectedGame } = useAppContext()
+  const { games: contextGames, loading, setSelectedGame } = useAppContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const games = contextGames.slice(0, 6)
+  const [slideDirection, setSlideDirection] = useState('right') // 'right' or 'left'
+  const games = contextGames.slice(0, 8)
   const nav = useNavigate()
 
   const nextSlide = () => {
     if (isTransitioning || games.length === 0) return
 
     setIsTransitioning(true)
-    const maxIndex = Math.max(0, games.length - 3) // Mostrar hasta los últimos 3
+    setSlideDirection('right')
+    const maxIndex = Math.max(0, games.length - 3)
     setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, maxIndex))
 
-    setTimeout(() => setIsTransitioning(false), 500)
+    setTimeout(() => setIsTransitioning(false), 600)
   }
 
   const prevSlide = () => {
     if (isTransitioning || games.length === 0) return
 
     setIsTransitioning(true)
+    setSlideDirection('left')
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0))
 
-    setTimeout(() => setIsTransitioning(false), 500)
+    setTimeout(() => setIsTransitioning(false), 600)
   }
 
   const goToSlide = (index) => {
     if (isTransitioning || index === currentIndex) return
 
     setIsTransitioning(true)
+    setSlideDirection(index > currentIndex ? 'right' : 'left')
     const maxIndex = Math.max(0, games.length - 3)
     setCurrentIndex(Math.min(index, maxIndex))
-    setTimeout(() => setIsTransitioning(false), 500)
+    setTimeout(() => setIsTransitioning(false), 600)
   }
+
+  // Efecto para añadir clase de animación a los slides
+  useEffect(() => {
+    const slides = document.querySelectorAll('.main-carousel-slide')
+    slides.forEach((slide, index) => {
+      slide.classList.remove('slide-in-right', 'slide-in-left', 'slide-3d')
+      
+      if (isTransitioning) {
+        // Añadir animación basada en la dirección
+        if (slideDirection === 'right') {
+          slide.classList.add('slide-in-right')
+        } else {
+          slide.classList.add('slide-in-left')
+        }
+        
+        // Añadir efecto 3D aleatorio para algunos slides
+        if (Math.random() > 0.7) {
+          slide.classList.add('slide-3d')
+        }
+      }
+    })
+  }, [currentIndex, isTransitioning, slideDirection])
 
   if (loading) {
     return (
@@ -62,12 +88,11 @@ const VideogamesCarousel = () => {
   }
 
   const handleClick = (game) => {
-
-      setSelectedGame({
-        gameInfo: game,
-        isPremium: false
-      })
-      nav(`juegos/${game.id}`)
+    setSelectedGame({
+      gameInfo: game,
+      isPremium: false
+    })
+    nav(`juegos/${game.id}`)
   }
 
   return (
@@ -91,16 +116,22 @@ const VideogamesCarousel = () => {
 
         <div className="main-carousel-slides">
           <div
-            className="main-carousel-track"
+            className={`main-carousel-track ${isTransitioning ? 'transitioning' : ''}`}
             style={{
               transform: `translateX(-${currentIndex * 33.333}%)`,
               transition: isTransitioning
-                ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+                ? "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
                 : "none",
             }}
           >
-            {games.slice(0, 6).map((game) => (
-              <div key={game.id} className="main-carousel-slide">
+            {games.map((game, index) => (
+              <div 
+                key={game.id} 
+                className="main-carousel-slide"
+                style={{
+                  animationDelay: `${index * 0.1}s`
+                }}
+              >
                 <div className="main-game-card" onClick={() => handleClick(game)}>
                   <img
                     src={game.background_image_low_res || "/placeholder.svg"}
