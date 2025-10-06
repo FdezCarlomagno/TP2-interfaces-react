@@ -71,7 +71,7 @@ export default function OfertaDelMes() {
             Pon a prueba tu lógica y concentración junto al <strong>mejor del mundo</strong> en este adictivo reto
             solitario. ¿Serás capaz de dejar solo a <strong>Messi dominando el tablero</strong>?
           </p>
-          <BotonJugar onClick={()=>navigate('/peg')}></BotonJugar>
+          <BotonJugar onClick={()=>navigate('/juegos/peg')}></BotonJugar>
         </div>
 
         <div className="oferta-image">

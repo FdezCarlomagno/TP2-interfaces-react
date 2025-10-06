@@ -128,11 +128,6 @@ export default function PegSolitaire() {
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold text-foreground">Peg Solitaire</h1>
-        <p className="text-muted-foreground">Salta sobre las fichas para eliminarlas. ¡Intenta dejar solo una!</p>
-      </div>
-
       <div className="flex gap-8 items-center justify-center flex-wrap">
         <div className="text-center">
           <div className="text-3xl font-bold text-primary">{pegsRemaining}</div>

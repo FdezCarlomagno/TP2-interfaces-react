@@ -1,14 +1,14 @@
-import "./GameDetails.css"
-import GameGrid from "../GameGrid/GameGrid"
+import "./GameDetails.css";
+import GameGrid from "../GameGrid/GameGrid";
 
 const GameDetails = ({ game }) => {
   if (!game) {
-    return null
+    return null;
   }
 
   // Format date to Spanish format
   const formatDate = (dateString) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     const months = [
       "Enero",
       "Febrero",
@@ -22,37 +22,39 @@ const GameDetails = ({ game }) => {
       "Octubre",
       "Noviembre",
       "Diciembre",
-    ]
-    return `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`
-  }
+    ];
+    return `${date.getDate()} de ${
+      months[date.getMonth()]
+    } de ${date.getFullYear()}`;
+  };
 
   const getSpanishDescription = (description) => {
-    if (!description) return ""
+    if (!description) return "";
 
     // Check if there's a Spanish section marked with "Español"
-    const spanishMarker = "Español"
-    const spanishIndex = description.indexOf(spanishMarker)
+    const spanishMarker = "Español";
+    const spanishIndex = description.indexOf(spanishMarker);
 
     if (spanishIndex !== -1) {
       // Extract everything after "Español" marker
-      return description.substring(spanishIndex + spanishMarker.length).trim()
+      return description.substring(spanishIndex + spanishMarker.length).trim();
     }
 
     // If no Spanish marker found, return original description
-    return description
-  }
+    return description;
+  };
 
   // Create breadcrumbs from genres and game name
   const createBreadcrumbs = () => {
-    const crumbs = ["Juegos"]
+    const crumbs = ["Juegos"];
     if (game.genres && game.genres.length > 0) {
-      crumbs.push(game.genres[0].name)
+      crumbs.push(game.genres[0].name);
     }
-    crumbs.push(game.name)
-    return crumbs
-  }
+    crumbs.push(game.name);
+    return crumbs;
+  };
 
-  const breadcrumbs = createBreadcrumbs()
+  const breadcrumbs = createBreadcrumbs();
 
   return (
     <div className="game-details">
@@ -71,7 +73,14 @@ const GameDetails = ({ game }) => {
         <div className="details-header">
           <h1 className="details-title">{game.name}</h1>
           <button className="share-button">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="18" cy="5" r="3"></circle>
               <circle cx="6" cy="12" r="3"></circle>
               <circle cx="18" cy="19" r="3"></circle>
@@ -96,15 +105,17 @@ const GameDetails = ({ game }) => {
 
           <div className="info-item">
             <span className="info-label">Plataformas:</span>
-            <span className="info-value">{game.platforms.map((p) => p.name).join(", ")}</span>
+            <span className="info-value">
+              {game.platforms.map((p) => p.name).join(", ")}
+            </span>
           </div>
         </div>
 
         {/* Genre tags */}
         {game.genres && game.genres.length > 0 && (
           <div className="genre-tags">
-            {game.genres.map((genre) => (
-              <button key={genre.id} className="genre-tag">
+            {game.genres.map((genre, idx) => (
+              <button key={genre.id ?? genre.name ?? idx} className="genre-tag">
                 {genre.name}
               </button>
             ))}
@@ -114,7 +125,9 @@ const GameDetails = ({ game }) => {
         {/* Description */}
         {game.description && (
           <div className="game-description">
-            <h3><strong>Descripción:</strong></h3>
+            <h3>
+              <strong>Descripción:</strong>
+            </h3>
             <p>{getSpanishDescription(game.description)}</p>
           </div>
         )}
@@ -135,24 +148,22 @@ const GameDetails = ({ game }) => {
           <div className="controls-info">
             <p className="control-item">
               <span className="control-label">Movimiento de la ficha:</span>
-              <span className="control-value">W/A/S/D</span>
+              <span className="control-value">Mouse y click</span>
             </p>
           </div>
 
           <h3 className="actions-title">Acciones:</h3>
           <div className="actions-info">
             <p className="action-item">
-              <span className="action-label">Espacio:</span> seleccionar la ficha Messi o confirmar un salto
-            </p>
-            <p className="action-item">
-              <span className="action-label">Esc:</span> cancelar selección de ficha
+              <span className="action-label">click:</span> seleccionar la ficha
+              Messi o confirmar un salto
             </p>
           </div>
         </div>
       </div>
       <GameGrid count={16}></GameGrid>
     </div>
-  )
-}
+  );
+};
 
-export default GameDetails
+export default GameDetails;

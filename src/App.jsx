@@ -102,6 +102,8 @@ function App() {
           {/* Rutas sin Layout (ej: login independiente) */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -50,8 +50,9 @@ const Header = () => {
       )}
       <ul>
         {/* Logo */}
-        <li className='logoGamehub'>
+        <li className='logoGamehub' onClick={() => window.location.href = '/'}>
           <img src={Logo} alt="GAMEHUB" />
+          
         </li>
 
         {/* SearchBar */}

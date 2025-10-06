@@ -1,15 +1,14 @@
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import PegSolitaire from "../pegSolitaire/PegSolitaire";
-import { useAppContext } from "../../context/AppContext";
 import './GameScreen.css'
 import gamehubLogo from '../../assets/logo.svg'
 
 const GenericGameScreen = ({game, isPremium}) => {
   const location = useLocation();
+  const [isPlaying, setIsPlaying] = useState(false)
 
-  if (location.pathname === "/peg") {
-    return <PegSolitaire/>;
-  }
+  
  
 return (
     <div className="game-screen">
@@ -18,14 +17,45 @@ return (
 
       {/* Main content */}
       <div className="game-content">
-        <div className="game-card">
-          <img src={game.background_image_low_res || "/placeholder.svg"} alt={game.name} className="game-card-image" />
-          <h2 className="game-title">{game.name}</h2>
-        </div>
+        {!isPlaying ? (
+          <>
+            <div className="game-card">
+              <img src={game.background_image_low_res || "/placeholder.svg"} alt={game.name} className="game-card-image" />
+              <h2 className="game-title">{game.name}</h2>
+            </div>
 
-        <button className={`action-button ${isPremium ? "premium" : "play"}`}>
-          {isPremium ? "Subscribirse" : "Jugar"}
-        </button>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <button
+                className={`action-button ${isPremium ? "premium" : "play"}`}
+                onClick={() => setIsPlaying(true)}
+              >
+                {isPremium ? "Subscribirse" : "Jugar"}
+              </button>
+              <button
+                className="action-button"
+                style={{ padding: '14px 20px', background: 'rgba(255,255,255,0.06)', color: 'white' }}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                Ver Detalles
+              </button>
+            </div>
+          </>
+        ) : (
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                className="action-button"
+                style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.06)', color: 'white' }}
+                onClick={() => setIsPlaying(false)}
+              >
+                Cerrar
+              </button>
+            </div>
+            <div className="game-play-area">
+              {location.pathname.includes('/juegos/peg') &&<PegSolitaire />}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Control bar */}

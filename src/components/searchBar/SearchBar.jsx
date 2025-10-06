@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import '../searchBar/searchBar.css'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../../context/AppContext'
@@ -12,8 +12,21 @@ const SearchBar = ({ games }) => {
     game.name.toLowerCase().includes(search.toLowerCase())
   )
   
+  const inputRef = useRef(null)
+
   const handleClick = (game) => {
-    setSelectedGame(game)
+    // setSelectedGame expects the same shape as other parts of the app
+    try {
+      setSelectedGame({ gameInfo: game, isPremium: game.id % 5 < 2 })
+    } catch (e) {
+      // fallback if setSelectedGame expects raw game
+      setSelectedGame(game)
+    }
+
+    // Clear search to close dropdown and remove focus from the input
+    setSearch("")
+    if (inputRef.current) inputRef.current.blur()
+
     nav(`juegos/${game.id}`)
   }
 
@@ -24,6 +37,7 @@ const SearchBar = ({ games }) => {
     <div className="searchBar">
       <div className="searchInputWrapper">
         <input
+          ref={inputRef}
           type="text"
           placeholder="Buscar juego..."
           value={search}
