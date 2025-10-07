@@ -1,55 +1,41 @@
 import "./GameDetails.css";
 import GameGrid from "../GameGrid/GameGrid";
 
-const GameDetails = ({ game }) => {
-  if (!game) {
-    return null;
-  }
+const GameDetails = ({ game, descriptionLimit = 500 }) => {
+  if (!game) return null;
 
   // Format date to Spanish format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const months = [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-      "Agosto",
-      "Septiembre",
-      "Octubre",
-      "Noviembre",
-      "Diciembre",
+      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
     ];
-    return `${date.getDate()} de ${
-      months[date.getMonth()]
-    } de ${date.getFullYear()}`;
+    return `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`;
   };
 
   const getSpanishDescription = (description) => {
     if (!description) return "";
 
-    // Check if there's a Spanish section marked with "Español"
     const spanishMarker = "Español";
     const spanishIndex = description.indexOf(spanishMarker);
 
+    let text = description;
     if (spanishIndex !== -1) {
-      // Extract everything after "Español" marker
-      return description.substring(spanishIndex + spanishMarker.length).trim();
+      text = description.substring(spanishIndex + spanishMarker.length).trim();
     }
 
-    // If no Spanish marker found, return original description
-    return description;
+    // Limit characters
+    if (text.length > descriptionLimit) {
+      return text.substring(0, descriptionLimit).trim() + "…";
+    }
+
+    return text;
   };
 
-  // Create breadcrumbs from genres and game name
   const createBreadcrumbs = () => {
     const crumbs = ["Juegos"];
-    if (game.genres && game.genres.length > 0) {
-      crumbs.push(game.genres[0].name);
-    }
+    if (game.genres && game.genres.length > 0) crumbs.push(game.genres[0].name);
     crumbs.push(game.name);
     return crumbs;
   };
@@ -155,13 +141,14 @@ const GameDetails = ({ game }) => {
           <h3 className="actions-title">Acciones:</h3>
           <div className="actions-info">
             <p className="action-item">
-              <span className="action-label">click:</span> seleccionar la ficha
+              <span className="action-label">Click:</span> seleccionar la ficha
               Messi o confirmar un salto
             </p>
           </div>
         </div>
       </div>
-      <GameGrid count={16}></GameGrid>
+
+      <GameGrid count={14} />
     </div>
   );
 };

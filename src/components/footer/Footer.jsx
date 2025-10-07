@@ -1,5 +1,12 @@
 import "./Footer.css";
 import Logo from '../../assets/logo.svg';
+import facebook from '../../assets/redes/facebook.svg'
+import instagram from '../../assets/redes/instagram.svg'
+import tiktok from '../../assets/redes/tiktok.svg'
+import linkedin from '../../assets/redes/linkedin.svg'
+import twitter from '../../assets/redes/twitter.svg'
+
+
 
 export default function Footer() {
   return (
@@ -51,11 +58,11 @@ export default function Footer() {
 
           <h2>REDES SOCIALES</h2>
           <div className="social-icons">
-            <img src="/icons/instagram.svg" alt="Instagram" />
-            <img src="/icons/tiktok.svg" alt="TikTok" />
-            <img src="/icons/facebook.svg" alt="Facebook" />
-            <img src="/icons/twitter.svg" alt="Twitter" />
-            <img src="/icons/linkedin.svg" alt="LinkedIn" />
+            <img src={instagram} alt="Instagram" />
+            <img src={tiktok} alt="TikTok" />
+            <img src={facebook} alt="Facebook" />
+            <img src={twitter} alt="Twitter" />
+            <img src={linkedin} alt="LinkedIn" />
           </div>
        
         </div>

@@ -7,6 +7,8 @@ import GameDetails from "../components/gameDetails/GameDetails";
 import GameGrid from "../components/GameGrid/GameGrid";
 import { useLocation } from "react-router-dom";
 import pegImg from "../assets/imgs/Messi.png";
+import CommentsSection from "../components/CommentSection/CommentsSection";
+import "./Game.css"
 
 const Game = () => {
   const { gameId } = useParams();
@@ -31,7 +33,7 @@ const Game = () => {
   if (loading) return <p>Cargando juego...</p>;
 
 
-  if ((!selectedGame || !selectedGame.gameInfo || !selectedGame.gameInfo.id)&&location.pathname!=="/juegos/peg") {
+  if ((!selectedGame || !selectedGame.gameInfo || !selectedGame.gameInfo.id) && location.pathname !== "/juegos/peg") {
     return <p>No hay juego seleccionado</p>;
   }
 
@@ -73,13 +75,18 @@ const Game = () => {
           <GameDetails game={gameInfo} />
         </>
       )}
-
       <ReusableGamesCarousel
         title="Shooters"
         imageSize="medium"
         startIndex={27}
         endIndex={35}
       ></ReusableGamesCarousel>
+      <h2>Comentarios</h2>
+      <div className="comment-section-grid">
+           
+        <CommentsSection />
+        <GameGrid count={16} />
+      </div>
       <ReusableGamesCarousel
         title="Deportes"
         imageSize="medium"
