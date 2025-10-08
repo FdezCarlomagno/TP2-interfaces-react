@@ -1,36 +1,64 @@
+/* =======================
+   TAG SECTION (mobile first)
+======================= */
+
 .tagSection {
-    display: flex;
-    flex-direction: row;
-     align-items: flex-end; /* 👈 Esto las baja al fondo */
-    align-self: baseline;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-left: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-left: 0.5rem;
+  justify-content: flex-start;
 }
 
+/* 🔹 TAMAÑO BASE — MOBILE */
 .tag {
-    display: flex;
-    flex-direction: row; 
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    background-color: #0E121D;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid transparent; /* 👈 importante */
-    transition: all 200ms ease-in-out;
-}
-
-.tag p {
-    font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #0E121D;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 200ms ease-in-out;
 }
 
 .tag img {
-    width: 24px;
-    height: auto;
+  width: 18px;
+  height: auto;
+}
+
+.tag p {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .tag:hover {
-    border: 1px solid #6D9BFF;
+  border: 1px solid #6D9BFF;
 }
 
+/* =======================
+   TABLET Y DESKTOP
+======================= */
+@media (min-width: 768px) {
+  .tagSection {
+    gap: 1rem;
+    margin-left: 1rem;
+    align-items: flex-end;
+  }
+
+  .tag {
+    gap: 1rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+  }
+
+  .tag img {
+    width: 24px;
+  }
+
+  .tag p {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}

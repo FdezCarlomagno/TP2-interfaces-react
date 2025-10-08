@@ -1,21 +1,21 @@
-/* Adding "main-" prefix to all classes to prevent collisions with reusable carousel */
+/* Mobile First - Adding "main-" prefix to all classes to prevent collisions with reusable carousel */
 /* Completely redesigned carousel for multi-item view without background color */
+
 .main-carousel-container {
   width: 100%;
-  height: 60vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  /* Removed background color as requested */
+  padding: 0 10px;
 }
 
 .main-carousel-wrapper {
   position: relative;
   width: 100%;
-  max-width: 1400px;
-  height: 70vh;
+  height: 45vh;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -26,14 +26,14 @@
   height: 100%;
   overflow: hidden;
   position: relative;
-  margin: 0 20px;
+  margin: 0 8px;
 }
 
-/* New track for multi-item display (2.5 items visible) */
+/* New track for mobile first - single item on mobile */
 .main-carousel-track {
   display: flex;
   height: 100%;
-  gap: 20px;
+  gap: 16px;
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -76,23 +76,9 @@
   }
 }
 
-/* Efecto de deslizamiento suave con momentum */
-@keyframes main-momentumSlide {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-5px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-/* Efecto de fade escalonado para items */
+/* Mobile: Single item, images complete */
 .main-carousel-slide {
-  /* Fixed width to show 2.5 items */
-  min-width: calc((100% - 40px) / 2.5);
+  min-width: calc(100% - 16px);
   flex-shrink: 0;
   height: 100%;
   position: relative;
@@ -141,10 +127,10 @@
   width: 100%;
   height: 100%;
   position: relative;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.3),
     0 2px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-style: preserve-3d;
@@ -180,18 +166,18 @@
   left: 100%;
 }
 
-/* Images no longer stretched, proper aspect ratio */
+/* Images - Mobile: ensure complete image display */
 .main-game-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Changed from cover to contain for mobile */
   object-position: center;
   transition: all 0.6s ease;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .main-game-card:hover .main-game-image {
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 
 /* Simplified overlay with only important information */
@@ -205,7 +191,7 @@
     rgba(0, 0, 0, 0.8) 40%, 
     rgba(0, 0, 0, 0.95)
   );
-  padding: 40px 20px 20px;
+  padding: 30px 15px 15px;
   color: white;
   opacity: 0;
   transform: translateY(100%);
@@ -229,9 +215,9 @@
 }
 
 .main-game-title {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 700;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   line-height: 1.2;
   display: -webkit-box;
@@ -250,8 +236,9 @@
 
 .main-game-meta {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
   transform: translateX(10px);
   opacity: 0;
   transition: all 0.4s ease 0.3s;
@@ -265,29 +252,29 @@
 .main-game-rating {
   background: linear-gradient(135deg, rgba(255, 215, 0, 0.95), rgba(255, 195, 0, 0.9));
   color: #000;
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
 
 .main-game-year {
   background: rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
-  border-radius: 12px;
+  padding: 4px 10px;
+  border-radius: 10px;
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Chevron buttons with enhanced animations */
+/* Mobile: Smaller buttons */
 .main-carousel-button {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 60px;
+  width: 40px;
   background: rgba(0, 0, 0, 0.3);
   border: none;
   color: white;
@@ -304,7 +291,7 @@
 .main-carousel-button:hover {
   background: rgba(0, 0, 0, 0.7);
   transform: scaleY(1.05);
-  width: 70px;
+  width: 45px;
 }
 
 .main-carousel-button:active {
@@ -319,35 +306,37 @@
 
 .main-carousel-button-prev {
   left: 0;
-  border-radius: 0 20px 20px 0;
+  border-radius: 0 12px 12px 0;
 }
 
 .main-carousel-button-next {
   right: 0;
-  border-radius: 20px 0 0 20px;
+  border-radius: 12px 0 0 12px;
 }
 
 .main-carousel-button svg {
+  width: 20px;
+  height: 20px;
   transition: all 0.3s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .main-carousel-button:hover svg {
-  transform: scale(1.3);
+  transform: scale(1.2);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
 /* Beautiful bullet indicators with animation */
 .main-carousel-indicators {
   display: flex;
-  gap: 16px;
-  margin-top: 40px;
+  gap: 12px;
+  margin-top: 20px;
   justify-content: center;
 }
 
 .main-indicator {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.4);
@@ -374,40 +363,40 @@
 
 .main-indicator:hover {
   border-color: rgba(255, 255, 255, 0.8);
-  transform: scale(1.3);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  transform: scale(1.2);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
 }
 
 .main-indicator.active {
   background: white;
   border-color: white;
-  transform: scale(1.4);
+  transform: scale(1.3);
   box-shadow: 
-    0 0 20px rgba(255, 255, 255, 0.6),
-    0 0 30px rgba(255, 255, 255, 0.3);
+    0 0 15px rgba(255, 255, 255, 0.6),
+    0 0 25px rgba(255, 255, 255, 0.3);
   animation: main-indicatorPulse 2s infinite;
 }
 
 @keyframes main-indicatorPulse {
   0%, 100% {
     box-shadow: 
-      0 0 20px rgba(255, 255, 255, 0.6),
-      0 0 30px rgba(255, 255, 255, 0.3);
+      0 0 15px rgba(255, 255, 255, 0.6),
+      0 0 25px rgba(255, 255, 255, 0.3);
   }
   50% {
     box-shadow: 
-      0 0 25px rgba(255, 255, 255, 0.8),
-      0 0 40px rgba(255, 255, 255, 0.4);
+      0 0 20px rgba(255, 255, 255, 0.8),
+      0 0 30px rgba(255, 255, 255, 0.4);
   }
 }
 
 .main-indicator.active::before {
   content: "";
   position: absolute;
-  top: -6px;
-  left: -6px;
-  right: -6px;
-  bottom: -6px;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   animation: main-ripple 2s infinite;
@@ -436,13 +425,13 @@
 }
 
 .main-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #333;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top: 3px solid #333;
   border-radius: 50%;
   animation: main-spin 1s linear infinite;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 @keyframes main-spin {
@@ -456,75 +445,158 @@
 
 .main-loading-spinner p,
 .main-error-message p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 0;
   font-weight: 500;
 }
 
-/* Responsive design */
-@media (max-width: 1024px) {
-  .main-carousel-slide {
-    min-width: calc((100% - 20px) / 2);
-  }
-}
-
-@media (max-width: 768px) {
+/* Tablet */
+@media (min-width: 768px) {
   .main-carousel-container {
-    height: 80vh;
-    padding: 0 10px;
-  }
-
-  .main-carousel-wrapper {
     height: 60vh;
-  }
-
-  .main-carousel-slide {
-    min-width: calc(100% - 20px);
-  }
-
-  .main-carousel-button {
-    width: 50px;
-  }
-
-  .main-game-title {
-    font-size: 1.2rem;
-  }
-
-  .main-game-overlay {
-    padding: 30px 15px 15px;
-  }
-
-  .main-carousel-indicators {
-    margin-top: 30px;
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-carousel-container {
-    height: 75vh;
+    padding: 0 15px;
   }
 
   .main-carousel-wrapper {
     height: 55vh;
   }
 
+  .main-carousel-slides {
+    margin: 0 15px;
+  }
+
+  .main-carousel-track {
+    gap: 20px;
+  }
+
+  .main-carousel-slide {
+    min-width: calc((100% - 20px) / 2);
+  }
+
+  .main-game-card {
+    border-radius: 14px;
+  }
+
+  .main-game-image {
+    object-fit: cover; /* Back to cover for tablet/desktop */
+    transform: scale(1.1);
+  }
+
+  .main-game-overlay {
+    padding: 35px 20px 20px;
+  }
+
   .main-game-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .main-game-meta {
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .main-game-rating,
+  .main-game-year {
+    padding: 5px 12px;
+    font-size: 0.8rem;
   }
 
   .main-carousel-button {
-    width: 40px;
+    width: 50px;
+  }
+
+  .main-carousel-button:hover {
+    width: 55px;
   }
 
   .main-carousel-button svg {
     width: 24px;
     height: 24px;
+  }
+
+  .main-carousel-indicators {
+    margin-top: 30px;
+    gap: 14px;
+  }
+
+  .main-indicator {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .main-carousel-container {
+    height: 70vh;
+    padding: 0 20px;
+  }
+
+  .main-carousel-wrapper {
+    height: 65vh;
+    max-width: 1400px;
+  }
+
+  .main-carousel-slides {
+    margin: 0 20px;
+  }
+
+  .main-carousel-slide {
+    min-width: calc((100% - 40px) / 2.5);
+  }
+
+  .main-game-card {
+    border-radius: 16px;
+  }
+
+  .main-game-overlay {
+    padding: 40px 20px 20px;
+  }
+
+  .main-game-title {
+    font-size: 1.4rem;
+  }
+
+  .main-game-meta {
+    gap: 12px;
+  }
+
+  .main-game-rating,
+  .main-game-year {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .main-carousel-button {
+    width: 60px;
+  }
+
+  .main-carousel-button:hover {
+    width: 70px;
+  }
+
+  .main-carousel-button svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .main-carousel-indicators {
+    margin-top: 40px;
+    gap: 16px;
+  }
+
+  .main-indicator {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  .main-carousel-container {
+    height: 75vh;
+  }
+
+  .main-carousel-wrapper {
+    height: 70vh;
   }
 }

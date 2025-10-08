@@ -1,21 +1,29 @@
-.searchBar {
-  display: flex;
-  justify-content: center;  /* más ancha en X */ 
-  position: relative; 
+/* ===== BASE RESET ===== */
+* {
+  box-sizing: border-box;
 }
 
+.searchBar {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== SEARCH INPUT ===== */
 .searchBar input {
   flex: 1;
-  border-radius: 2.5rem;      /* barra redondeada */
-  padding: 0.35rem 1.5rem;    /* menos padding vertical, mismo horizontal */
+  border-radius: 2.5rem;
+  padding: 0.4rem 1.5rem;
   background-color: #6d9bff22;
   border: none;
   font-size: 1rem;
-  height: auto;
   outline: none;
   transition: all 0.3s ease;
   color: azure;
-  width: 400px; 
+  width: 100%;
+  max-width: 400px;
 }
 
 .searchBar input:focus {
@@ -23,16 +31,15 @@
   box-shadow: 0 0 10px #6d9bff55;
 }
 
-
-/* Dropdown vertical debajo de la search bar */
+/* ===== DROPDOWN ===== */
 .dropdown {
   position: absolute;
-  top: 110%; 
+  top: 110%;
   left: 0;
   right: 0;
   background: #0e121d;
   border-radius: 0.8rem;
-  max-height: 300px;
+  max-height: 500px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -42,20 +49,16 @@
   animation: fadeIn 0.2s ease-in-out;
   z-index: 10;
   padding: 0.5rem;
-  overflow-x: hidden;
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem 0.8rem;   /* un poco más compacto */
+  padding: 0.5rem 0.8rem;
   cursor: pointer;
   transition: background 0.2s ease;
   border-radius: 0.6rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 400px; 
 }
 
 .dropdown-item:hover {
@@ -81,7 +84,47 @@
   color: #aaa;
 }
 
+/* ===== ANIMACIÓN ===== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== ICONO DE BÚSQUEDA ===== */
+.searchIcon {
+  background: none;
+  border: none;
+  color: #f5f5f5;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.searchIcon:hover {
+  color: #6d9bff;
+}
+
+/* ===== MOBILE FIRST ===== */
+.searchInputWrapper {
+  width: 100%;
+}
+
+.searchBar.active .searchInputWrapper {
+  display: flex;
+  width: 100%;
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 768px) {
+  .searchIcon {
+    display: none;
+  }
+
+  .searchInputWrapper {
+    display: flex !important;
+  }
+
+  .searchBar input {
+    width: 400px;
+  }
 }

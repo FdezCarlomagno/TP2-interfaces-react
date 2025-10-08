@@ -118,6 +118,10 @@
     gap: 2rem;
   }
 
+  .footer {
+    padding: 0;
+  }
+
   .footer-columns {
     flex-direction: column;
     gap: 2rem;

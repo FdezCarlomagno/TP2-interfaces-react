@@ -14,15 +14,15 @@ import ic_deCartas from '../../assets/dashboardItemsImg/ic_deCartas.svg'
 import ic_futbol from '../../assets/dashboardItemsImg/ic_futbol.svg'
 import ic_nuevos from '../../assets/dashboardItemsImg/ic_nuevos.svg'
 import ic_populares from '../../assets/dashboardItemsImg/ic_populares.svg'
-// ic_puzzle import removed because it wasn't used
 import ic_shooters from '../../assets/dashboardItemsImg/ic_shooters.svg'
 
 const Dashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [mobileMenu, setMobileMenu] = useState(false)
+  const nav = useNavigate()
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen)
-  }
+  const toggleMenu = () => setMenuOpen(!menuOpen)
+  const toggleMobileMenu = () => setMobileMenu(!mobileMenu)
 
   const items = [
     { src: ic_populares, name: "Populares" },
@@ -35,45 +35,72 @@ const Dashboard = () => {
     { src: ic_carreras, name: "Carrera" },
     { src: ic_futbol, name: "Fútbol" },
   ]
-  const nav = useNavigate();
 
   return (
-    <div className={menuOpen ? 'dashboard open' : 'dashboard'}>
-      {/* Botón de abrir/cerrar menú */}
-      <DashboardItem
-        src={menuOpen ? cross : menu}
-        alt="menu"
-        onClick={toggleMenu}
-      />
-
-      {/* Ítems principales */}
-      <DashboardItem
-        src={home}
-        alt="home"
-        name="Inicio"
-        onClick={() => nav('/')}   
-        menuOpen={menuOpen}
-      />
-      <DashboardItem
-        src={ic_biblioteca}
-        alt="biblioteca"
-        name="Biblioteca"
-        menuOpen={menuOpen}
-      />
-
-      {/* Ítems del dashboard */}
-      <div className="dashboard-items">
-        {items.map((item, index) => (
-          <DashboardItem
-            key={index}
-            src={item.src}
-            alt={item.name}
-            name={item.name}
-            menuOpen={menuOpen}
-          />
-        ))}
+    <>
+      {/* 🔹 Botón hamburguesa visible solo en mobile */}
+      <div className="menuButton" onClick={toggleMobileMenu}>
+        <img src={menu} alt="Abrir menú" />
       </div>
-    </div>
+
+      {/* 🔹 Sidebar Desktop o Mobile Fullscreen */}
+      <div
+        className={
+          mobileMenu
+            ? 'dashboard mobileOpen'
+            : menuOpen
+            ? 'dashboard open'
+            : 'dashboard'
+        }
+      >
+        {/* 🔸 Botón cerrar solo en mobile */}
+        {mobileMenu && (
+          <button className="closeButton" onClick={toggleMobileMenu}>
+            ✕
+          </button>
+        )}
+
+        {/* Botón menú desktop */}
+        {!mobileMenu && (
+          <DashboardItem
+            src={menuOpen ? cross : menu}
+            alt="menu"
+            onClick={toggleMenu}
+          />
+        )}
+
+        {/* Ítems principales */}
+        <DashboardItem
+          src={home}
+          alt="home"
+          name="Inicio"
+          onClick={() => {
+            nav('/')
+            setMobileMenu(false)
+          }}
+          menuOpen={menuOpen || mobileMenu}
+        />
+        <DashboardItem
+          src={ic_biblioteca}
+          alt="biblioteca"
+          name="Biblioteca"
+          menuOpen={menuOpen || mobileMenu}
+        />
+
+        {/* Ítems del dashboard */}
+        <div className="dashboard-items">
+          {items.map((item, index) => (
+            <DashboardItem
+              key={index}
+              src={item.src}
+              alt={item.name}
+              name={item.name}
+              menuOpen={menuOpen || mobileMenu}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   )
 }
 

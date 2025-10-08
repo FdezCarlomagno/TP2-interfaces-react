@@ -1,80 +1,87 @@
+/* ===== RESET + LAYOUT BASE ===== */
 html, body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* asegura que el footer quede abajo */
+  margin: 0;
+  padding: 0;
+}
+
+/* Contenedor principal */
+main {
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* Contenedor principal de la página */
-main {
-  flex: 1; /* ocupa todo el espacio disponible empujando el footer abajo */
-}
-
-
+/* ===== ESTILOS MOBILE FIRST ===== */
 .appBody {
-  margin-left: 6rem;
-  margin-top: 1rem;
-  margin-right: 3rem;
-  margin-bottom: 2rem;
+  margin: 1rem; /* márgenes compactos en mobile */
 }
 
+/* Tipografía general */
 p, input, h3 {
   font-family: "Nunito", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  line-height: 1.5;
 }
 
 .subtitleMain {
-  opacity: 0.6;
+  opacity: 0.7;
+  font-size: 0.9rem;
 }
 
+/* Títulos */
 h1, h2 {
   font-family: "Bebas Neue", sans-serif;
   font-weight: 400;
-  margin: 0 auto;
   font-style: normal;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
+  margin: 0.5rem 0;
+  text-align: left;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
+/* Contenedor del título principal */
 .title-main-section {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
   width: 100%;
-  justify-content: space-between;
-  align-items: baseline;
   margin-bottom: 0.5rem;
+}
+
+/* ===== BREAKPOINTS ===== */
+
+/* Tablet y superior */
+@media (min-width: 768px) {
+  .appBody {
+    margin: 1.5rem 2rem;
+  }
+
+  .title-main-section {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  p, input, h3 {
+    letter-spacing: 1.5px;
+  }
+}
+
+/* Desktop grande */
+@media (min-width: 1024px) {
+  .appBody {
+    margin-left: 6rem;
+    margin-right: 3rem;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  h1, h2 {
+    letter-spacing: 2px;
+  }
 }

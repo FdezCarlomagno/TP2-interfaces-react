@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useAppContext } from "../../../context/AppContext"
 import "./reusable.carrusel.css"
 import { useNavigate } from "react-router-dom"
@@ -11,24 +11,18 @@ const ReusableGamesCarousel = ({
   startIndex = 0,
   endIndex = 10,
 }) => {
-  const { games: allGames, loading, setSelectedGame } = useAppContext() // juegos del contexto
+  const { games: allGames, loading, setSelectedGame } = useAppContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [imageErrors, setImageErrors] = useState({})
+  const [slidesPerView, setSlidesPerView] = useState(1)
+  const [slideMove, setSlideMove] = useState(0) // px to move per step
   const nav = useNavigate()
 
-  const handleClick = (game) => {
+  const containerRef = useRef(null) // wrapper that masks the track
+  const trackRef = useRef(null) // the flex track
 
-    setSelectedGame({
-      gameInfo: game,
-      isPremium: isPremiumGame(game.id)
-    })
-    
-   nav(`../juegos/${game.id}`, { replace: false })
-
-  }
-
-  // Seleccionamos solo el rango de juegos que corresponde
+  // selección de juegos según props
   const games = allGames.slice(startIndex, Math.min(endIndex, allGames.length))
 
   const isPremiumGame = (gameId) => gameId % 5 < 2
@@ -44,30 +38,128 @@ const ReusableGamesCarousel = ({
     }
   }
 
+  // calcula slidesPerView con lógica mobile-first
+  const calcSlidesPerView = (width) => {
+    if (width < 480) return 1
+    if (width >= 480 && width < 768) return 2
+    if (width >= 768 && width < 1024) return 3
+    return 5 // desktop >= 1024, 5 visibles (como deseabas)
+  }
+
+  // recalcula slideMove (px) usando el ancho real de la primera tarjeta + gap
+  const computeSlideMove = () => {
+    const track = trackRef.current
+    if (!track) {
+      setSlideMove(0)
+      return
+    }
+
+    const firstCard = track.querySelector(".reusable-game-card")
+    if (!firstCard) {
+      setSlideMove(0)
+      return
+    }
+
+    const cardRect = firstCard.getBoundingClientRect()
+    // obtener gap del track (fallback 0)
+    const style = window.getComputedStyle(track)
+    const gap = parseFloat(style.gap || style.columnGap || 0) || 0
+
+    // movimiento = ancho real de la tarjeta + gap
+    setSlideMove(Math.round(cardRect.width + gap))
+  }
+
+  // on mount y resize -> recalcular slidesPerView y slideMove
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth
+      const spv = calcSlidesPerView(w)
+      setSlidesPerView(spv)
+      // computeSlideMove depende del DOM, haremos un pequeño delay para asegurar renderizado
+      setTimeout(() => computeSlideMove(), 50)
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [games.length])
+
+  // si slidesPerView o games cambian, asegurar currentIndex dentro de rango
+  useEffect(() => {
+    const maxIndex = Math.max(0, games.length - slidesPerView)
+    if (currentIndex > maxIndex) {
+      setCurrentIndex(maxIndex)
+    }
+    // recompute slideMove por si cambió layout
+    setTimeout(() => computeSlideMove(), 50)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slidesPerView, games.length])
+
+  const handleClick = (game) => {
+    setSelectedGame({
+      gameInfo: game,
+      isPremium: isPremiumGame(game.id),
+    })
+    nav(`../juegos/${game.id}`, { replace: false })
+  }
+
   const handleImageError = (gameId) => {
     setImageErrors((prev) => ({ ...prev, [gameId]: true }))
   }
 
   const nextSlide = () => {
-    if (isTransitioning || games.length === 0) return
+    if (isTransitioning || games.length === 0 || slideMove === 0) return
     setIsTransitioning(true)
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = Math.max(0, games.length - 5)
-      return prevIndex >= maxIndex ? 0 : prevIndex + 1
-    })
+
+    const track = trackRef.current
+    const container = containerRef.current
+    if (!track || !container) return
+
+    const totalWidth = track.scrollWidth
+    const visibleWidth = container.offsetWidth
+
+    // Máximo desplazamiento sin dejar hueco
+    const maxTranslate = totalWidth - visibleWidth
+    const currentTranslate = currentIndex * slideMove
+    const nextTranslate = currentTranslate + slideMove
+
+    // Si ya estamos al final o lo sobrepasaríamos → volver al principio
+    if (nextTranslate >= maxTranslate - 2) {
+      setCurrentIndex(0)
+    } else {
+      setCurrentIndex((prev) => prev + 1)
+    }
+
     setTimeout(() => setIsTransitioning(false), 500)
   }
 
   const prevSlide = () => {
-    if (isTransitioning || games.length === 0) return
+    if (isTransitioning || games.length === 0 || slideMove === 0) return
     setIsTransitioning(true)
-    setCurrentIndex((prevIndex) => {
-      const maxIndex = Math.max(0, games.length - 5)
-      return prevIndex <= 0 ? maxIndex : prevIndex - 1
-    })
+
+    const track = trackRef.current
+    const container = containerRef.current
+    if (!track || !container) return
+
+    const totalWidth = track.scrollWidth
+    const visibleWidth = container.offsetWidth
+    const maxTranslate = totalWidth - visibleWidth
+    const currentTranslate = currentIndex * slideMove
+
+    // Si estamos al principio → saltar al final exacto
+    if (currentTranslate <= 0) {
+      const lastIndex = Math.floor(maxTranslate / slideMove)
+      setCurrentIndex(lastIndex)
+    } else {
+      setCurrentIndex((prev) => prev - 1)
+    }
+
     setTimeout(() => setIsTransitioning(false), 500)
   }
 
+
+  // Si loading / sin juegos
   if (loading) {
     return (
       <div className="reusable-carousel-container">
@@ -91,6 +183,12 @@ const ReusableGamesCarousel = ({
     )
   }
 
+  // cálculo de estilo transform usando slideMove en px
+  const trackStyle = {
+    transform: `translateX(-${currentIndex * slideMove}px)`,
+    transition: isTransitioning ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
+  }
+
   return (
     <div className="reusable-carousel-container">
       <h3 className="reusable-carousel-title">{title}</h3>
@@ -107,10 +205,11 @@ const ReusableGamesCarousel = ({
           </svg>
         </button>
 
-        <div className="reusable-carousel-games-container">
+        <div className="reusable-carousel-games-container" ref={containerRef}>
           <div
             className={`reusable-carousel-games-track ${isTransitioning ? "transitioning" : ""}`}
-            style={{ transform: `translateX(-${currentIndex * 20}%)` }}
+            ref={trackRef}
+            style={trackStyle}
           >
             {games.map((game) => {
               const isPremium = isPremiumGame(game.id)

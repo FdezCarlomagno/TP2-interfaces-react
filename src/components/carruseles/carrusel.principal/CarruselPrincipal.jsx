@@ -9,16 +9,34 @@ const VideogamesCarousel = () => {
   const { games: contextGames, loading, setSelectedGame } = useAppContext()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [slideDirection, setSlideDirection] = useState('right') // 'right' or 'left'
+  const [slideDirection, setSlideDirection] = useState('right')
+  const [itemsToShow, setItemsToShow] = useState(1) // Mobile first: 1 item
   const games = contextGames.slice(0, 8)
   const nav = useNavigate()
+
+  // Responsive items calculation
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setItemsToShow(2.5) // Desktop: 2.5 items
+      } else if (window.innerWidth >= 768) {
+        setItemsToShow(2) // Tablet: 2 items
+      } else {
+        setItemsToShow(1) // Mobile: 1 item
+      }
+    }
+
+    handleResize() // Set initial value
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const nextSlide = () => {
     if (isTransitioning || games.length === 0) return
 
     setIsTransitioning(true)
     setSlideDirection('right')
-    const maxIndex = Math.max(0, games.length - 3)
+    const maxIndex = Math.max(0, games.length - itemsToShow)
     setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, maxIndex))
 
     setTimeout(() => setIsTransitioning(false), 600)
@@ -39,9 +57,16 @@ const VideogamesCarousel = () => {
 
     setIsTransitioning(true)
     setSlideDirection(index > currentIndex ? 'right' : 'left')
-    const maxIndex = Math.max(0, games.length - 3)
+    const maxIndex = Math.max(0, games.length - itemsToShow)
     setCurrentIndex(Math.min(index, maxIndex))
     setTimeout(() => setIsTransitioning(false), 600)
+  }
+
+  // Calculate translateX percentage based on items to show
+  const getTranslateX = () => {
+    if (itemsToShow === 1) return `-${currentIndex * 100}%`
+    if (itemsToShow === 2) return `-${currentIndex * 50}%`
+    return `-${currentIndex * 33.333}%` // For 2.5 items
   }
 
   // Efecto para añadir clase de animación a los slides
@@ -51,14 +76,12 @@ const VideogamesCarousel = () => {
       slide.classList.remove('slide-in-right', 'slide-in-left', 'slide-3d')
       
       if (isTransitioning) {
-        // Añadir animación basada en la dirección
         if (slideDirection === 'right') {
           slide.classList.add('slide-in-right')
         } else {
           slide.classList.add('slide-in-left')
         }
         
-        // Añadir efecto 3D aleatorio para algunos slides
         if (Math.random() > 0.7) {
           slide.classList.add('slide-3d')
         }
@@ -95,6 +118,8 @@ const VideogamesCarousel = () => {
     nav(`juegos/${game.id}`)
   }
 
+  const maxIndicatorIndex = Math.max(0, games.length - itemsToShow)
+
   return (
     <div className="main-carousel-container">
       <div className="main-carousel-wrapper">
@@ -103,7 +128,7 @@ const VideogamesCarousel = () => {
           onClick={prevSlide}
           disabled={isTransitioning || currentIndex === 0}
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path
               d="M15 18L9 12L15 6"
               stroke="currentColor"
@@ -118,7 +143,7 @@ const VideogamesCarousel = () => {
           <div
             className={`main-carousel-track ${isTransitioning ? 'transitioning' : ''}`}
             style={{
-              transform: `translateX(-${currentIndex * 33.333}%)`,
+              transform: `translateX(${getTranslateX()})`,
               transition: isTransitioning
                 ? "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
                 : "none",
@@ -160,10 +185,10 @@ const VideogamesCarousel = () => {
           className="main-carousel-button main-carousel-button-next"
           onClick={nextSlide}
           disabled={
-            isTransitioning || currentIndex >= Math.max(0, games.length - 3)
+            isTransitioning || currentIndex >= maxIndicatorIndex
           }
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path
               d="M9 18L15 12L9 6"
               stroke="currentColor"
@@ -176,7 +201,7 @@ const VideogamesCarousel = () => {
       </div>
 
       <div className="main-carousel-indicators">
-        {Array.from({ length: Math.max(1, games.length - 2) }, (_, index) => (
+        {Array.from({ length: maxIndicatorIndex + 1 }, (_, index) => (
           <button
             key={index}
             className={`main-indicator ${
