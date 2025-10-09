@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+// import { BrowserRouter, Routes, Route } from "react-router-dom"  //no soportado x gh pages
+import { HashRouter, Routes, Route } from "react-router-dom"; //soportado x gh pages
+
 import LoginPage from "./pages/login"
 import RegisterPage from "./pages/register"
 import CarruselPrincipal from "./components/carruseles/carrusel.principal/CarruselPrincipal"
@@ -88,7 +90,7 @@ function App() {
     <>
       {isLoading && <GameLoader onLoadComplete={handleLoadComplete} />}
 
-      <BrowserRouter>
+      <HashRouter>
         {/* Toaster global */}
         <Toaster
           toastOptions={{
@@ -114,7 +116,7 @@ function App() {
 
         </Routes>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </>
   )
 }

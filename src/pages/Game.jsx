@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import pegImg from "../assets/imgs/Messi.png";
 import CommentsSection from "../components/CommentSection/CommentsSection";
 import "./Game.css"
+import BlockaGame from "../components/blockaGame/BlockaGame";
 
 const Game = () => {
   const { gameId } = useParams();
@@ -69,6 +70,8 @@ const Game = () => {
           <GenericGameScreen game={peg} isPremium={false} />
           <GameDetails game={peg} />
         </>
+      ) : location.pathname === "/juegos/blocka" ? (
+        <BlockaGame/>
       ) : (
         <>
           <GenericGameScreen game={gameInfo} isPremium={isPremium} />
