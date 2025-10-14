@@ -151,6 +151,10 @@
     font-size: 1.3rem;
   }
 
+  .content-wrapper {
+    padding: 24px;
+  }
+
   .tabs {
     gap: 20px;
     flex-wrap: wrap;

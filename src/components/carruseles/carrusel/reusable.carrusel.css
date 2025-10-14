@@ -1,10 +1,10 @@
 /* Adding "reusable-" prefix to all classes to prevent collisions with main carousel */
 .reusable-carousel-container {
   width: 100%;
-  /* max-width: 1400px; */
-  font-family: "Nunito", sans-serif;
   padding: 1rem;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrar todo el contenido */
 }
 
 .reusable-carousel-title {
@@ -14,18 +14,22 @@
   font-weight: 200;
   color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  width: 100%;
 }
 
 .reusable-carousel-wrapper {
   position: relative;
   display: flex;
+  justify-content: center; /* Centrar el carrusel */
+  width: 100%;
+  max-width: 1400px; /* Limitar ancho máximo */
 }
 
 /* Navigation buttons with large chevrons */
 .reusable-carousel-nav-btn {
   position: relative;
   width: 48px;
-  height: 200px;
+  height: 150px;
   background: rgba(0, 0, 0, 0.3);
   border: none;
   border-radius: 8px;
@@ -36,6 +40,7 @@
   transition: all 0.3s ease;
   z-index: 10;
   backdrop-filter: blur(10px);
+  flex-shrink: 0;
 }
 
 .reusable-carousel-nav-btn:hover {
@@ -62,14 +67,15 @@
   border-radius: 12px;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+  max-width: calc(100% - 100px); /* Asegurar que no se salga de la pantalla */
 }
 
 .reusable-carousel-games-track {
   display: flex;
-  width: 1400px;
   gap: 15px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
+  width: auto; /* Quitar width fijo */
 }
 
 .reusable-carousel-games-track.transitioning {
@@ -90,46 +96,47 @@
   flex-direction: column;
 }
 
-.reusable-game-card-image :hover {
-
+.reusable-game-card:hover {
   transform: translateY(-4px);
 }
 
-/* Game image container */
+/* Game image container - SOLUCIÓN DEFINITIVA PARA IMÁGENES */
 .reusable-game-image-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16/10;
   overflow: hidden;
   border-radius: 12px 12px 8px 8px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Configurable image sizes */
-.reusable-carousel-image-small {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.reusable-carousel-image-medium {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
+/* Configurable image sizes - SOLUCIÓN MEJORADA */
+.reusable-carousel-image-small,
+.reusable-carousel-image-medium,
 .reusable-carousel-image-large {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   transition: transform 0.3s ease;
+}
+
+/* Asegurar que las imágenes fallen correctamente */
+.reusable-game-image {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .reusable-game-card:hover .reusable-game-image,
 .reusable-game-card:hover .reusable-game-image-fallback {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /* Image fallback styling */
@@ -144,6 +151,7 @@
   color: white;
   text-align: center;
   transition: transform 0.3s ease;
+  border-radius: 12px;
 }
 
 .reusable-fallback-icon {
@@ -170,10 +178,10 @@
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
+  border-radius: 12px;
 }
 
- .reusable-game-card:hover .reusable-game-hover-overlay {
-  border-radius: 12px;
+.reusable-game-card:hover .reusable-game-hover-overlay {
   border: 2px solid #6d9bff;
   opacity: 1;
 }
@@ -221,10 +229,9 @@
 
 /* Game info section */
 .reusable-game-info {
-  padding: 8px 8px;
   background: transparent;
   flex-grow: 1;
-  display: flex;
+  margin-top: 12px;
   flex-direction: column;
   justify-content: center;
 }
@@ -321,50 +328,160 @@
   }
 }
 
-/* Responsive design */
-@media (max-width: 1200px) {
-  .reusable-game-card {
-    flex: 0 0 calc(25% - 12px);
-    height: auto;
-  }
-
-  .reusable-game-image-container {
-    aspect-ratio: 16 / 9;
-  }
-}
-
+/* MOBILE FIX: Centrado y imágenes optimizadas */
 @media (max-width: 768px) {
+  .reusable-carousel-container {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    margin-top: 1rem;
+  }
+
+  .reusable-carousel-wrapper {
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+  }
+
   .reusable-carousel-nav-btn {
-    width: 50px;
-    height: 250px;
+    width: 30px;
+    height: 140px;
+    margin: 0 2px;
   }
 
   .reusable-chevron-icon {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .reusable-carousel-games-container {
+    margin: 0 5px;
+    max-width: calc(100% - 70px);
+    flex: 1;
+  }
+
+  .reusable-carousel-games-track {
+    gap: 10px;
   }
 
   .reusable-game-card {
-    flex: 0 0 calc(33.333% - 10px);
-    height: auto;
+    flex: 0 0 calc(50% - 5px);
+    min-width: 140px;
   }
 
+  /* SOLUCIÓN DEFINITIVA PARA IMÁGENES EN MÓVIL */
   .reusable-game-image-container {
-    aspect-ratio: 16 / 9;
+    height: 120px;
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px; /* Espacio interno para que la imagen respire */
+    box-sizing: border-box;
+  }
+
+  .reusable-carousel-image-small,
+  .reusable-carousel-image-medium,
+  .reusable-carousel-image-large,
+  .reusable-game-image {
+    width: auto !important;
+    height: auto !important;
+    max-width: 95% !important;
+    max-height: 95% !important;
+    object-fit: contain !important;
+    object-position: center;
+    display: block;
+    margin: 0 auto;
   }
 
   .reusable-carousel-title {
-    font-size: 24px;
+    font-size: 18px;
+    width: 100%;
+  }
+
+  .reusable-game-info {
+    min-height: 50px;
+  }
+
+  .reusable-game-name {
+    font-size: 12px;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .reusable-premium-crown {
+    font-size: 12px;
+  }
+
+  .reusable-premium-text {
+    font-size: 9px;
+  }
+
+  .reusable-play-icon,
+  .reusable-premium-lock-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .reusable-play-icon svg,
+  .reusable-premium-lock-icon svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet */
+@media (max-width: 1200px) and (min-width: 769px) {
   .reusable-game-card {
-    flex: 0 0 calc(50% - 8px);
-    height: auto;
+    flex: 0 0 calc(25% - 12px);
   }
 
   .reusable-game-image-container {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
+  }
+
+  .reusable-carousel-image-small,
+  .reusable-carousel-image-medium,
+  .reusable-carousel-image-large {
+    object-fit: contain;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1201px) {
+  .reusable-carousel-image-small,
+  .reusable-carousel-image-medium,
+  .reusable-carousel-image-large {
+    object-fit: contain;
+  }
+}
+
+/* Ajustes adicionales para móvil muy pequeño */
+@media (max-width: 480px) {
+  .reusable-carousel-container {
+    padding: 0.25rem;
+  }
+
+  .reusable-game-card {
+    flex: 0 0 calc(50% - 5px);
+  }
+
+  .reusable-game-image-container {
+    height: 110px;
+  }
+
+  .reusable-game-info {
+    min-height: 45px;
+  }
+
+  .reusable-game-name {
+    font-size: 11px;
+  }
+  
+  .reusable-carousel-games-container {
+    max-width: calc(100% - 65px);
   }
 }

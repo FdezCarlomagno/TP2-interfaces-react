@@ -14,6 +14,7 @@ import GameHubSection from './components/GameHubSection/GameHubSection'
 import { Toaster } from "react-hot-toast"
 import Game from "./pages/Game"
 import TagSection from "./components/TagSection/TagSection"
+import './App.css'
 
 function Home() {
   return (
