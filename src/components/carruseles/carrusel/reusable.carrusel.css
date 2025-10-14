@@ -1,7 +1,7 @@
 /* Adding "reusable-" prefix to all classes to prevent collisions with main carousel */
 .reusable-carousel-container {
   width: 100%;
-  padding: 1rem;
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center; /* Centrar todo el contenido */
@@ -63,7 +63,8 @@
 /* Games container showing 5.5 games */
 .reusable-carousel-games-container {
   flex: 1;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   border-radius: 12px;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -72,7 +73,7 @@
 
 .reusable-carousel-games-track {
   display: flex;
-  gap: 15px;
+  gap: 4px;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
   width: auto; /* Quitar width fijo */
@@ -96,17 +97,12 @@
   flex-direction: column;
 }
 
-.reusable-game-card:hover {
-  transform: translateY(-4px);
-}
-
 /* Game image container - SOLUCIÓN DEFINITIVA PARA IMÁGENES */
 .reusable-game-image-container {
   position: relative;
   width: 100%;
   aspect-ratio: 16/10;
   overflow: hidden;
-  border-radius: 12px 12px 8px 8px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -375,6 +371,7 @@
     aspect-ratio: 16/10;
     display: flex;
     align-items: center;
+    overflow: visible;
     justify-content: center;
     padding: 5px; /* Espacio interno para que la imagen respire */
     box-sizing: border-box;

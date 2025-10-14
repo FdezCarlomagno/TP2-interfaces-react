@@ -92,7 +92,7 @@ const VideogamesCarousel = () => {
   const getTranslateX = () => {
     if (itemsToShow === 1) return `-${currentIndex * 100}%`
     if (itemsToShow === 2) return `-${currentIndex * 50}%`
-    return `-${currentIndex * 33.333}%` // For 2.5 items
+    return `-${currentIndex * 43.333}%` // For 2.5 itemsP
   }
 
   // Efecto para añadir clase de animación a los slides

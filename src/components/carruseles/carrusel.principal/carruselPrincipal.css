@@ -527,17 +527,14 @@
 /* Desktop */
 @media (min-width: 1024px) {
   .main-carousel-container {
-    height: 70vh;
-    padding: 0 20px;
+    height: 60vh;
+    margin: 0;
+    padding: 0;
   }
 
   .main-carousel-wrapper {
     height: 65vh;
     max-width: 1400px;
-  }
-
-  .main-carousel-slides {
-    margin: 0 20px;
   }
 
   .main-carousel-slide {
