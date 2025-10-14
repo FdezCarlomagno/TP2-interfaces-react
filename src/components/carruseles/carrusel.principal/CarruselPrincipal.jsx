@@ -16,10 +16,10 @@ const VideogamesCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   // Estado de transicion para desabiitar el clickeo repetitivo de botones y ocasionar bugs de diseño
   const [isTransitioning, setIsTransitioning] = useState(false)
-<<<<<<< HEAD
 
   //setea la direccion del carrusel, izquierda o derecha
   const [slideDirection, setSlideDirection] = useState('right') // 'right' or 'left'
+  const [itemsToShow, setItemsToShow] = useState(1) // Mobile first: 1 item
 
   /**
    * IMPORTANTE!!!!!!!!
@@ -33,18 +33,11 @@ const VideogamesCarousel = () => {
    * contextGames.slice(8, 13)
    * 
    *  */
+  
   const games = contextGames.slice(0, 8)
   const nav = useNavigate()
 
-
-  //Calcula la proxima slide
-=======
-  const [slideDirection, setSlideDirection] = useState('right')
-  const [itemsToShow, setItemsToShow] = useState(1) // Mobile first: 1 item
-  const games = contextGames.slice(0, 8)
-  const nav = useNavigate()
-
-  // Responsive items calculation
+ // Responsive items calculation
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -60,8 +53,7 @@ const VideogamesCarousel = () => {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
->>>>>>> 8c75c2f7da6c2ca5600bb7e5d14f06a6edeff953
+  //Calcula la proxima slide
   const nextSlide = () => {
     if (isTransitioning || games.length === 0) return
 
