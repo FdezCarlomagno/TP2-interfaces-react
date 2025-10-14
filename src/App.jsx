@@ -28,8 +28,25 @@ function Home() {
         <TagSection></TagSection>
       </div>
       <main>
+
+        {/**
+         * Dentro de este componente se puede setear la cantidad de imagenes que se muestran
+         * 
+         *Lo mejor es no pasarse de 7 porque sino queda feo
+         */}
         <CarruselPrincipal />
         <div>
+
+          {/* *
+          A este carrusel le podes setear desde què juegoempezar para que no se repitan juegos
+
+          Si los profes nos piden cambiar la cantidad que se muestran tocamos estas props aca
+
+          Start index : desde que juego empieza a iterar el videogame list
+          End Index: hasta que videojuego llega
+
+          La cantidad de videojuegos mostrados es de endIndex - startIndex + 1
+          */}
           <ReusableGamesCarousel title="Populares" imageSize="large" startIndex={27} endIndex={37} />
           <OfertaDelMes />
           <ReusableGamesCarousel title="Nuevos Lanzamientos" imageSize="medium" startIndex={10} endIndex={20} />
@@ -78,6 +95,9 @@ function Home() {
 }
 
 function App() {
+  /**
+   * Estado para setear el lodaer del principio al inicar en home
+   */
   const [isLoading, setIsLoading] = useState(true)
 
   const handleLoadComplete = () => {
@@ -104,15 +124,16 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="juegos/:gameId" element={<Game />} />
-            {/* Podés meter más páginas aquí y solo cambia el <Outlet /> */}
+            {/* Aca se pueden meter mas rutas en un futuro */}
           </Route>
 
-          {/* Rutas sin Layout (ej: login independiente) */}
+          {/* Rutas sin Layout (ej: login independiente, registro) */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
         </Routes>
+        {/* Footer que siempre se renderiza */}
         <Footer />
       </BrowserRouter>
     </>

@@ -6,9 +6,39 @@ import "./carruselPrincipal.css"
 import { useNavigate } from "react-router-dom"
 
 const VideogamesCarousel = () => {
+  /**
+   * 
+   * Usamos contexto para traernos todo lo que necesitamos
+   */
   const { games: contextGames, loading, setSelectedGame } = useAppContext()
+
+  // Estado para llevar el indice actual
   const [currentIndex, setCurrentIndex] = useState(0)
+  // Estado de transicion para desabiitar el clickeo repetitivo de botones y ocasionar bugs de diseño
   const [isTransitioning, setIsTransitioning] = useState(false)
+<<<<<<< HEAD
+
+  //setea la direccion del carrusel, izquierda o derecha
+  const [slideDirection, setSlideDirection] = useState('right') // 'right' or 'left'
+
+  /**
+   * IMPORTANTE!!!!!!!!
+   * 
+   * Si nos piden cambiar la cantidad de juegos que se muestran en el carrusel principal se hace tocando el contextGames.slice()
+   * 
+   * Ahora se muestran los primeros 8.
+   * 
+   * Si nos piden mostrar 5 despues de esos 8 seria:
+   * 
+   * contextGames.slice(8, 13)
+   * 
+   *  */
+  const games = contextGames.slice(0, 8)
+  const nav = useNavigate()
+
+
+  //Calcula la proxima slide
+=======
   const [slideDirection, setSlideDirection] = useState('right')
   const [itemsToShow, setItemsToShow] = useState(1) // Mobile first: 1 item
   const games = contextGames.slice(0, 8)
@@ -31,6 +61,7 @@ const VideogamesCarousel = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+>>>>>>> 8c75c2f7da6c2ca5600bb7e5d14f06a6edeff953
   const nextSlide = () => {
     if (isTransitioning || games.length === 0) return
 
@@ -39,19 +70,22 @@ const VideogamesCarousel = () => {
     const maxIndex = Math.max(0, games.length - itemsToShow)
     setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, maxIndex))
 
+    //pequeño delay de transicion de animacion
     setTimeout(() => setIsTransitioning(false), 600)
   }
 
+  //Anterior slide
   const prevSlide = () => {
     if (isTransitioning || games.length === 0) return
 
     setIsTransitioning(true)
     setSlideDirection('left')
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0))
-
+    //delay de transicion
     setTimeout(() => setIsTransitioning(false), 600)
   }
 
+  //maneja el click en los botones de abajo del carrusel que te permiten ir a una slide personalizada
   const goToSlide = (index) => {
     if (isTransitioning || index === currentIndex) return
 
@@ -72,7 +106,7 @@ const VideogamesCarousel = () => {
   // Efecto para añadir clase de animación a los slides
   useEffect(() => {
     const slides = document.querySelectorAll('.main-carousel-slide')
-    slides.forEach((slide, index) => {
+    slides.forEach((slide) => {
       slide.classList.remove('slide-in-right', 'slide-in-left', 'slide-3d')
       
       if (isTransitioning) {

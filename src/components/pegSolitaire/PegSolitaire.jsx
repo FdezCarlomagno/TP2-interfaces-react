@@ -3,6 +3,13 @@
 import { useState, useCallback } from "react"
 import "./peg-solitaire.css"
 
+
+/**
+ * 
+ * Juego funcional de peg solitaire
+ * No se sabe bien como funciona. No entra en el trabajo
+ * 
+ */
 const INITIAL_BOARD = [
   ["invalid", "invalid", "peg", "peg", "peg", "invalid", "invalid"],
   ["invalid", "invalid", "peg", "peg", "peg", "invalid", "invalid"],
