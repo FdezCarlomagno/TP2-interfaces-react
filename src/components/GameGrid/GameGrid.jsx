@@ -7,11 +7,16 @@ import { useNavigate } from "react-router-dom"
 const GameGrid = ({ count = 10 }) => {
   const { games: allGames, loading, setSelectedGame } = useAppContext()
   const nav = useNavigate()
+  
+   const isPremiumGame = (gameId) => gameId % 5 < 2
 
+ 
   const handleSelect = (game) => {
-    setSelectedGame(game)
-   nav(`../juegos/${game.id}`, { replace: false })
-
+    setSelectedGame({
+      gameInfo: game,
+      isPremium: isPremiumGame(game.id)
+    })
+    nav(`../juegos/${game.id}`, { replace: false })
   }
 
   if (loading) {
