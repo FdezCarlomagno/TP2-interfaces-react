@@ -88,7 +88,7 @@ function App() {
     <>
       {isLoading && <GameLoader onLoadComplete={handleLoadComplete} />}
 
-      <BrowserRouter>
+      <BrowserRouter basename="/TP2-interfaces-react/">
         {/* Toaster global */}
         <Toaster
           toastOptions={{
