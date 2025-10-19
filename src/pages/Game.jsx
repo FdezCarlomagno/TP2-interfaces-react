@@ -84,7 +84,7 @@ const Game = () => {
     released: "2023-01-01",
     genres: [{ name: "Casual" }, { name: "Puzzle" }],
     description:
-      "Peg Solitaire es un juego de lógica y estrategia en el que el objetivo es eliminar todas las fichas del tablero excepto una, moviendo las fichas saltando sobre otras. El juego comienza con un tablero lleno de fichas, excepto por una posición vacía. El jugador debe planificar sus movimientos cuidadosamente para lograr el objetivo final.",
+      "blocka game es un juego de lógica y estrategia en el que el objetivo es armar una imagen a partir de 4 piezas moviles.",
     platforms: [{ platform: { name: "Web" } }],
     publishers: [{ name: "GameHub" }],
     developers: [{ name: "GameHub Devs" }],
@@ -125,13 +125,21 @@ const Game = () => {
         <>
           <div className="game-top-layout">
             <div className="game-media">
-              <GenericGameScreen game={peg} isPremium={false} />
+              <GenericGameScreen game={blocka} isPremium={false} />
             </div>
           <aside className="game-grid-side">
             <GameGrid count={16} />
           </aside>
           </div>
-          <GameDetails game={peg} />
+         <div className="details-comments-layout">
+            <div className="details-main">
+              <GameDetails game={blocka} />
+            </div>
+            <aside className="comments-side">
+              <h2>Comentarios</h2>
+              <CommentsSection />
+            </aside>
+          </div>
         </>
       ) : (
         <>
