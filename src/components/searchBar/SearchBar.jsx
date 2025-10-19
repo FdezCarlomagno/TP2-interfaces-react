@@ -6,7 +6,10 @@ import { useAppContext } from '../../context/AppContext'
 const SearchBar = ({ games }) => {
   const [search, setSearch] = useState("")
   const nav = useNavigate()
+
+  //Obtenemos el juego seleccionado desde el contexto
   const { setSelectedGame } = useAppContext()
+
   // Filtrar juegos según el texto buscado
   const filteredGames = games.filter(game =>
     game.name.toLowerCase().includes(search.toLowerCase())
@@ -20,13 +23,16 @@ const SearchBar = ({ games }) => {
       setSelectedGame({ gameInfo: game, isPremium: game.id % 5 < 2 })
     } catch (e) {
       // fallback if setSelectedGame expects raw game
+      console.log(e)
       setSelectedGame(game)
     }
 
     // Clear search to close dropdown and remove focus from the input
     setSearch("")
+    //se desfocusea el input
     if (inputRef.current) inputRef.current.blur()
 
+    //se navega hacia el juego
     nav(`juegos/${game.id}`)
   }
 
@@ -44,7 +50,7 @@ const SearchBar = ({ games }) => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-
+      {/* Logica de dropdown de la searchbar */}
       {showDropdown && (
         <ul className="dropdown">
           {hasResults ? (

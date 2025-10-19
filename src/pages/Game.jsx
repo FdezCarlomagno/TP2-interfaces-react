@@ -12,7 +12,16 @@ import "./Game.css"
 import BlockaGame from "../components/blockaGame/BlockaGame";
 
 const Game = () => {
+
+  /**
+   * Aca viene por url el gameId
+  */
   const { gameId } = useParams();
+
+  /**
+   * 
+   * Nos traemos todo lo necesario del contexto
+   */
   const { selectedGame, setSelectedGame, games, loading } = useAppContext();
 
   // Si no hay selectedGame, intentar reconstruirlo desde la lista de games usando el id de la ruta
@@ -31,6 +40,7 @@ const Game = () => {
 
   const location = useLocation();
 
+  //feedbacka visual
   if (loading) return <p>Cargando juego...</p>;
 
 
@@ -38,6 +48,7 @@ const Game = () => {
     return <p>No hay juego seleccionado</p>;
   }
 
+  //setea todos los detalles del juego especifico del messi solitaire porque este juego no viene de la api
   const isPremium = selectedGame.isPremium;
   const { gameInfo } = selectedGame;
   const peg = {
@@ -67,6 +78,7 @@ const Game = () => {
       {/* Pantalla del juego con imágenes */}
       {location.pathname === "/juegos/peg" ? (
         <>
+        {/* Si el usuario eligio para jugar el peg solitarie se navega a esa url y se muestran los siguientes componentes */}
           <GenericGameScreen game={peg} isPremium={false} />
           <GameDetails game={peg} />
         </>
@@ -74,10 +86,12 @@ const Game = () => {
         <BlockaGame/>
       ) : (
         <>
+        {/* Si el usuario eligio otro juego que no es el  messi solitaire se muestra aquel juego que eligio */}
           <GenericGameScreen game={gameInfo} isPremium={isPremium} />
           <GameDetails game={gameInfo} />
         </>
       )}
+      {/* Carruseles con demas juegos, misma funcionalidad que los que estan en App.jsx */}
       <ReusableGamesCarousel
         title="Shooters"
         imageSize="medium"
