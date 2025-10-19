@@ -22,7 +22,6 @@
   display: flex;
   justify-content: center; /* Centrar el carrusel */
   width: 100%;
-  max-width: 1400px; /* Limitar ancho máximo */
 }
 
 /* Navigation buttons with large chevrons */

@@ -1,13 +1,14 @@
 .game-screen {
   position: relative;
-  width: 80vw;
-  height: 80vh;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   display: flex;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+  aspect-ratio: 16 / 9; /* enforce 16:9 */
 }
 
 .game-background {

@@ -20,6 +20,15 @@ const VideogamesCarousel = () => {
   //setea la direccion del carrusel, izquierda o derecha
   const [slideDirection, setSlideDirection] = useState('right') // 'right' or 'left'
   const [itemsToShow, setItemsToShow] = useState(1) // Mobile first: 1 item
+  const blockaGame={
+    id: "blocka",
+    name: "Blocka Game",
+    background_image_low_res: "https://i.imgur.com/3ZQ3Z8Y.png",
+    background_image: "https://i.imgur.com/3ZQ3Z8Y.png",
+    rating: 4.2,
+    released: "2023-01-15",
+  }
+
 
   /**
    * IMPORTANTE!!!!!!!!
@@ -35,6 +44,7 @@ const VideogamesCarousel = () => {
    *  */
   
   const games = contextGames.slice(0, 8)
+  games.unshift(blockaGame)
   const nav = useNavigate()
 
  // Responsive items calculation

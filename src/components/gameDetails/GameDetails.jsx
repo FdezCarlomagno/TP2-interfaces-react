@@ -148,7 +148,6 @@ const GameDetails = ({ game, descriptionLimit = 500 }) => {
         </div>
       </div>
 
-      <GameGrid count={14} />
     </div>
   );
 };

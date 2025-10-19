@@ -4,3 +4,67 @@
     justify-content: space-between;
     margin-right: 1rem;
 }
+
+/* Layout for game top: media + right sidebar grid */
+.game-top-layout {
+    display: flex;
+    flex-direction: column; /* mobile: stack */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.game-media {
+    width: 100%;
+}
+.game-grid-side {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .game-top-layout {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+
+    /* Game media takes remaining space, keep 16:9 aspect inside */
+    .game-media {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    /* Sidebar with grid fixed width */
+    .game-grid-side {
+        flex: 0 0 320px; /* adjust as desired */
+    }
+}
+
+/* Details + Comments responsive layout */
+.details-comments-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem;
+}
+.details-main {
+    width: 100%;
+}
+.comments-side {
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .details-comments-layout {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2rem;
+    }
+
+    .details-main {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .comments-side {
+        flex: 0 0 360px; /* sidebar width for comments */
+    }
+}

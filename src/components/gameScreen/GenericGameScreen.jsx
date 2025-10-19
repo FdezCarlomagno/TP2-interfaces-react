@@ -3,6 +3,7 @@ import { useState } from "react";
 import PegSolitaire from "../pegSolitaire/PegSolitaire";
 import './GameScreen.css'
 import gamehubLogo from '../../assets/logo.svg'
+import BlockaGame from "../blockaGame/BlockaGame";
 
 const GenericGameScreen = ({game, isPremium}) => {
   const location = useLocation();
@@ -53,6 +54,8 @@ return (
             </div>
             <div className="game-play-area">
               {location.pathname.includes('/juegos/peg') &&<PegSolitaire />}
+              {location.pathname.includes('/juegos/blocka') &&<BlockaGame />}
+
             </div>
           </div>
         )}
