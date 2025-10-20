@@ -1,113 +1,98 @@
-
-
-/* Footer */
 .footer {
   background-color: #0e121d;
   color: #fff;
-  padding: 4rem 4rem;
+  padding: 2rem 4rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin-top: 2rem;
+  gap: 1rem;
 }
 
-/* Top del footer */
-.footer-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 6rem;
-  padding-right: 2rem;
-  padding-left: 2rem;
-  flex-wrap: wrap; /* responsive */
+/* GRID PRINCIPAL */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 2rem;
+  align-items: start;
 }
 
-/* Logo */
+/* Logo integrado a la grilla */
 .footer-logo {
-  margin-bottom: 3rem;
-  margin-left: 1rem;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
 }
 .footer-logo img {
-  width: 64px;
+  width: 55px;
+}
+.footer-logo p {
+  opacity: 0.7;
+  font-size: 0.85rem;
+  max-width: 200px;
+  line-height: 1.3;
 }
 
-/* Columnas */
-.footer-columns {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  gap: 7rem;
-  flex-wrap: wrap; /* responsive */
-}
-
+/* TÍTULOS DE COLUMNA */
 .footer-col h2 {
-  font-weight: bold;
-  margin-bottom: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
   border-top: 1px solid #444;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
+/* LINKS */
 .footer-col ul {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 .footer-col li {
   opacity: 0.6;
-  margin-bottom: 0.8rem;
-  color: #c0c0c0;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 .footer-col li:hover {
   color: #6d9bff;
+  opacity: 1;
 }
 
-/* Contacto */
-.footer-contact {
-  margin-bottom: 3rem;
+/* BOTTOM */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  border-top: 1px solid #333;
+  padding-top: 1.5rem;
+  gap: 1rem;
 }
 
-
+/* CONTACTO */
+.footer-contact h2 {
+  margin-bottom: 0.5rem;
+}
+.footer-contact p {
+  margin: 0.2rem 0;
+  opacity: 0.7;
+}
 .footer-contact button {
   background-color: #1f2b48;
   color: #fff;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  font-weight: 600;
+  margin-top: 0.5rem;
   transition: background 0.3s ease;
 }
 .footer-contact button:hover {
   background-color: #2f3b68;
 }
-.footer-contact p {
-  color: #a0a0a0;
-}
 
-.social-icons {
-  margin-bottom: 2rem;
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 2rem 0 2rem;
-  border-top: 1px solid #444;
-}
-
-.footer-bottom h2 {
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-/* Redes sociales */
+/* REDES */
 .social-icons {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .social-icons img {
   width: 28px;
@@ -119,32 +104,89 @@
   transform: translateY(-2px);
 }
 
+/* NEWSLETTER */
+.footer-newsletter h2 {
+  margin-bottom: 0.5rem;
+}
+.footer-newsletter p {
+  opacity: 0.7;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+}
+.newsletter-form input {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: none;
+  flex: 1;
+}
+.newsletter-form button {
+  background-color: #6d9bff;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.newsletter-form button:hover {
+  background-color: #88b3ff;
+}
+
+/* COPYRIGHT */
+.footer-copy {
+  text-align: center;
+  font-size: 0.8rem;
+  opacity: 0.6;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
-  .footer-top {
-    flex-direction: column;
-    gap: 2rem;
-  }
-
   .footer {
-    padding: 1rem 1rem 2rem;
+    padding: 1.5rem;
   }
 
-  .footer-contact,
-  .footer-col {
+  /* 👇 Ocultamos secciones no esenciales */
+  .footer-grid,
+  .footer-newsletter,
+  .footer-logo {
     display: none;
   }
 
-  /* Centrar logo y redes en mobile */
-  .footer-logo {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0 1.5rem;
+  .footer-bottom {
+    flex-direction: column;
+    align-items: start;
+    text-align: left;
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .footer-contact {
+    text-align: left;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .newsletter-form input,
+  .newsletter-form button {
+    width: 100%;
   }
 
   .social-icons {
     justify-content: center;
   }
 
-  
+  .footer-copy {
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
 }
