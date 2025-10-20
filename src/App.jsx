@@ -17,6 +17,7 @@ import { Toaster } from "react-hot-toast"
 import Game from "./pages/Game"
 import TagSection from "./components/TagSection/TagSection"
 import './App.css'
+import GameGrid from "./components/GameGrid/GameGrid";
 
 function Home() {
   return (
@@ -37,6 +38,12 @@ function Home() {
          *Lo mejor es no pasarse de 7 porque sino queda feo
          */}
         <CarruselPrincipal />
+
+        {/* GameGrid visible solo en mobile bajo el hero */}
+        <div className="home-mobile-only">
+          <GameGrid />
+        </div>
+
         <div>
 
           {/* *
@@ -51,9 +58,20 @@ function Home() {
           */}
           <ReusableGamesCarousel title="Populares" imageSize="large" startIndex={27} endIndex={37} />
           <OfertaDelMes />
+
+          {/* GameGrid visible solo en mobile debajo de Oferta del Mes */}
+          <div className="home-mobile-only">
+            <GameGrid />
+          </div>
+
           <ReusableGamesCarousel title="Nuevos Lanzamientos" imageSize="medium" startIndex={10} endIndex={20} />
           <ReusableGamesCarousel title="Recomendados" imageSize="medium" startIndex={20} endIndex={26} />
           <GameHubSection></GameHubSection>
+
+          {/* GameGrid visible solo en mobile debajo de Cross-Platform */}
+          <div className="home-mobile-only">
+            <GameGrid />
+          </div>
           <ReusableGamesCarousel
             title="Shooters"
             imageSize="medium"
@@ -91,6 +109,8 @@ function Home() {
             endIndex={80}
           ></ReusableGamesCarousel>
         </div>
+
+        
       </main>
     </>
   )

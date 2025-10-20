@@ -25,6 +25,7 @@
 .footer-logo {
   margin-bottom: 3rem;
   margin-left: 1rem;
+  align-self: center;
 }
 .footer-logo img {
   width: 64px;
@@ -90,6 +91,13 @@
   margin-bottom: 2rem;
 }
 
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem 0 2rem;
+  border-top: 1px solid #444;
+}
 
 .footer-bottom h2 {
   font-weight: bold;
@@ -119,11 +127,24 @@
   }
 
   .footer {
-    padding: 0;
+    padding: 1rem 1rem 2rem;
   }
 
-  .footer-columns {
-    flex-direction: column;
-    gap: 2rem;
+  .footer-contact,
+  .footer-col {
+    display: none;
   }
+
+  /* Centrar logo y redes en mobile */
+  .footer-logo {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 1.5rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  
 }

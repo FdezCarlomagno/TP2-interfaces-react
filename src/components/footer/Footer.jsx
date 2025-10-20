@@ -47,23 +47,62 @@ export default function Footer() {
               <li>Términos y condiciones</li>
             </ul>
           </div>
+
+          <div className="footer-col">
+            <h2>COMUNIDAD</h2>
+            <ul>
+              <li>Foros</li>
+              <li>Especialistas</li>
+              <li>Testers</li>
+              <li>Páginas amigas</li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <h2>Seccion</h2>
+            <ul>
+              <li>Algo</li>
+              <li>Algo</li>
+              <li>Algo</li>
+              <li>Algo</li>
+            </ul>
+          </div>
         </div>
         {/* Redes Sociales */}
         <div className="footer-bottom">
              {/* Contacto */}
-          <div className="footer-contact">
+          <div className="footer-columns">
+            <div className="footer-col">
+            <div className="footer-contact">
             <button>Contactanos</button>
             <p>+54 249 4 254 454</p>
+            </div>
           </div>
+          
 
-          <h2>REDES SOCIALES</h2>
-          <div className="social-icons">
-            <img src={instagram} alt="Instagram" />
-            <img src={tiktok} alt="TikTok" />
-            <img src={facebook} alt="Facebook" />
-            <img src={twitter} alt="Twitter" />
-            <img src={linkedin} alt="LinkedIn" />
+          <div>
+            <h2>REDES SOCIALES</h2>
+            <div className="social-icons">
+              <img src={instagram} alt="Instagram" />
+              <img src={tiktok} alt="TikTok" />
+              <img src={facebook} alt="Facebook" />
+              <img src={twitter} alt="Twitter" />
+              <img src={linkedin} alt="LinkedIn" />
+            </div>
           </div>
+          
+
+          
+          <div className="footer-col">
+            <h2>NEWSLETTER</h2>
+            <p>Suscríbete a nuestro boletín</p>
+            <div className="footer-contact">
+              <input className="form-input" type="email" placeholder="Ingresa tu email" />
+              <button>Suscribirse</button>
+            </div>
+          </div>
+          </div>
+          
        
         </div>
 

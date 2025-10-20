@@ -10,6 +10,7 @@
   align-items: center;
   position: relative;
   padding: 0 10px;
+  display: none;
 }
 
 .main-carousel-wrapper {
@@ -530,6 +531,7 @@
     height: 60vh;
     margin: 0;
     padding: 0;
+    display: flex;
   }
 
   .main-carousel-wrapper {
@@ -584,16 +586,5 @@
   .main-indicator {
     width: 12px;
     height: 12px;
-  }
-}
-
-/* Large Desktop */
-@media (min-width: 1440px) {
-  .main-carousel-container {
-    height: 75vh;
-  }
-
-  .main-carousel-wrapper {
-    height: 70vh;
   }
 }

@@ -330,6 +330,7 @@
     margin: 0;
     box-sizing: border-box;
     margin-top: 1rem;
+    display: none; /* Ocultar carrusel en móvil */
   }
 
   .reusable-carousel-wrapper {
@@ -427,6 +428,8 @@
     width: 18px;
     height: 18px;
   }
+
+  
 }
 
 /* Tablet */
@@ -444,6 +447,7 @@
   .reusable-carousel-image-large {
     object-fit: contain;
   }
+  
 }
 
 /* Desktop */
@@ -452,6 +456,10 @@
   .reusable-carousel-image-medium,
   .reusable-carousel-image-large {
     object-fit: contain;
+  }
+
+  .game-grid-section {
+    display: none;
   }
 }
 

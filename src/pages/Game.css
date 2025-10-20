@@ -19,6 +19,18 @@
     width: 100%;
 }
 
+/* gameplay section placed under main media, inside left column width */
+.gameplay-under-media {
+    margin: 0 1rem 1rem;
+}
+
+@media (min-width: 1024px) {
+    .gameplay-under-media {
+        margin: 0 0 1rem 0;
+        max-width: 100%;
+    }
+}
+
 @media (min-width: 1024px) {
     .game-top-layout {
         flex-direction: row;

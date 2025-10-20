@@ -1,0 +1,68 @@
+/* Section container constrained to left column under the main media */
+.gameplay-section {
+  margin: 4rem 0 1.5rem;
+}
+
+.gameplay-title {
+  margin: 0 0 0.75rem 0.5rem;
+}
+
+/* Wrapper aligns with layout and keeps width flexible */
+.gameplay-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gameplay-nav {
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  width: 36px;
+  height: 120px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.gameplay-viewport {
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.gameplay-track {
+  display: flex;
+  gap: 8px;
+  transition: transform 0.35s ease;
+}
+
+/* Cards slightly larger look */
+.gameplay-card {
+  flex: 0 0 calc(33.333% - 6px);
+  min-width: 220px;
+  max-width: 320px;
+  background: transparent;
+}
+
+.gameplay-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.gameplay-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gameplay-name {
+  margin-top: 8px;
+  font-size: 14px;
+  text-align: center;
+  color: #fff;
+  opacity: 0.9;
+}

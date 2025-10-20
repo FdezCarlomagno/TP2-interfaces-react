@@ -10,6 +10,7 @@ import pegImg from "../assets/imgs/Messi.png";
 import CommentsSection from "../components/CommentSection/CommentsSection";
 import "./Game.css";
 import BlockaGame from "../components/blockaGame/BlockaGame";
+import GameplayCarousel from "../components/carruseles/gameplayCarousel/GameplayCarousel";
 
 const Game = () => {
   /**
@@ -106,11 +107,16 @@ const Game = () => {
           <div className="game-top-layout">
             <div className="game-media">
               <GenericGameScreen game={peg} isPremium={false} />
+              {/* Gameplays debajo del juego (misma columna izquierda) */}
+              <div className="gameplay-under-media">
+                <GameplayCarousel />
+              </div>
             </div>
             <aside className="game-grid-side">
               <GameGrid count={16} />
             </aside>
           </div>
+
           <div className="details-comments-layout">
             <div className="details-main">
               <GameDetails game={peg} />
@@ -126,11 +132,16 @@ const Game = () => {
           <div className="game-top-layout">
             <div className="game-media">
               <GenericGameScreen game={blocka} isPremium={false} />
+              {/* Gameplays debajo del juego (misma columna izquierda) */}
+              <div className="gameplay-under-media">
+                <GameplayCarousel />
+              </div>
             </div>
           <aside className="game-grid-side">
             <GameGrid count={16} />
           </aside>
           </div>
+
          <div className="details-comments-layout">
             <div className="details-main">
               <GameDetails game={blocka} />
@@ -147,11 +158,16 @@ const Game = () => {
           <div className="game-top-layout">
             <div className="game-media">
               <GenericGameScreen game={gameInfo} isPremium={isPremium} />
+              {/* Gameplays debajo del juego (misma columna izquierda) */}
+              <div className="gameplay-under-media">
+                <GameplayCarousel />
+              </div>
             </div>
             <aside className="game-grid-side">
               <GameGrid count={16} />
             </aside>
           </div>
+
           <div className="details-comments-layout">
             <div className="details-main">
               <GameDetails game={gameInfo} />

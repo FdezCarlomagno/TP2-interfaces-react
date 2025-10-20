@@ -55,6 +55,16 @@ h1, h2 {
 
 /* ===== BREAKPOINTS ===== */
 
+/* Utilidad: solo visible en mobile */
+.home-mobile-only {
+  display: block;
+  /* Centrado del contenido (GameGrid) en mobile */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 /* Tablet y superior */
 @media (min-width: 768px) {
   .appBody {
@@ -69,6 +79,11 @@ h1, h2 {
 
   p, input, h3 {
     letter-spacing: 1.5px;
+  }
+
+  /* Ocultar bloques solo móviles en >=768px */
+  .home-mobile-only {
+    display: none !important;
   }
 }
 
