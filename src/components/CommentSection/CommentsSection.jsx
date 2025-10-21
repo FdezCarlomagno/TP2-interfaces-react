@@ -5,13 +5,8 @@ import commentsData from "./comments-data.json"
 import "./CommentSection.css"
 
 export default function CommentsSection() {
-  const [visibleComments, setVisibleComments] = useState(5)
   const [likedComments, setLikedComments] = useState({})
   const [dislikedComments, setDislikedComments] = useState({})
-
-  const handleLoadMore = () => {
-    setVisibleComments((prev) => Math.min(prev + 5, commentsData.length))
-  }
 
   const handleLike = (id) => {
     setLikedComments((prev) => ({
@@ -49,12 +44,15 @@ export default function CommentsSection() {
   return (
     <div className="comments-container">
       <div className="comment-input-wrapper">
-        <div className="avatar" style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}></div>
+        <div
+          className="avatar"
+          style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
+        ></div>
         <input type="text" placeholder="Añade un comentario..." className="comment-input" />
       </div>
 
-      <div className="comments-list">
-        {commentsData.slice(0, visibleComments).map((comment) => (
+      <div className="comments-scrollable">
+        {commentsData.map((comment) => (
           <div key={comment.id} className="comment">
             <div className="avatar" style={{ background: comment.avatar }}></div>
             <div className="comment-content">
@@ -101,12 +99,6 @@ export default function CommentsSection() {
           </div>
         ))}
       </div>
-
-      {visibleComments < commentsData.length && (
-        <button className="load-more-btn" onClick={handleLoadMore}>
-          Ver más comentarios
-        </button>
-      )}
     </div>
   )
 }

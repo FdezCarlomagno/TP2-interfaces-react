@@ -78,7 +78,7 @@ const Game = () => {
 
   const blocka = {
     id: "blocka",
-    name: "blocka game",
+    name: "Blocka game",
     background_image_low_res: pegImg,
     background_image: pegImg,
     rating: 4.5,
@@ -113,7 +113,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={16} />
+              <GameGrid count={14} />
             </aside>
           </div>
 
@@ -138,7 +138,7 @@ const Game = () => {
               </div>
             </div>
           <aside className="game-grid-side">
-            <GameGrid count={16} />
+            <GameGrid count={14} />
           </aside>
           </div>
 
@@ -147,7 +147,6 @@ const Game = () => {
               <GameDetails game={blocka} />
             </div>
             <aside className="comments-side">
-              <h2>Comentarios</h2>
               <CommentsSection />
             </aside>
           </div>
@@ -164,7 +163,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={16} />
+              <GameGrid count={14} />
             </aside>
           </div>
 
@@ -173,7 +172,6 @@ const Game = () => {
               <GameDetails game={gameInfo} />
             </div>
             <aside className="comments-side">
-              <h2>Comentarios</h2>
               <CommentsSection />
             </aside>
           </div>

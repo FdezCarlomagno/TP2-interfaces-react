@@ -1,15 +1,18 @@
 .comments-container {
   width: 100%;
   max-width: 850px;
+  margin: 0 auto;
   background-color: #0e121d;
   color: #ffffff;
   padding: 1rem;
   border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  font-family: system-ui, sans-serif;
 }
 
 .comment-input-wrapper {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
   margin-bottom: 32px;
   padding-bottom: 24px;
@@ -25,14 +28,14 @@
 
 .comment-input {
   flex: 1;
-  background: transparent;
+  background: #222;
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  color: #ddd;
   font-size: 14px;
-  padding: 8px 0;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .comment-input::placeholder {
@@ -40,7 +43,23 @@
 }
 
 .comment-input:focus {
-  border-bottom-color: rgba(255, 255, 255, 0.5);
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.comments-scrollable {
+  max-height: 433px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.comments-scrollable::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments-scrollable::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
 }
 
 .comments-list {
@@ -53,6 +72,7 @@
 .comment {
   display: flex;
   gap: 16px;
+  margin-bottom: 1rem;
   animation: fadeIn 0.3s ease-in;
 }
 
@@ -75,8 +95,10 @@
 .comment-header {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
 .username {
@@ -94,38 +116,34 @@
   font-size: 14px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 12px 0;
+  margin: 4px 0 12px;
   word-wrap: break-word;
 }
 
 .comment-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .action-btn {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(109, 155, 255, 0.2);
+  background: none;
   border: none;
-  border-radius: 18px;
-  padding: 6px 12px;
-  color: rgba(255, 255, 255, 0.7);
+  color: #999;
   font-size: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: 0.2s;
 }
 
 .action-btn:hover {
-  background: rgba(109, 155, 255, 0.3);
-  color: #ffffff;
+  color: #ccc;
 }
 
 .action-btn.active {
-  background: rgba(109, 155, 255, 0.4);
-  color: #6d9bff;
+  color: #1e90ff;
 }
 
 .action-btn svg {
@@ -134,20 +152,16 @@
 }
 
 .reply-btn {
-  background: rgba(109, 155, 255, 0.2);
+  background: none;
   border: none;
-  border-radius: 18px;
-  padding: 6px 16px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
-  font-weight: 500;
+  color: #888;
   cursor: pointer;
-  transition: all 0.2s;
+  font-size: 0.9rem;
+  transition: color 0.2s;
 }
 
 .reply-btn:hover {
-  background: rgba(109, 155, 255, 0.3);
-  color: #ffffff;
+  color: #fff;
 }
 
 .load-more-btn {

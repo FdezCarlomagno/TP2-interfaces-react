@@ -1,116 +1,223 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import messiFace from "../../assets/imgs/messiFace.png";
-/*
-  BlockaGame (canvas only)
-  - Renders an image split into 4 quadrants, each initially rotated (random).
-  - Left click on a quadrant -> rotate +90deg. Right click -> rotate -90deg.
-  - Applies pixel-level filters by reading ImageData and modifying pixels in JS.
-  - Props:
-     - imageSrc: path to the image asset (default '/assets/messiFace.png')
-     - size: canvas size in px (square). Default 640.
-     - initialLevel: difficulty level (0 = no filter, 1 = grayscale, 2 = invert)
-  - No external libs. Prevents context menu on canvas to allow right-click handling.
-*/
+import messiBlocka2 from "../../assets/imgs/messiBlocka2.jpg";
+import messiBlocka3 from "../../assets/imgs/messiBlocka3.jpg";
+import messiBlocka4 from "../../assets/imgs/messiBlocka4.jpg";
+import messiBlocka5 from "../../assets/imgs/messiBlocka5.jpg";
+import messiBlocka6 from "../../assets/imgs/messiBlocka6.jpg";
 
-export default function BlockaGame({
-  imageSrc = messiFace,
-  size = 640,
-  initialLevel = 0,
-}) {
+import "./BlockaGame.css";
+
+export default function BlockaGame({ size = 240, initialLevel = 0 }) {
   const canvasRef = useRef(null);
   const imgRef = useRef(null);
-  const [rotations, setRotations] = useState([0, 90, 180, 270]); // degrees for each quadrant
+  const [rotations, setRotations] = useState([0, 90, 180, 270]);
   const [level, setLevel] = useState(initialLevel);
   const [loaded, setLoaded] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [imageSrc, setImageSrc] = useState(messiFace);
   const devicePixelRatioRef = useRef(window.devicePixelRatio || 1);
 
-  // shuffle initial rotations a bit for gameplay
-  useEffect(() => {
-    setRotations((r) =>
-      r
-        .map(() => [0, 90, 180, 270][Math.floor(Math.random() * 4)])
-        .slice(0, 4)
-    );
-  }, []);
+  const levelImages = [
+    messiFace,
+    messiBlocka2,
+    messiBlocka3,
+    messiBlocka4,
+    messiBlocka5,
+    messiBlocka6,
+  ];
 
-  // load image
+  // when level changes, pick image and reshuffle pieces
+  useEffect(() => {
+    const imgForLevel = levelImages[level % levelImages.length];
+    setImageSrc(imgForLevel);
+
+    // reshuffle rotations for the new level
+    setRotations(() =>
+      [0, 1, 2, 3].map(() => [0, 90, 180, 270][Math.floor(Math.random() * 4)])
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [level]);
+
+  // load current image
   useEffect(() => {
     const img = new Image();
     img.crossOrigin = "anonymous";
-    // support imported modules (imageSrc.default) or plain strings
     img.src = imageSrc && imageSrc.default ? imageSrc.default : imageSrc;
     img.onload = () => {
       imgRef.current = img;
       setLoaded(true);
-      draw(); // initial draw
+      draw(); // initial draw once loaded
     };
-    img.onerror = () => {
-      // fallback: mark not loaded so canvas shows placeholder; log for debugging
-      // eslint-disable-next-line no-console
-      console.error("BlockaGame: image failed to load:", imageSrc);
+    img.onerror = (err) => {
+      console.error("BlockaGame: image failed to load:", imageSrc, err);
       setLoaded(false);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageSrc]);
 
-  // utility: clamp
+  // helpers
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const rand = (n) => Math.floor(Math.random() * n);
 
-  // compute which quadrant given a canvas coordinate
   const getQuadrant = (x, y, w, h) => {
     const mx = w / 2;
     const my = h / 2;
-    if (x < mx && y < my) return 0; // top-left
-    if (x >= mx && y < my) return 1; // top-right
-    if (x < mx && y >= my) return 2; // bottom-left
-    return 3; // bottom-right
+    if (x < mx && y < my) return 0;
+    if (x >= mx && y < my) return 1;
+    if (x < mx && y >= my) return 2;
+    return 3;
   };
 
-  // rotate quadrant by delta degrees (multiple of 90)
-  const rotateQuadrant = useCallback(
-    (index, delta) => {
-      setRotations((prev) => {
-        const next = prev.slice();
-        next[index] = ((next[index] + delta) % 360 + 360) % 360;
-        return next;
-      });
-    },
-    [setRotations]
-  );
+  const rotateQuadrant = useCallback((index, delta) => {
+    setRotations((prev) => {
+      const next = [...prev];
+      next[index] = ((next[index] + delta) % 360 + 360) % 360;
+      return next;
+    });
+  }, []);
 
-  // handle left / right click
+  // pointer handlers
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const onPointerDown = (e) => {
-      // use bounding rect to compute coordinates
       const rect = canvas.getBoundingClientRect();
       const x = ((e.clientX - rect.left) * canvas.width) / rect.width;
       const y = ((e.clientY - rect.top) * canvas.height) / rect.height;
       const quadrant = getQuadrant(x, y, canvas.width, canvas.height);
-      if (e.button === 0) {
-        // left click
-        rotateQuadrant(quadrant, 90);
-      } else if (e.button === 2) {
-        // right click
-        rotateQuadrant(quadrant, -90);
-      }
+      if (e.button === 0) rotateQuadrant(quadrant, 90);
+      else if (e.button === 2) rotateQuadrant(quadrant, -90);
     };
-
-    // prevent the default context menu so right click is usable
-    const onContext = (e) => e.preventDefault();
-
+    const onContext = (ev) => ev.preventDefault();
     canvas.addEventListener("pointerdown", onPointerDown);
     canvas.addEventListener("contextmenu", onContext);
-
     return () => {
       canvas.removeEventListener("pointerdown", onPointerDown);
       canvas.removeEventListener("contextmenu", onContext);
     };
   }, [rotateQuadrant]);
 
-  // draw loop - draws 4 rotated quadrants then applies pixel filter depending on level
+  // pixel filters (mutates imageData.data)
+  const applyPixelFilter = (imageData, lvl) => {
+    const data = imageData.data;
+    const len = data.length;
+
+    // helpers inside to keep code tidy
+    const grayscaleAt = (i) => {
+      const r = data[i],
+        g = data[i + 1],
+        b = data[i + 2];
+      const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+      data[i] = data[i + 1] = data[i + 2] = lum;
+    };
+
+    const invertAt = (i) => {
+      data[i] = 255 - data[i];
+      data[i + 1] = 255 - data[i + 1];
+      data[i + 2] = 255 - data[i + 2];
+    };
+
+    // posterize helper (reduce color levels)
+    const posterizeAt = (i, levels = 4) => {
+      const step = 255 / (levels - 1);
+      data[i] = Math.round(data[i] / step) * step;
+      data[i + 1] = Math.round(data[i + 1] / step) * step;
+      data[i + 2] = Math.round(data[i + 2] / step) * step;
+    };
+
+    // contrast adjustment helper
+    const applyContrast = (i, contrast = 1.0) => {
+      // contrast: >1 increases, <1 decreases
+      const factor = (259 * (contrast * 255 + 255)) / (255 * (259 - contrast * 255));
+      data[i] = clamp(factor * (data[i] - 128) + 128, 0, 255);
+      data[i + 1] = clamp(factor * (data[i + 1] - 128) + 128, 0, 255);
+      data[i + 2] = clamp(factor * (data[i + 2] - 128) + 128, 0, 255);
+    };
+
+    // Level mapping to filters:
+    // 0 none, 1 grayscale, 2 invert, 3 noise, 4 desat+contrast, 5 posterize, 6 channel shift
+    if (lvl === 0) return;
+
+    if (lvl === 1) {
+      // grayscale
+      for (let i = 0; i < len; i += 4) grayscaleAt(i);
+      return;
+    }
+
+    if (lvl === 2) {
+      // invert
+      for (let i = 0; i < len; i += 4) invertAt(i);
+      return;
+    }
+
+    if (lvl === 3) {
+      // noise: small random jitter per pixel (keeps mean)
+      for (let i = 0; i < len; i += 4) {
+        const noise = (Math.random() - 0.5) * 80; // ±40
+        data[i] = clamp(data[i] + noise, 0, 255);
+        data[i + 1] = clamp(data[i + 1] + noise, 0, 255);
+        data[i + 2] = clamp(data[i + 2] + noise, 0, 255);
+      }
+      return;
+    }
+
+    if (lvl === 4) {
+      // desaturate + increase contrast
+      for (let i = 0; i < len; i += 4) {
+        // desat: blend towards luminance
+        const r = data[i],
+          g = data[i + 1],
+          b = data[i + 2];
+        const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+        // desaturate strongly
+        data[i] = r * 0.25 + lum * 0.75;
+        data[i + 1] = g * 0.25 + lum * 0.75;
+        data[i + 2] = b * 0.25 + lum * 0.75;
+        // then slight contrast boost
+        // contrast param from 0..1 where >0 increases contrast: choose 0.4
+        const factor = 1.2; // mild contrast
+        data[i] = clamp((data[i] - 128) * factor + 128, 0, 255);
+        data[i + 1] = clamp((data[i + 1] - 128) * factor + 128, 0, 255);
+        data[i + 2] = clamp((data[i + 2] - 128) * factor + 128, 0, 255);
+      }
+      return;
+    }
+
+    if (lvl === 5) {
+      // posterize (reduce color depth)
+      const levels = 5; // fewer levels -> harder
+      for (let i = 0; i < len; i += 4) posterizeAt(i, levels);
+      return;
+    }
+
+    if (lvl >= 6) {
+      // channel shift: shift R/G/B by a few pixels using a simple offset strategy.
+      // We'll build a copy and then shift pixels horizontally a few px for each channel.
+      const width = imageData.width;
+      const height = imageData.height;
+      const copy = new Uint8ClampedArray(data); // copy
+      const shift = 2 + ((lvl - 6) % 4); // shift 2..5 px depending on level
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const i = (y * width + x) * 4;
+          // source positions with wrap
+          const rx = (x - shift + width) % width;
+          const gx = (x + shift + width) % width;
+          const bx = (x + Math.floor(shift / 2) + width) % width;
+          const ri = (y * width + rx) * 4;
+          const gi = (y * width + gx) * 4;
+          const bi = (y * width + bx) * 4;
+          data[i] = copy[ri]; // R from shifted pos
+          data[i + 1] = copy[gi + 1]; // G from shifted pos
+          data[i + 2] = copy[bi + 2]; // B from shifted pos
+          // alpha stays same
+        }
+      }
+      return;
+    }
+  };
+
+  // draw function: draws quadrants then applies pixel filter based on level
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     const img = imgRef.current;
@@ -118,23 +225,23 @@ export default function BlockaGame({
     const ctx = canvas.getContext("2d");
     const dpr = devicePixelRatioRef.current || 1;
 
-    // logical size
     const w = size;
     const h = size;
 
-    // set canvas physical size for crisp rendering
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     canvas.style.width = `${w}px`;
     canvas.style.height = `${h}px`;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale ctx to handle DPR
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    // clear
+    // background
     ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "#0b1116";
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, "#081017");
+    grad.addColorStop(1, "#0f2533");
+    ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
-    // If image not loaded, draw a placeholder
     if (!img) {
       ctx.fillStyle = "#333";
       ctx.fillRect(20, 20, w - 40, h - 40);
@@ -144,35 +251,30 @@ export default function BlockaGame({
       return;
     }
 
-    // Determine source size - keep aspect ratio and crop to square center
     const srcW = img.width;
     const srcH = img.height;
     const side = Math.min(srcW, srcH);
-    const sx = Math.floor((srcW - side) / 2);
-    const sy = Math.floor((srcH - side) / 2);
+    const sx = (srcW - side) / 2;
+    const sy = (srcH - side) / 2;
     const cellW = w / 2;
     const cellH = h / 2;
     const srcCellW = side / 2;
     const srcCellH = side / 2;
 
-    // For each quadrant: compute source and destination rects, apply rotation
     const quadrants = [
-      { sx: sx, sy: sy, dx: 0, dy: 0 }, // top-left
-      { sx: sx + srcCellW, sy: sy, dx: cellW, dy: 0 }, // top-right
-      { sx: sx, sy: sy + srcCellH, dx: 0, dy: cellH }, // bottom-left
-      { sx: sx + srcCellW, sy: sy + srcCellH, dx: cellW, dy: cellH }, // bottom-right
+      { sx: sx, sy: sy, dx: 0, dy: 0 },
+      { sx: sx + srcCellW, sy: sy, dx: cellW, dy: 0 },
+      { sx: sx, sy: sy + srcCellH, dx: 0, dy: cellH },
+      { sx: sx + srcCellW, sy: sy + srcCellH, dx: cellW, dy: cellH },
     ];
 
     quadrants.forEach((q, idx) => {
       const rot = (rotations[idx] || 0) * (Math.PI / 180);
-      // draw each quadrant centered in its destination cell with rotation
       const cx = q.dx + cellW / 2;
       const cy = q.dy + cellH / 2;
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(rot);
-      // When rotated by 90/270, width/height swap. drawImage draws at top-left relative to rotated origin.
-      // We want the quadrant to fit into cellW x cellH.
       ctx.drawImage(
         img,
         q.sx,
@@ -187,56 +289,23 @@ export default function BlockaGame({
       ctx.restore();
     });
 
-    // Apply pixel filter according to level
+    // apply pixel filter for difficulty - we read and write pixel data manually
     if (level > 0) {
       try {
         const imageData = ctx.getImageData(0, 0, w, h);
-        const data = imageData.data;
-        // iterate pixels with classic double-for but linear indexing for speed
-        // level 1: grayscale, level 2: invert, level >=3: invert + mild desaturate
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i];
-          const g = data[i + 1];
-          const b = data[i + 2];
-          if (level === 1) {
-            // grayscale
-            const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-            data[i] = data[i + 1] = data[i + 2] = lum;
-          } else if (level === 2) {
-            // invert
-            data[i] = 255 - r;
-            data[i + 1] = 255 - g;
-            data[i + 2] = 255 - b;
-          } else {
-            // combined: invert then partial desaturate
-            let nr = 255 - r;
-            let ng = 255 - g;
-            let nb = 255 - b;
-            const lum = 0.299 * nr + 0.587 * ng + 0.114 * nb;
-            // blend lum and inverted color depending on level (more level -> more desat)
-            const t = clamp((level - 2) / 3, 0, 1); // normalized extra
-            data[i] = nr * (1 - t) + lum * t;
-            data[i + 1] = ng * (1 - t) + lum * t;
-            data[i + 2] = nb * (1 - t) + lum * t;
-          }
-          // alpha stays the same (data[i+3])
-        }
+        applyPixelFilter(imageData, level);
         ctx.putImageData(imageData, 0, 0);
       } catch (err) {
-        // security error if CORS blocked - ignore filter in that case
-        // (To avoid this, ensure image is served with CORS allowed or placed in public folder)
+        // CORS or security restrictions may block getImageData; warn and skip filter
         // eslint-disable-next-line no-console
-        console.warn("Unable to apply pixel filter (CORS?)", err);
+        console.warn("Pixel filter could not be applied (CORS/security):", err);
       }
     }
 
-    // small border and indicators
+    // decorations
     ctx.strokeStyle = "rgba(255,255,255,0.06)";
     ctx.lineWidth = 2;
     ctx.strokeRect(1, 1, w - 2, h - 2);
-
-    // draw quadrant separators
-    ctx.strokeStyle = "rgba(255,255,255,0.06)";
     ctx.beginPath();
     ctx.moveTo(w / 2, 0);
     ctx.lineTo(w / 2, h);
@@ -245,53 +314,58 @@ export default function BlockaGame({
     ctx.stroke();
   }, [size, rotations, level]);
 
-  // redraw whenever rotations or level or image change
+  // when rotations change, redraw and detect completion
   useEffect(() => {
     draw();
-  }, [rotations, level, draw, loaded]);
+    const completed = rotations.every((r) => r % 360 === 0);
+    if (completed && !isCompleted) {
+      setIsCompleted(true);
+      // after short delay, advance level and reshuffle (reshuffle happens on level effect)
+      setTimeout(() => {
+        setLevel((lvl) => lvl + 1);
+      }, 900);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rotations]);
 
-  // controls: keyboard for level +/- and reset/shuffle
+  // turn off completion flag after animation
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "+" || e.key === "=") setLevel((v) => Math.min(v + 1, 6));
-      if (e.key === "-") setLevel((v) => Math.max(v - 1, 0));
-      if (e.key === "r") {
-        setRotations((r) =>
-          r.map(() => [0, 90, 180, 270][Math.floor(Math.random() * 4)])
-        );
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+    if (isCompleted) {
+      const t = setTimeout(() => setIsCompleted(false), 1400);
+      return () => clearTimeout(t);
+    }
+  }, [isCompleted]);
 
-  // UI: small controls but canvas-only rendering for the game area (controls outside canvas allowed)
+  // expose some controls: shuffle, reset, level +/- etc.
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+    <div className="blocka-container">
       <canvas
         ref={canvasRef}
-        style={{ cursor: "pointer", background: "#051015", borderRadius: 8 }}
+        className={`blocka-canvas ${isCompleted ? "completed" : ""}`}
         width={size}
         height={size}
         onContextMenu={(e) => e.preventDefault()}
       />
-      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      {isCompleted && <div className="blocka-win">¡Nivel completado!</div>}
+
+      <div className="blocka-controls">
         <button
           onClick={() =>
-            setRotations((r) => r.map(() => [0, 90, 180, 270][Math.floor(Math.random() * 4)]))
+            setRotations(() =>
+              [0, 1, 2, 3].map(() => [0, 90, 180, 270][Math.floor(Math.random() * 4)])
+            )
           }
         >
-          Mezclar
+          🔀 Mezclar
         </button>
-        <button onClick={() => setRotations([0, 0, 0, 0])}>Restablecer</button>
-        <button onClick={() => setLevel((v) => Math.max(0, v - 1))}>Nivel -</button>
-        <div style={{ minWidth: 80, textAlign: "center" }}>Nivel: {level}</div>
-        <button onClick={() => setLevel((v) => Math.min(6, v + 1))}>Nivel +</button>
+        <button onClick={() => setLevel((v) => Math.max(0, v - 1))}>⬇ Nivel -</button>
+        <span className="blocka-level">Nivel: {level}</span>
+        <button onClick={() => setLevel((v) => Math.min(100, v + 1))}>⬆ Nivel +</button>
       </div>
-      <div style={{ fontSize: 12, color: "#999", maxWidth: 600, textAlign: "center" }}>
-        Click izquierdo: rota +90°. Click derecho: rota -90°. Los filtros se aplican recorriendo los
-        píxeles (JS). Asegurate de que la imagen esté servida con CORS si está en otro origen.
-      </div>
+
+      <p className="blocka-hint">
+        🖱️ Click izquierdo: rota +90°. Click derecho: rota -90°. Cualquier nivel puede aplicar un filtro.
+      </p>
     </div>
   );
 }

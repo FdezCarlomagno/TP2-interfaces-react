@@ -1,6 +1,7 @@
 /* Section container constrained to left column under the main media */
 .gameplay-section {
-  margin: 4rem 0 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .gameplay-title {

@@ -10,7 +10,6 @@
     display: flex;
     flex-direction: column; /* mobile: stack */
     gap: 1rem;
-    margin-bottom: 1.5rem;
 }
 .game-media {
     width: 100%;
@@ -24,6 +23,7 @@
     margin: 0 1rem 1rem;
 }
 
+
 @media (min-width: 1024px) {
     .gameplay-under-media {
         margin: 0 0 1rem 0;
@@ -35,7 +35,6 @@
     .game-top-layout {
         flex-direction: row;
         align-items: flex-start;
-        gap: 2rem;
     }
 
     /* Game media takes remaining space, keep 16:9 aspect inside */
@@ -54,8 +53,7 @@
 .details-comments-layout {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin: 1rem;
+
 }
 .details-main {
     width: 100%;
