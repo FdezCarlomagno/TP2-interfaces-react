@@ -32,13 +32,6 @@ return (
               >
                 {isPremium ? "Subscribirse" : "Jugar"}
               </button>
-              <button
-                className="action-button"
-                style={{ padding: '14px 20px', background: 'rgba(255,255,255,0.06)', color: 'white' }}
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-                Ver Detalles
-              </button>
             </div>
           </>
         ) : (

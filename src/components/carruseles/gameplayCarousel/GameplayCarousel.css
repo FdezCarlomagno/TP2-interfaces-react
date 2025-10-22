@@ -1,31 +1,40 @@
 /* Section container constrained to left column under the main media */
 .gameplay-section {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .gameplay-title {
-  margin: 0 0 0.75rem 0.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
 }
 
 /* Wrapper aligns with layout and keeps width flexible */
 .gameplay-wrapper {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 8px;
+  margin-right: 1rem;
 }
 
 .gameplay-nav {
-  background: rgba(0,0,0,0.4);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: none;
   width: 36px;
-  height: 120px;
+  height: 200px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.gameplay-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .gameplay-viewport {
@@ -35,35 +44,119 @@
 
 .gameplay-track {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   transition: transform 0.35s ease;
 }
 
-/* Cards slightly larger look */
+/* YouTube-style cards */
 .gameplay-card {
-  flex: 0 0 calc(33.333% - 6px);
-  min-width: 220px;
-  max-width: 320px;
+  flex: 0 0 calc(33.333% - 11px);
+  min-width: 280px;
+  max-width: 360px;
   background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.gameplay-image {
+.gameplay-card:hover {
+  transform: translateY(-4px);
+}
+
+.gameplay-thumbnail {
+  position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
+  margin-bottom: 12px;
 }
 
-.gameplay-image img {
+.gameplay-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gameplay-card:hover .gameplay-thumbnail img {
+  transform: scale(1.05);
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.video-info {
+  display: flex;
+  gap: 12px;
+}
+
+.channel-avatar {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.channel-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.gameplay-name {
-  margin-top: 8px;
+.video-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.video-title {
   font-size: 14px;
-  text-align: center;
+  font-weight: 600;
   color: #fff;
-  opacity: 0.9;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.channel-name {
+  font-size: 13px;
+  color: #aaa;
+  margin: 0 0 4px 0;
+}
+
+.video-stats {
+  font-size: 13px;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .gameplay-card {
+    flex: 0 0 calc(50% - 8px);
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gameplay-card {
+    flex: 0 0 calc(100% - 8px);
+    min-width: 280px;
+  }
+  
+  .gameplay-nav {
+    height: 180px;
+  }
 }

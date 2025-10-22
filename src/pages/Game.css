@@ -45,7 +45,8 @@
 
     /* Sidebar with grid fixed width */
     .game-grid-side {
-        flex: 0 0 320px; /* adjust as desired */
+        flex: 0 0 300px; /* adjust as desired */
+        margin-bottom: 1rem;
     }
 }
 
@@ -62,9 +63,15 @@
     width: 100%;
 }
 
+.comments-grid {
+    display: flex;
+    gap: 2rem;
+}
+
 @media (min-width: 1024px) {
     .details-comments-layout {
         flex-direction: row;
+        justify-content: space-between;
         align-items: flex-start;
         gap: 2rem;
     }

@@ -85,7 +85,7 @@ const Game = () => {
     released: "2023-01-01",
     genres: [{ name: "Casual" }, { name: "Puzzle" }],
     description:
-      "blocka game es un juego de lógica y estrategia en el que el objetivo es armar una imagen a partir de 4 piezas moviles.",
+      "Blocka Game es un desafiante juego de lógica y estrategia en el que el objetivo principal es reconstruir una imagen dividiéndola en cuatro piezas móviles que el jugador debe deslizar para colocarlas en su posición correcta. A medida que avanzas de nivel, la dificultad aumenta progresivamente: las imágenes se vuelven más complejas y se les aplican distintos filtros visuales —como desenfoques, cambios de color o contrastes más bajos— que dificultan la percepción de los detalles. Cada nuevo nivel pone a prueba tu memoria visual, tu capacidad de observación y tu habilidad para planificar movimientos eficientes. ¡Cuantos más niveles superes, más desafiantes serán los efectos y las combinaciones visuales que deberás descifrar para resolver el puzzle final!",
     platforms: [{ platform: { name: "Web" } }],
     publishers: [{ name: "GameHub" }],
     developers: [{ name: "GameHub Devs" }],
@@ -113,7 +113,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={14} />
+              <GameGrid count={16} />
             </aside>
           </div>
 
@@ -121,10 +121,10 @@ const Game = () => {
             <div className="details-main">
               <GameDetails game={peg} />
             </div>
-            <aside className="comments-side">
-              <h2>Comentarios</h2>
-              <CommentsSection />
-            </aside>
+          </div>
+             <div className="comments-grid">
+            <CommentsSection />
+            <GameGrid count={12} />
           </div>
         </>
       ) : location.pathname === "/juegos/blocka" ? (
@@ -137,19 +137,21 @@ const Game = () => {
                 <GameplayCarousel />
               </div>
             </div>
-          <aside className="game-grid-side">
-            <GameGrid count={14} />
-          </aside>
+            <aside className="game-grid-side">
+              <GameGrid count={16} />
+            </aside>
           </div>
 
-         <div className="details-comments-layout">
+          <div className="details-comments-layout">
             <div className="details-main">
               <GameDetails game={blocka} />
             </div>
-            <aside className="comments-side">
-              <CommentsSection />
-            </aside>
           </div>
+             <div className="comments-grid">
+            <CommentsSection />
+            <GameGrid count={12} />
+          </div>
+
         </>
       ) : (
         <>
@@ -163,7 +165,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={14} />
+              <GameGrid count={16} />
             </aside>
           </div>
 
@@ -171,11 +173,11 @@ const Game = () => {
             <div className="details-main">
               <GameDetails game={gameInfo} />
             </div>
-            <aside className="comments-side">
-              <CommentsSection />
-            </aside>
           </div>
-          
+          <div className="comments-grid">
+            <CommentsSection />
+            <GameGrid count={12} />
+          </div>
         </>
       )}
       {/* Carruseles con demas juegos, misma funcionalidad que los que estan en App.jsx */}
@@ -185,7 +187,7 @@ const Game = () => {
         startIndex={27}
         endIndex={35}
       ></ReusableGamesCarousel>
-    
+
       <ReusableGamesCarousel
         title="Deportes"
         imageSize="medium"

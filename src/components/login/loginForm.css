@@ -247,6 +247,7 @@ body {
   background: #0e121d;
   padding: 40px 48px;
   border-radius: 14px;
+  margin-bottom: 2rem;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);

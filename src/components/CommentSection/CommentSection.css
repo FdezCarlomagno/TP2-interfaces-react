@@ -1,13 +1,11 @@
 .comments-container {
   width: 100%;
-  max-width: 850px;
   margin: 0 auto;
   background-color: #0e121d;
   color: #ffffff;
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  font-family: system-ui, sans-serif;
 }
 
 .comment-input-wrapper {

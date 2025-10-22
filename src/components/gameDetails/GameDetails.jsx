@@ -1,7 +1,7 @@
 import "./GameDetails.css";
 import GameGrid from "../GameGrid/GameGrid";
 
-const GameDetails = ({ game, descriptionLimit = 500 }) => {
+const GameDetails = ({ game, descriptionLimit = 1000 }) => {
   if (!game) return null;
 
   // Format date to Spanish format
