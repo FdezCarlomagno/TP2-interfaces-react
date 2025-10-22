@@ -20,7 +20,7 @@
 
 /* Logo izquierda */
 .logoGamehub img {
-  width: 42px;
+  width: 150px;
   height: auto;
 }
 
@@ -56,19 +56,31 @@
   transform: translateY(-2px);
 }
 
+ .logoGamehub img {
+    display: none;
+  }
+
 /* ===== Desktop (≥768px) ===== */
 @media (min-width: 768px) {
 
   /* Mostrar los links */
   .navbar ul {
     display: flex;
-    flex: 1;
+    align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+  }
+
+  .navbar li {
+    display: flex;
+    
   }
 
   .logoGamehub {
     margin-left: 2rem;
+  }
+
+   .logoGamehub img {
+    display: block;
   }
 
   .logoPerfil {

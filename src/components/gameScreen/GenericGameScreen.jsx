@@ -2,14 +2,16 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import PegSolitaire from "../pegSolitaire/PegSolitaire";
 import './GameScreen.css'
-import gamehubLogo from '../../assets/logo.svg'
+import gamehubLogo from '../../assets/imageLogo.svg'
 import BlockaGame from "../blockaGame/BlockaGame";
 
 const GenericGameScreen = ({game, isPremium}) => {
   const location = useLocation();
   const [isPlaying, setIsPlaying] = useState(false)
 
-  
+  const handleExitBlocka = () => {
+    setIsPlaying(false)
+  }
  
 return (
     <div className="game-screen">
@@ -35,19 +37,12 @@ return (
             </div>
           </>
         ) : (
-          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-              <button
-                className="action-button"
-                style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.06)', color: 'white' }}
-                onClick={() => setIsPlaying(false)}
-              >
-                Cerrar
-              </button>
+          <div>
+            <div>
             </div>
             <div className="game-play-area">
               {location.pathname.includes('/juegos/peg') &&<PegSolitaire />}
-              {location.pathname.includes('/juegos/blocka') &&<BlockaGame />}
+              {location.pathname.includes('/juegos/blocka') &&<BlockaGame onExit={handleExitBlocka} />}
 
             </div>
           </div>

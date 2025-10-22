@@ -2,9 +2,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 14px;
   color: #eee;
   text-align: center;
+}
+
+.blocka-game {
+  position: relative;
+  display: inline-block;
 }
 
 .blocka-canvas {
@@ -13,6 +19,8 @@
   cursor: pointer;
   transition: box-shadow 0.3s ease;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  display: block;
 }
 
 .blocka-canvas.completed {
@@ -42,7 +50,7 @@
 .blocka-win,
 .blocka-final {
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   animation: fadeIn 0.8s ease;
 }
 
@@ -56,17 +64,14 @@
   margin-top: 8px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
 .blocka-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
 }
+
+
 
 .blocka-controls button {
   background-color: #1c2533;
@@ -79,17 +84,55 @@
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.blocka-controls button:hover {
+
+.blocka-controls button:hover, .close-game:hover{
   background-color: #2f3d58;
   transform: translateY(-2px);
 }
 
 .blocka-level {
+  background: #2a3047;
+  color: #9ec3ff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+}
+
+.blocka-timer {
+  text-align: center;
+  margin-bottom: 8px;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.blocka-timer.hidden {
+  display: none;
+}
+
+.timer-display {
+  font-size: 1em;
   font-weight: bold;
-  color: #6d9bff;
-  padding: 0.4rem 1rem;
-  border-radius: 6px;
-  background-color: rgba(109, 155, 255, 0.1);
+  color: #ffffff;
+}
+
+.level-time, 
+.total-time {
+  font-size: 1.1em;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.blocka-instructions-overlay {
+  position: absolute;
+  top: 0;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.8);
+  display: flex;
+  backdrop-filter: blur(2px);
+  width: 300px;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
 .blocka-instructions {
@@ -119,100 +162,102 @@
   margin-bottom: 0.4rem;
 }
 
-.blocka-hint {
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-top: 8px;
-}
 
-
-.blocka-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.blocka-game {
-  position: relative;
-  display: inline-block;
-}
-
-.blocka-canvas {
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  display: block;
-}
-
-/* --- Overlay dentro del canvas --- */
-.blocka-instructions-overlay {
+.close-game.reset {
   position: absolute;
-  inset: 0;
-  background: rgba(10, 10, 20, 0.8);
-  display: flex;
-  backdrop-filter: blur(2px);
-  width: 300px;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+  top: 40px;
+  right: 0px;
+  width: 100px;
 }
 
-.blocka-instructions {
-  background: #1d2235;
-  color: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  position: relative;
-  text-align: left;
-  animation: fadeIn 0.3s ease;
-}
-
-.blocka-instructions h3 {
-  text-align: center;
-  color: #7da2ff;
-  margin-bottom: 0.5rem;
-}
-
-.blocka-instructions ul {
-  margin: 0.5rem 0 0;
-  padding-left: 1.2rem;
-  font-size: 0.9rem;
-}
-
-.close-btn {
+.close-game {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0px;
+  right: 0px;
   background: none;
+  width: 100px;
   border: none;
   color: white;
-  font-size: 1.2rem;
+  background: #0b1116;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.2s;
+  opacity: 1;
+  transition: all ease-in-out 100ms;
 }
 
-.close-btn:hover {
-  opacity: 1;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
 
-.blocka-controls {
-  margin-top: 1rem;
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
+/* Responsive */
+@media (max-width: 768px) {
+  .timer-display {
+    font-size: 1.5em;
+  }
 }
 
-.blocka-level {
-  background: #2a3047;
-  color: #9ec3ff;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+.blocka-preview {
+  margin-top: 5rem;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
 }
+
+.preview-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  opacity: 0.4;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.preview-thumb.active {
+  opacity: 1;
+  transform: scale(1.15);
+  border: 2px solid #6d9bff;
+  box-shadow: 0 0 8px #6d9bff;
+}
+
+
+.final-preview-image-container {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.final-preview-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  transform: scale(0.8);
+  animation: zoomIn 0.8s forwards;
+}
+
+@keyframes zoomIn {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.blocka-canvas.hidden {
+  visibility: hidden;
+}
+
+.blocka-controls.hidden,
+.blocka-timer.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+

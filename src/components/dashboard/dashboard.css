@@ -116,8 +116,8 @@
   /* 🔹 Mostrar botón flotante hamburguesa */
   .menuButton {
     position: fixed;
-    top: 0.5rem;
-    left: 1rem;
+    top: 0.7rem;
+    left: 0.5rem;
     background: #0A0A0A;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
@@ -130,8 +130,8 @@
   }
 
   .menuButton img {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
   }
 
   /* 🔹 Sidebar fullscreen cuando está abierto */
@@ -140,7 +140,6 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
     height: 100vh;
     background-color: rgba(10, 10, 10, 0.97);
     justify-content: flex-start;
@@ -152,6 +151,7 @@
     z-index: 9999;
     animation: fadeIn 0.3s ease-in-out;
   }
+
 
   .dashboard.mobileOpen .dashboardItem p {
     opacity: 1;

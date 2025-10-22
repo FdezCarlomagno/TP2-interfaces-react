@@ -18,13 +18,17 @@ import Game from "./pages/Game"
 import TagSection from "./components/TagSection/TagSection"
 import './App.css'
 import GameGrid from "./components/GameGrid/GameGrid";
+import Sombra from "./components/sombra/Sombra";
 
 function Home() {
   return (
     <>
+  <Sombra id="sombra1" color="#FF8D8D" pos="20% 30%" size="20vmax" />
+  <Sombra id="sombra2" color="#FF1C8A" pos="80% 70%" size="20vmax" />
+
     <div className="title-main-section">
       <div>
-        <h1>GAMEHUB.COM</h1>
+        <h1 style={{ zIndex: 1000}}>GAMEHUB.COM</h1>
         <p className="subtitleMain">Todos tus juegos favoritos están acá</p>
       </div>
         {/**SECCION DE TAGS*/}

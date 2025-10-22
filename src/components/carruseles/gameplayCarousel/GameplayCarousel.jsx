@@ -1,11 +1,11 @@
 import React from "react";
 import "./GameplayCarousel.css";
-import messi1 from "../../../assets/imgs/Messi.png";
+import messi1 from "../../../assets/imgs/gamePreview1.png";
 import messi2 from "../../../assets/imgs/messiBlocka2.jpg";
-import messi3 from "../../../assets/imgs/messiBlocka3.jpg";
+import messi3 from "../../../assets/imgs/gamePreview2.png";
 import messi4 from "../../../assets/imgs/messiBlocka4.jpg";
 import messi5 from "../../../assets/imgs/messiBlocka5.jpg";
-import messi6 from "../../../assets/imgs/messiBlocka6.jpg";
+import messi6 from "../../../assets/imgs/gamePreview3.png";
 
 // Dataset de gameplays estilo YouTube con temática Blocka Game
 const GAMEPLAY_ITEMS = [
