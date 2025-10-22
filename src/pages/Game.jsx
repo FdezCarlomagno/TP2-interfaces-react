@@ -11,6 +11,7 @@ import CommentsSection from "../components/CommentSection/CommentsSection";
 import "./Game.css";
 import BlockaGame from "../components/blockaGame/BlockaGame";
 import GameplayCarousel from "../components/carruseles/gameplayCarousel/GameplayCarousel";
+import blockaFondo from "../assets/imgs/blockaFondo.jpg";
 
 const Game = () => {
   /**
@@ -79,8 +80,8 @@ const Game = () => {
   const blocka = {
     id: "blocka",
     name: "Blocka game",
-    background_image_low_res: pegImg,
-    background_image: pegImg,
+    background_image_low_res: blockaFondo,
+    background_image: blockaFondo,
     rating: 4.5,
     released: "2023-01-01",
     genres: [{ name: "Casual" }, { name: "Puzzle" }],

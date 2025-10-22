@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { useAppContext } from "../../../context/AppContext"
 import "./carruselPrincipal.css"
 import { useNavigate } from "react-router-dom"
+import blockaImgFondo from "../../../assets/imgs/blockaFondo.jpg" 
+
 
 const VideogamesCarousel = () => {
   /**
@@ -23,8 +25,8 @@ const VideogamesCarousel = () => {
   const blockaGame={
     id: "blocka",
     name: "Blocka Game",
-    background_image_low_res: "https://i.imgur.com/3ZQ3Z8Y.png",
-    background_image: "https://i.imgur.com/3ZQ3Z8Y.png",
+    background_image_low_res: blockaImgFondo,
+    background_image: blockaImgFondo,
     rating: 4.2,
     released: "2023-01-15",
   }
