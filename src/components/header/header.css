@@ -20,8 +20,7 @@
 
 /* Logo izquierda */
 .logoGamehub img {
-  width: 150px;
-  height: auto;
+  display: none;
 }
 
 /* Perfil derecha */
@@ -56,35 +55,30 @@
   transform: translateY(-2px);
 }
 
- .logoGamehub img {
-    display: none;
-  }
-
 /* ===== Desktop (≥768px) ===== */
 @media (min-width: 768px) {
 
   /* Mostrar los links */
   .navbar ul {
     display: flex;
-    align-items: center;
+    flex: 1;
     justify-content: space-between;
-  }
-
-  .navbar li {
-    display: flex;
-    
+    gap: 2rem;
   }
 
   .logoGamehub {
     margin-left: 2rem;
+    align-self: center;
   }
-
-   .logoGamehub img {
+  .logoGamehub img {
     display: block;
+    width: 150px;
+    height: auto;
   }
 
   .logoPerfil {
     margin-right: 1.5rem;
+    align-self: center;
   }
 
   .logoPerfil img {
