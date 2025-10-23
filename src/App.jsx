@@ -45,7 +45,7 @@ function Home() {
 
         {/* GameGrid visible solo en mobile bajo el hero */}
         <div className="home-mobile-only">
-          <GameGrid />
+          <GameGrid count={16} category="Populares"/>
         </div>
 
         <div>
@@ -65,7 +65,7 @@ function Home() {
 
           {/* GameGrid visible solo en mobile debajo de Oferta del Mes */}
           <div className="home-mobile-only">
-            <GameGrid />
+            <GameGrid start={17} count={33} category="Nuevos"/>
           </div>
 
           <ReusableGamesCarousel title="Nuevos Lanzamientos" imageSize="medium" startIndex={10} endIndex={20} />
@@ -74,7 +74,7 @@ function Home() {
 
           {/* GameGrid visible solo en mobile debajo de Cross-Platform */}
           <div className="home-mobile-only">
-            <GameGrid />
+            <GameGrid start={34} count={56} category="Acción"/>
           </div>
           <ReusableGamesCarousel
             title="Shooters"

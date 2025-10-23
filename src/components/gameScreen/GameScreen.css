@@ -169,55 +169,52 @@
   min-width: 20px;
   text-align: center;
 }
-
-/* Botón Premium con animación de coronita */
+/* Botón Premium con animación de atención */
 .action-button.premium {
   position: relative;
-  padding: 12px 24px;
+  padding: 14px 80px;
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(245, 87, 108, 0.3);
+  box-shadow: 0 0 20px rgba(245, 87, 108, 0.4);
+  animation: premiumPulse 2.5s ease-in-out infinite;
 }
 
-/* Efecto hover básico */
+/* Efecto hover más brillante */
 .action-button.premium:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(245, 87, 108, 0.5);
-}
-
-/* Coronita que aparece al hacer hover */
-.action-button.premium::after {
-  content: "👑";
-  position: absolute;
-  right: -20px;
-  top: 50%;
-  transform: translateY(-50%) scale(0);
-  font-size: 1.2em;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.action-button.premium:hover::after {
-  right: 15px;
-  transform: translateY(-50%) scale(1);
-  opacity: 1;
-}
-
-/* Efecto de brillo en el texto al hacer hover */
-.action-button.premium:hover {
+  transform: translateY(-2px) scale(1.03);
   background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 50%, #f5576c 100%);
   background-size: 200% 200%;
-  animation: premiumShine 2s ease-in-out;
+  animation: premiumShine 2s ease-in-out, premiumPulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(245, 87, 108, 0.7);
 }
 
+/* Animación de parpadeo/pulso */
+@keyframes premiumPulse {
+  0% {
+    box-shadow: 0 0 12px rgba(245, 87, 108, 0.3),
+                0 0 25px rgba(240, 147, 251, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(245, 87, 108, 0.7),
+                0 0 60px rgba(240, 147, 251, 0.5);
+    transform: scale(1.04);
+  }
+  100% {
+    box-shadow: 0 0 12px rgba(245, 87, 108, 0.3),
+                0 0 25px rgba(240, 147, 251, 0.2);
+    transform: scale(1);
+  }
+}
+
+/* Efecto de brillo desplazándose */
 @keyframes premiumShine {
   0% {
     background-position: 0% 50%;
@@ -228,27 +225,4 @@
   100% {
     background-position: 0% 50%;
   }
-}
-
-/* Pequeña animación de pulso en la coronita */
-.action-button.premium:hover::after {
-  animation: crownPulse 1s ease-in-out infinite;
-}
-
-@keyframes crownPulse {
-  0%, 100% {
-    transform: translateY(-50%) scale(1);
-  }
-  50% {
-    transform: translateY(-50%) scale(1.1);
-  }
-}
-
-/* Ajuste de padding para cuando aparece la coronita */
-.action-button.premium {
-  transition: padding-right 0.4s ease;
-}
-
-.action-button.premium:hover {
-  padding-right: 45px;
 }

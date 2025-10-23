@@ -124,19 +124,40 @@
 
 .blocka-instructions-overlay {
   position: absolute;
-  top: 0;
-  inset: 0;
-  background: rgba(10, 10, 20, 0.8);
+  top: 0px;
+  bottom: -60px;
+  left: 0px;
   display: flex;
-  backdrop-filter: blur(2px);
   width: 300px;
   align-items: center;
   justify-content: center;
   z-index: 10;
 }
 
+.instructions-close:hover {
+  background: #2f3d58;
+  transform: translateY(-2px);
+}
+
+.close-game.disabled,
+.close-game:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #1a1f2d;
+  color: #888;
+  box-shadow: none;
+  transform: none;
+  transition: none;
+}
+
+.close-game.disabled:hover,
+.close-game:disabled:hover {
+  background: #1a1f2d;
+  transform: none;
+}
+
 .blocka-instructions {
-  background: rgba(15, 20, 35, 0.95);
+  background: rgba(15, 20, 35);
   border-radius: 12px;
   padding: 1rem 1.2rem;
   max-width: 300px;
@@ -166,14 +187,14 @@
 .close-game.reset {
   position: absolute;
   top: 40px;
-  right: 0px;
+  right: -100px;
   width: 100px;
 }
 
 .close-game {
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: -100px;
   background: none;
   width: 100px;
   border: none;
@@ -259,5 +280,31 @@
   opacity: 0;
   pointer-events: none;
 }
+
+.instructions-close {
+  display: block;
+  margin: 0.8rem auto 0 auto;
+  background: #1c2533;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.1s;
+}
+
+/* Efecto visual de ayuda */
+.blocka-canvas.help-flash {
+  animation: helpFlash 0.8s ease-in-out;
+}
+
+@keyframes helpFlash {
+  0% { box-shadow: 0 0 20px 6px rgba(255, 0, 0, 0.8); }
+  50% { box-shadow: 0 0 40px 10px rgba(255, 0, 0, 0.9); }
+  100% { box-shadow: 0 0 20px 6px rgba(255, 0, 0, 0); }
+}
+
+
 
 

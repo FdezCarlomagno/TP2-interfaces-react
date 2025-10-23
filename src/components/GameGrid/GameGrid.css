@@ -76,3 +76,19 @@
   border-radius: 12px;
 }
 
+.category-container-grid {
+  margin-bottom: 1rem;
+  padding: 0.3rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #6d9bff54;
+}
+
+.separation-bar {
+  height: 2px;
+  border: 1px solid #6d9bff20;
+  margin-bottom: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+

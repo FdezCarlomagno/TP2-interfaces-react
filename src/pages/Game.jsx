@@ -12,6 +12,7 @@ import "./Game.css";
 import BlockaGame from "../components/blockaGame/BlockaGame";
 import GameplayCarousel from "../components/carruseles/gameplayCarousel/GameplayCarousel";
 import blockaFondo from "../assets/imgs/blockaFondo.jpg";
+import Controls from "../components/gameDetails/Controls";
 
 const Game = () => {
   /**
@@ -114,7 +115,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={16} />
+               <Controls game={peg}></Controls>
             </aside>
           </div>
 
@@ -139,7 +140,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={16} />
+              <Controls game={blocka}></Controls>
             </aside>
           </div>
 
@@ -166,7 +167,7 @@ const Game = () => {
               </div>
             </div>
             <aside className="game-grid-side">
-              <GameGrid count={16} />
+              <Controls game={blocka}></Controls>
             </aside>
           </div>
 

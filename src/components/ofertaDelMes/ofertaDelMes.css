@@ -159,12 +159,16 @@
 
 @media (max-width: 480px) {
   .oferta-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .categoria-badge {
+    gap: 0px;
   }
 
   .categoria-badge {
     align-self: flex-end;
+  }
+  .boton-jugar {
+    width: 100% !important;
   }
 }

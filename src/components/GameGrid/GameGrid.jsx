@@ -4,7 +4,7 @@ import { useAppContext } from "../../context/AppContext"
 import "./GameGrid.css"
 import { useNavigate } from "react-router-dom"
 
-const GameGrid = ({ count = 10 }) => {
+const GameGrid = ({ start = 0, count = 10, category = "Recomendados" }) => {
   const { games: allGames, loading, setSelectedGame } = useAppContext()
   const nav = useNavigate()
   
@@ -27,10 +27,12 @@ const GameGrid = ({ count = 10 }) => {
     )
   }
 
-  const displayedGames = allGames.slice(0, count)
+  const displayedGames = allGames.slice(start, count)
 
   return (
     <div className="game-grid-wrapper">
+      <p className="category-container-grid">{category}</p>
+      <div className="separation-bar"></div>
       <div className="game-grid">
         {displayedGames.map((game) => (
           <div

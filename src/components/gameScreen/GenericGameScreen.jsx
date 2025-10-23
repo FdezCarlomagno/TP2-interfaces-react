@@ -32,7 +32,7 @@ return (
                 className={`action-button ${isPremium ? "premium" : "play"}`}
                 onClick={() => setIsPlaying(true)}
               >
-                {isPremium ? "Subscribirse" : "Jugar"}
+                {isPremium ? "Mejorá tu plan" : "Jugar"}
               </button>
             </div>
           </>

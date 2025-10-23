@@ -119,35 +119,7 @@ const GameDetails = ({ game, descriptionLimit = 1000 }) => {
         )}
       </div>
 
-      {/* Right side with game image and controls */}
-      <div className="details-right">
-        <div className="game-image-container">
-          <img
-            src={game.background_image_low_res || game.background_image}
-            alt={game.name}
-            className="details-game-image"
-          />
-        </div>
-
-        <div className="controls-section">
-          <h3 className="controls-title">Controles</h3>
-          <div className="controls-info">
-            <p className="control-item">
-              <span className="control-label">Movimiento de la ficha:</span>
-              <span className="control-value">Mouse y click</span>
-            </p>
-          </div>
-
-          <h3 className="actions-title">Acciones:</h3>
-          <div className="actions-info">
-            <p className="action-item">
-              <span className="action-label">Click:</span> seleccionar la ficha
-              Messi o confirmar un salto
-            </p>
-          </div>
-        </div>
-      </div>
-
+      <GameGrid start={15} count={25} category={`Similares a ${game.name}`}></GameGrid>
     </div>
   );
 };

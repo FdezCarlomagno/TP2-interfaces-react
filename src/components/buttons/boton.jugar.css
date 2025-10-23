@@ -1,6 +1,6 @@
 .boton-jugar {
   border: none;
-  border-radius: 48px;
+  border-radius: 8px;
   background: linear-gradient(135deg, #6D9BFF, #2D70FF);
   background-size: 200% 200%;
   padding: 0.7rem;
