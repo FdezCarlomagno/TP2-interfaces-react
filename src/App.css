@@ -28,10 +28,6 @@ p, input, h3 {
   line-height: 1.5;
 }
 
-.subtitleMain {
-  opacity: 0.7;
-  font-size: 0.9rem;
-}
 
 /* Títulos */
 h1, h2 {
@@ -39,19 +35,46 @@ h1, h2 {
   font-weight: 400;
   font-style: normal;
   letter-spacing: 1.5px;
+  color: "#FFFFFF";
   margin: 0;
   text-align: left;
 }
+
+
 
 /* Contenedor del título principal */
 .title-main-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.3rem;
-  width: 100%;
-  margin-bottom: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  color: #fff;
 }
+
+.title-subtitle h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.subtitleMain {
+  font-size: 1rem;
+  margin-top: -8px;
+  margin-bottom: 0.8rem;
+  color: #ccc;
+}
+
+/* Asegura que los tags queden centrados y con espacio */
+.tag-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 
 /* ===== BREAKPOINTS ===== */
 
@@ -61,7 +84,7 @@ h1, h2 {
   /* Centrado del contenido (GameGrid) en mobile */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   width: 100%;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -76,7 +99,6 @@ h1, h2 {
   .title-main-section {
     flex-direction: row;
     justify-content: space-between;
-    align-items: baseline;
   }
 
   p, input, h3 {

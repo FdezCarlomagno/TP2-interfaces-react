@@ -52,7 +52,7 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   transition: background-color 0.2s;
 }
 
@@ -71,7 +71,7 @@
 .info-item {
   display: flex;
   gap: 8px;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .info-label {

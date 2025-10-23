@@ -23,14 +23,14 @@ import Sombra from "./components/sombra/Sombra";
 function Home() {
   return (
     <>
-  <Sombra id="sombra1" color="#FF8D8D" pos="20% 30%" size="20vmax" />
-  <Sombra id="sombra2" color="#FF1C8A" pos="80% 70%" size="20vmax" />
+      <Sombra id="sombra1" color="#FF8D8D" pos="20% 30%" size="20vmax" />
+      <Sombra id="sombra2" color="#FF1C8A" pos="80% 70%" size="20vmax" />
 
-    <div className="title-main-section">
-      <div>
-        <h1 style={{ zIndex: 1000}}>GAMEHUB.COM</h1>
-        <p className="subtitleMain">Todos tus juegos favoritos están acá</p>
-      </div>
+      <div className="title-main-section">
+        <div className="title-subtitle">
+          <h1 style={{ zIndex: 1000 }}>GAMEHUB.COM</h1>
+          <p className="subtitleMain">Todos tus juegos favoritos están acá</p>
+        </div>
         {/**SECCION DE TAGS*/}
         <TagSection></TagSection>
       </div>
@@ -45,7 +45,7 @@ function Home() {
 
         {/* GameGrid visible solo en mobile bajo el hero */}
         <div className="home-mobile-only">
-          <GameGrid count={16} category="Populares"/>
+          <GameGrid count={16} category="Populares" />
         </div>
 
         <div>
@@ -65,7 +65,7 @@ function Home() {
 
           {/* GameGrid visible solo en mobile debajo de Oferta del Mes */}
           <div className="home-mobile-only">
-            <GameGrid start={17} count={33} category="Nuevos"/>
+            <GameGrid start={17} count={33} category="Nuevos" />
           </div>
 
           <ReusableGamesCarousel title="Nuevos Lanzamientos" imageSize="medium" startIndex={10} endIndex={20} />
@@ -74,7 +74,7 @@ function Home() {
 
           {/* GameGrid visible solo en mobile debajo de Cross-Platform */}
           <div className="home-mobile-only">
-            <GameGrid start={34} count={56} category="Acción"/>
+            <GameGrid start={34} count={56} category="Acción" />
           </div>
           <ReusableGamesCarousel
             title="Shooters"
@@ -114,7 +114,7 @@ function Home() {
           ></ReusableGamesCarousel>
         </div>
 
-        
+
       </main>
     </>
   )

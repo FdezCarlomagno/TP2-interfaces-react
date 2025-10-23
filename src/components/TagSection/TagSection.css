@@ -7,13 +7,13 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   margin-left: 0.5rem;
-  justify-content: flex-start;
+
 }
 
 /* 🔹 TAMAÑO BASE — MOBILE */
 .tag {
   display: flex;
-  align-items: center;
+
   gap: 0.5rem;
   background-color: #0E121D;
   padding: 0.35rem 0.6rem;
@@ -42,14 +42,14 @@
 ======================= */
 @media (min-width: 768px) {
   .tagSection {
-    gap: 1rem;
+
     margin-left: 1rem;
     align-items: flex-end;
   }
 
   .tag {
     gap: 1rem;
-    padding: 0.5rem 0.9rem;
+    padding: 0.6rem 0.9rem;
     border-radius: 8px;
   }
 
@@ -58,7 +58,7 @@
   }
 
   .tag p {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: bold;
   }
 }
