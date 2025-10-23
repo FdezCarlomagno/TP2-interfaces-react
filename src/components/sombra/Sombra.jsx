@@ -5,10 +5,12 @@ export default function Sombra({
   id = "sombra-bg-style",
   className = "has-sombra-bg",
   size = "20vmax",
-  pos = "0% 8%",
+  pos = "50% 50%",
   blur = "250px",
   opacity = 0.8,
-  color = "#FF1C8A"
+  color = "#FF1C8A",
+  side = "left", // "left" o "right"
+  offset = "0px"  // distancia desde el borde
 } = {}) {
   useEffect(() => {
     // remover estilo previo
@@ -19,17 +21,19 @@ export default function Sombra({
     style.id = id;
     style.type = "text/css";
 
+    const horizontalPosition = side === "left" ? `left: ${offset};` : `right: ${offset};`;
+
     style.innerHTML = `
       body.${className}::before {
         content: "";
         position: fixed;
         top: 0;
-        left: 0;
+        ${horizontalPosition}
         width: ${size};
         height: ${size};
         pointer-events: none;
         z-index: -1;
-        background: radial-gradient(circle at ${pos}, ${color} ${opacity*100}%, transparent 85%);
+        background: radial-gradient(circle at ${pos}, ${color} ${opacity * 100}%, transparent 85%);
         filter: blur(${blur});
         mix-blend-mode: screen;
       }
@@ -43,7 +47,7 @@ export default function Sombra({
       const el = document.getElementById(id);
       if (el) el.remove();
     };
-  }, [id, className, size, pos, blur, opacity, color]);
+  }, [id, className, size, pos, blur, opacity, color, side, offset]);
 
   return null;
 }

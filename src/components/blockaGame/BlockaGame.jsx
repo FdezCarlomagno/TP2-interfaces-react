@@ -6,6 +6,8 @@ import messiBlocka4 from "../../assets/imgs/messiBlocka4.jpg";
 import messiBlocka5 from "../../assets/imgs/messiBlocka5.jpg";
 import messiBlocka6 from "../../assets/imgs/messiBlocka6.jpg";
 import { useNavigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import "./BlockaGame.css";
 
 export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
@@ -23,16 +25,45 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
   const [showLevelPreview, setShowLevelPreview] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [finalPreviewImage, setFinalPreviewImage] = useState(null);
-  const nav = useNavigate()
+  const [tiempoMaximo, setTiempoMaximo] = useState(0);
+  const [disableAyuda, setDisableAyuda] = useState(false)
+  const nav = useNavigate();
 
-  // 🆕 Nuevo estado para controlar cuándo mostrar la imagen sin filtro
-  const [showCleanImage, setShowCleanImage] = useState(false);
-
+  // Estado del cronómetro (fix)
   const [levelTimer, setLevelTimer] = useState({
     tiempo: 0,
     corriendo: false,
-    intervalo: null
   });
+  const intervaloRef = useRef(null);
+
+  const iniciarCronometro = useCallback(() => {
+    if (intervaloRef.current) return; // evitar duplicados
+    setLevelTimer({ tiempo: 0, corriendo: true });
+    const intervalo = setInterval(() => {
+      setLevelTimer((prev) => ({
+        ...prev,
+        tiempo: prev.tiempo + 10,
+      }));
+    }, 10);
+    intervaloRef.current = intervalo;
+    console.log("⏱️ Cronómetro iniciado");
+  }, []);
+
+  const detenerCronometro = useCallback(() => {
+    if (intervaloRef.current) {
+      clearInterval(intervaloRef.current);
+      intervaloRef.current = null;
+      console.log("⏹️ Cronómetro detenido");
+    }
+    setLevelTimer((prev) => ({ ...prev, corriendo: false }));
+  }, []);
+
+  const resetearCronometro = useCallback(() => {
+    detenerCronometro();
+    setLevelTimer({ tiempo: 0, corriendo: false });
+    console.log("🔄 Cronómetro reseteado");
+  }, [detenerCronometro]);
+
   const [levelTimes, setLevelTimes] = useState({});
 
   const levelImages = [
@@ -44,32 +75,21 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
     messiBlocka6,
   ];
 
-  const iniciarCronometro = useCallback(() => {
-    if (levelTimer.corriendo) return;
-    setLevelTimer(prev => ({ ...prev, corriendo: true, tiempo: 0 }));
-    const intervalo = setInterval(() => {
-      setLevelTimer(prev => ({ ...prev, tiempo: prev.tiempo + 10 }));
-    }, 10);
-    setLevelTimer(prev => ({ ...prev, intervalo }));
-  }, [levelTimer.corriendo]);
-
-  const detenerCronometro = useCallback(() => {
-    if (levelTimer.intervalo) clearInterval(levelTimer.intervalo);
-    setLevelTimer(prev => ({ ...prev, corriendo: false, intervalo: null }));
-  }, [levelTimer.intervalo]);
-
   const formatearTiempo = useCallback((ms) => {
     const minutos = Math.floor(ms / 60000);
     const segundos = Math.floor((ms % 60000) / 1000);
     const centesimas = Math.floor((ms % 1000) / 10);
     return {
-      minutos: minutos.toString().padStart(2, '0'),
-      segundos: segundos.toString().padStart(2, '0'),
-      centesimas: centesimas.toString().padStart(2, '0')
+      minutos: minutos.toString().padStart(2, "0"),
+      segundos: segundos.toString().padStart(2, "0"),
+      centesimas: centesimas.toString().padStart(2, "0"),
     };
   }, []);
 
-  // 🎯 Animación de selección de imagen
+  //nuevo estado para controlar cuándo mostrar la imagen sin filtro
+  const [showCleanImage, setShowCleanImage] = useState(false);
+
+  //Animación de selección de imagen
   useEffect(() => {
     if (level >= 15) {
       setGameCompleted(true);
@@ -81,14 +101,19 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
         setIsCompleted(false);
         setLevelTimes({});
         setUiHidden(false);
-        setShowCleanImage(false); // 🆕 Resetear estado de imagen limpia
+        setShowCleanImage(false);
       }, 3000);
       return () => clearTimeout(timer);
     }
 
     setShowLevelPreview(true);
     setUiHidden(true);
-    setShowCleanImage(false); // 🆕 Asegurar que no se muestre limpia durante la preview
+    setShowCleanImage(false);
+
+    const tiempoBase = 25000; // 25 segundos base
+    const reduccionPorNivel = 1000; // resta 1s por nivel
+    const nuevoMax = Math.max(5000, tiempoBase - level * reduccionPorNivel);
+    setTiempoMaximo(nuevoMax);
 
     let interval;
     let count = 0;
@@ -106,21 +131,44 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
           setFinalPreviewImage(null);
           setShowLevelPreview(false);
           setUiHidden(false);
-          setRotations([0, 1, 2, 3].map(() => [0, 90, 180, 270][Math.floor(Math.random() * 4)]));
+          setRotations(
+            [0, 1, 2, 3].map(
+              () => [0, 90, 180, 270][Math.floor(Math.random() * 4)]
+            )
+          );
           setIsCompleted(false);
-          setShowCleanImage(false); // 🆕 Asegurar que empiece con filtro
-          iniciarCronometro();
+          setShowCleanImage(false);
+          resetearCronometro(); // ✅ limpiar antes
+          iniciarCronometro(); // ✅ iniciar limpio
         }, 1000);
       }
     }, 120);
   }, [level]);
 
   useEffect(() => {
+    // Si completó el nivel, guardamos tiempo y detenemos cronómetro
     if (isCompleted && levelTimer.corriendo) {
-      setLevelTimes(prev => ({ ...prev, [level]: levelTimer.tiempo }));
+      setLevelTimes((prev) => ({ ...prev, [level]: levelTimer.tiempo }));
       detenerCronometro();
+      return;
     }
-  }, [isCompleted, levelTimer.corriendo, levelTimer.tiempo, level, detenerCronometro]);
+
+    // Si hay un tiempo máximo definido y el jugador lo supera → pierde el nivel
+    if (tiempoMaximo > 0 && levelTimer.tiempo >= tiempoMaximo && levelTimer.corriendo) {
+      detenerCronometro();
+      setUiHidden(true);
+      toast.error("⏰ Tiempo máximo alcanzado. Reiniciando...")
+      setTimeout(() => {
+        setLevel(0);
+        resetearCronometro();
+        setLevelTimes({});
+        setIsCompleted(false);
+        setUiHidden(false);
+        setShowCleanImage(false);
+        iniciarCronometro()
+      }, 4000);
+    }
+  }, [levelTimer.tiempo, tiempoMaximo, isCompleted, detenerCronometro]);
 
   useEffect(() => {
     const img = new Image();
@@ -246,17 +294,26 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(rot);
-      ctx.drawImage(img, q.sx, q.sy, srcCellW, srcCellH, -cellW / 2, -cellH / 2, cellW, cellH);
+      ctx.drawImage(
+        img,
+        q.sx,
+        q.sy,
+        srcCellW,
+        srcCellH,
+        -cellW / 2,
+        -cellH / 2,
+        cellW,
+        cellH
+      );
       ctx.restore();
     });
 
-    // 🆕 SOLUCIÓN: Solo aplicar filtro si NO está completado y NO se debe mostrar limpia
     if (level > 0 && !isCompleted && !showCleanImage) {
       const imageData = ctx.getImageData(0, 0, w, h);
       applyPixelFilter(imageData, level);
       ctx.putImageData(imageData, 0, 0);
     }
-  }, [rotations, level, size, isCompleted, showCleanImage]); // 🆕 Agregar dependencias
+  }, [rotations, level, size, isCompleted, showCleanImage]);
 
   useEffect(() => {
     if (!loaded || isCompleted || gameCompleted) return;
@@ -265,28 +322,19 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
   }, [rotations, loaded, isCompleted, gameCompleted]);
 
   const handleLevelCompletion = useCallback(async () => {
-    // 🔹 Marcar como completado
+    setDisableAyuda(false);
     setIsCompleted(true);
-    
-    // 🔹 Esperar un momento y luego mostrar la imagen limpia
-    await new Promise(r => setTimeout(r, 500));
-    
-    // 🆕 MOSTRAR IMAGEN LIMPIA
+    setUiHidden(true);
+    await new Promise((r) => setTimeout(r, 500));
     setShowCleanImage(true);
-    
-    // 🔹 Redibujar para quitar el filtro
     draw();
-    
-    // 🔹 Esperar 2 segundos mostrando la imagen limpia
-    await new Promise(r => setTimeout(r, 2000));
-    
-    // 🔹 Pasar al siguiente nivel
-    setLevel(lvl => lvl + 1);
+    await new Promise((r) => setTimeout(r, 2000));
+    setLevel((lvl) => lvl + 1);
   }, [draw]);
 
   useEffect(() => {
     if (loaded) draw();
-  }, [rotations, level, draw, loaded, showCleanImage]); // 🆕 Agregar showCleanImage
+  }, [rotations, level, draw, loaded, showCleanImage]);
 
   const getCanvasClassName = () => {
     let className = "blocka-canvas";
@@ -297,48 +345,62 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
   };
 
   const handleResetGame = () => {
-    setLevel(0)
-  }
+    detenerCronometro();
+    setLevel(0);
+  };
 
   const handleExitGame = () => {
-    onExit()
-  }
+    detenerCronometro();
+    onExit();
+  };
 
   const handleAyuda = () => {
     if (gameCompleted || isCompleted) return;
 
+    const incorrectIndexes = rotations
+      .map((r, i) => (r % 360 !== 0 ? i : null))
+      .filter((i) => i !== null);
+
+    if (incorrectIndexes.length === 0) {
+      toast.error("No quedan ayudas");
+      setDisableAyuda(true);
+      return;
+    }
+
+    if (incorrectIndexes.length === 1) {
+      toast.error("No quedan ayudas");
+      setDisableAyuda(true);
+      return;
+    }
+
+    // Aplicar ayuda
+    const randomIndex =
+      incorrectIndexes[Math.floor(Math.random() * incorrectIndexes.length)];
+    const next = [...rotations];
+    next[randomIndex] = 0;
+    setRotations(next);
+
+    // Efectos visuales y tiempo extra
     const canvas = canvasRef.current;
     if (canvas) {
       canvas.classList.add("help-flash");
       setTimeout(() => canvas.classList.remove("help-flash"), 800);
     }
 
-    setLevelTimer(prev => ({ ...prev, tiempo: prev.tiempo + 5000 }));
-
-    setRotations(prev => {
-      const incorrectIndexes = prev
-        .map((r, i) => (r % 360 !== 0 ? i : null))
-        .filter(i => i !== null);
-
-      if (incorrectIndexes.length === 0) return prev;
-
-      const randomIndex = incorrectIndexes[Math.floor(Math.random() * incorrectIndexes.length)];
-      const next = [...prev];
-      next[randomIndex] = 0;
-
-      return next;
-    });
+    setLevelTimer((prev) => ({ ...prev, tiempo: prev.tiempo + 5000 }));
   };
 
+
+
   const handleCloseInstructions = () => {
-    setUiHidden(false)
-    setShowInstructions(false)
-  }
+    setUiHidden(false);
+    setShowInstructions(false);
+  };
 
   const handleShowInstructions = () => {
-    setUiHidden(true)
-    setShowInstructions(true)
-  }
+    setUiHidden(true);
+    setShowInstructions(true);
+  };
 
   const tiempoDisplay = formatearTiempo(levelTimer.tiempo);
 
@@ -354,9 +416,14 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
         onClick={handleExitGame}
       >Salir</button>
       <div className="blocka-game">
-        <div className={`blocka-timer ${uiHidden && "hidden"}`}>
+        <div className={`blocka-timer`}
+          style={{ display: uiHidden && "none" }}
+        >
           <div className="timer-display">
             {tiempoDisplay.minutos}:{tiempoDisplay.segundos}.{tiempoDisplay.centesimas}
+          </div>
+          <div className="timer-display">
+            Máximo: {tiempoMaximo / 1000} Segundos
           </div>
         </div>
         {showLevelPreview && (
@@ -380,6 +447,29 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
             />
           </div>
         )}
+        <Toaster
+          position="top-center"
+          containerStyle={{
+            position: "absolute",
+            top: "0px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1000,
+            width: "300px",
+          }}
+          toastOptions={{
+            style: {
+              background: "#0b1116",
+              color: "#fff",
+              fontSize: "14px",
+              borderRadius: "8px",
+              padding: "10px 16px",
+              textAlign: "left"
+            },
+            duration: 2000,
+          }}
+        />
+
 
         <canvas
           ref={canvasRef}
@@ -434,10 +524,10 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
         </div>
       )}
 
-      <div className={`blocka-controls ${uiHidden && "hidden"}`}>
+      <div className={`blocka-controls ayuda ${uiHidden && "hidden"}`}>
         <button
           onClick={handleAyuda}
-          disabled={gameCompleted}
+          disabled={gameCompleted || disableAyuda}
         >
           🔍 Ayuda
         </button>

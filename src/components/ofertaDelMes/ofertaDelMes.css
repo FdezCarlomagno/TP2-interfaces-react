@@ -3,8 +3,7 @@
   border: 2px solid #4a7fd9;
   border-radius: 16px;
   padding: 24px;
-  margin-bottom: 0.7rem;
-  width: 100%;
+  margin-bottom: 1rem;
   color: white;
   box-shadow: 0 8px 32px rgba(74, 127, 217, 0.2);
 }
@@ -124,6 +123,8 @@
 @media (max-width: 768px) {
   .oferta-container {
     padding: 20px;
+
+    margin-bottom: 1rem;
   }
 
   .oferta-content {

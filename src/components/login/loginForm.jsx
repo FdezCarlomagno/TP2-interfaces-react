@@ -3,7 +3,7 @@
 import { useState } from "react"
 import "./loginForm.css"
 import { useNavigate } from "react-router-dom"
-import toast from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
@@ -21,7 +21,7 @@ export default function LoginForm() {
     return toast.success(msg)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const newErrors = {}
 
@@ -38,12 +38,17 @@ export default function LoginForm() {
     if (Object.keys(newErrors).length === 0) {
       // Login exitoso
       toastSuccess('¡Login exitoso!')
-      navigate("/")
+
+      await new Promise(setInterval(() => {
+          navigate("/")
+      }, 1000))
+   
     }
   }
 
   return (
     <div className="login-container">
+      <Toaster />
       <div className="form-wrapper">
         <form className="login-form" onSubmit={handleSubmit}>
           <h3 className="form-title">Iniciar sesión</h3>

@@ -13,6 +13,7 @@ import BlockaGame from "../components/blockaGame/BlockaGame";
 import GameplayCarousel from "../components/carruseles/gameplayCarousel/GameplayCarousel";
 import blockaFondo from "../assets/imgs/blockaFondo.jpg";
 import Controls from "../components/gameDetails/Controls";
+import Sombra from '../components/sombra/Sombra'
 
 const Game = () => {
   /**
@@ -102,6 +103,7 @@ const Game = () => {
   };
   return (
     <>
+    <Sombra side="right" pos="100% 0%" offset="0px" />
       {/* Pantalla del juego con imágenes */}
       {location.pathname === "/juegos/peg" ? (
         <>
