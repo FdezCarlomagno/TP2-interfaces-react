@@ -18,7 +18,7 @@ return (
       {/* Background with blur */}
       <div className="game-background" style={{ backgroundImage: `url(${game.background_image_low_res})` }}></div>
 
-      {/* Main content */}
+      {/* Main content */} 
       <div className="game-content">
         {!isPlaying ? (
           <>
@@ -37,13 +37,20 @@ return (
             </div>
           </>
         ) : (
-          <div>
-            <div>
+          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                className="close-game"
+                style={{ padding: '8px 14px', background: 'rgba(255,255,255,0.06)', color: 'white' }}
+                onClick={() => setIsPlaying(false)}
+              >
+                Cerrar
+              </button>
             </div>
-            <div className="game-play-area">
-              {location.pathname.includes('/juegos/peg') &&<PegSolitaire />}
-              {location.pathname.includes('/juegos/blocka') &&<BlockaGame onExit={handleExitBlocka} />}
 
+            <div className="game-play-area">
+              {location.pathname.includes('/juegos/peg') && <PegSolitaire />}
+              {location.pathname.includes('/juegos/blocka') && <BlockaGame onExit={handleExitBlocka} />}
             </div>
           </div>
         )}
