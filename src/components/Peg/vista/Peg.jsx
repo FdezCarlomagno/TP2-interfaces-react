@@ -3,6 +3,7 @@ import { Tablero } from "../model/PegModel";
 import { GameController } from "../controller/PegController";
 import useTimer from '../Timer/useTimer'
 import "./peg.css"
+import pelotaImg from "../../../assets/imgs/Pelotafutbol.png";
 
 export default function Peg() {
   const { levelTimer, detenerCronometro, iniciarCronometro, formatearTiempo, setLevelTimer } = useTimer()
@@ -17,15 +18,28 @@ export default function Peg() {
   const size = 60;
   const tiempoMaximo = 3
   const [tiempoAlcanzado, setTiempoAlcanzado] = useState(false); // Nuevo estado para controlar
+  const [pelotaImage, setPelotaImage] = useState(null);
 
   // Inicializa modelo y controller
   useEffect(() => {
+    const img = new Image();
+    img.src = pelotaImg;
+    img.onload = () => {
+      setPelotaImage(img);
+    };
+
     iniciarCronometro()
     const tablero = new Tablero(7, 7);
     const ctrl = new GameController(tablero, () => draw(ctrl));
     setController(ctrl);
     draw(ctrl);
   }, []);
+
+  useEffect(() => {
+    if (controller) {
+      draw(controller);
+    }
+  }, [pelotaImage]);
 
   // Control del tiempo máximo - CORREGIDO
   useEffect(() => {
@@ -78,10 +92,14 @@ export default function Peg() {
           ctrl.selected.x === x &&
           ctrl.selected.y === y;
         if (c && c.ocupado && !esOrigenArrastrado) {
-          ctx.beginPath();
-          ctx.arc(cx, cy, size / 3, 0, Math.PI * 2);
-          ctx.fillStyle = ctrl.selected === c ? "#3498db" : "#8B4513";
-          ctx.fill();
+          if (pelotaImage) {
+            ctx.drawImage(pelotaImage, cx - size / 3, cy - size / 3, (size / 3) * 2, (size / 3) * 2);
+          } else {
+            ctx.beginPath();
+            ctx.arc(cx, cy, size / 3, 0, Math.PI * 2);
+            ctx.fillStyle = ctrl.selected === c ? "#3498db" : "#8B4513";
+            ctx.fill();
+          }
         }
       }
     }
@@ -91,12 +109,16 @@ export default function Peg() {
       const canvasRect = canvas.getBoundingClientRect();
       const drawX = dragPos.x - canvasRect.left - dragOffset.x;
       const drawY = dragPos.y - canvasRect.top - dragOffset.y;
-      ctx.beginPath();
-      ctx.arc(drawX, drawY, size / 3, 0, Math.PI * 2);
-      ctx.fillStyle = "#3498db";
-      ctx.fill();
-      ctx.strokeStyle = "rgba(0,0,0,0.2)";
-      ctx.stroke();
+      if (pelotaImage) {
+        ctx.drawImage(pelotaImage, drawX - size / 3, drawY - size / 3, (size / 3) * 2, (size / 3) * 2);
+      } else {
+        ctx.beginPath();
+        ctx.arc(drawX, drawY, size / 3, 0, Math.PI * 2);
+        ctx.fillStyle = "#3498db";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(0,0,0,0.2)";
+        ctx.stroke();
+      }
     }
   }
 
