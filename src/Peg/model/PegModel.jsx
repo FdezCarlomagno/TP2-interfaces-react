@@ -71,7 +71,7 @@ export class Tablero {
     return moves;
   }
 
-  mover(cx, cy, nx, ny) {
+  mover(cx, cy, nx, ny, fichaSetter) {
     //casillero intermedio entre origen C y destino N
     const medio = this.getCasillero((cx + nx) / 2, (cy + ny) / 2);
     const origen = this.getCasillero(cx, cy);
@@ -81,6 +81,12 @@ export class Tablero {
       origen.ocupado = false;
       medio.ocupado = false;
       destino.ocupado = true;
+      console.log("ficha comida")
+      fichaSetter((prev) => prev - 1)
     }
+  }
+
+  resetGame(){
+    this.initTablero()
   }
 }

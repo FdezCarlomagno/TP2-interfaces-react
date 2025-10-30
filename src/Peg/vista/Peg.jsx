@@ -1,24 +1,46 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Tablero } from "../model/PegModel";
 import { GameController } from "../controller/PegController";
+import useTimer from '../Timer/useTimer'
+import "./peg.css"
 
 export default function PegSolitaireCanvas() {
+  const { levelTimer, detenerCronometro, iniciarCronometro, formatearTiempo, setLevelTimer } = useTimer()
   const canvasRef = useRef(null);
   const [controller, setController] = useState(null);
   const [dragging, setDragging] = useState(false);
   const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const size = 60; // tamaño por casillero
+  const [dragOrigin, setDragOrigin] = useState(null); // Añadido esta línea que faltaba
+  const cantFichas = 32
+  const [fichasRestantes, setFichasRestantes] = useState(cantFichas)
+  const size = 60;
+  const tiempoMaximo = 3
+  const [tiempoAlcanzado, setTiempoAlcanzado] = useState(false); // Nuevo estado para controlar
 
   // Inicializa modelo y controller
   useEffect(() => {
-    //si o si 7x7 a menos que modifiques el modelo
+    iniciarCronometro()
     const tablero = new Tablero(7, 7);
-    //le pasa draw para que pueda refrescar la vista luego de cada movimiento
     const ctrl = new GameController(tablero, () => draw(ctrl));
     setController(ctrl);
     draw(ctrl);
   }, []);
+
+  // Control del tiempo máximo - CORREGIDO
+  useEffect(() => {
+    if (levelTimer.corriendo && !tiempoAlcanzado) {
+      const minutosTranscurridos = formatearTiempo(levelTimer.tiempo).minutos;
+      if (parseInt(minutosTranscurridos) >= tiempoMaximo) {
+        setTiempoAlcanzado(true);
+        detenerCronometro();
+        setTimeout(() => {
+          alert("Tiempo máximo alcanzado, reiniciando...");
+          handleRestart();
+        }, 100);
+      }
+    }
+  }, [levelTimer.tiempo, levelTimer.corriendo, tiempoAlcanzado]);
 
   function draw(ctrl) {
     const canvas = canvasRef.current;
@@ -30,7 +52,7 @@ export default function PegSolitaireCanvas() {
     for (let y = 0; y < tablero.filas; y++) {
       for (let x = 0; x < tablero.columnas; x++) {
         const c = tablero.getCasillero(x, y);
-        if (!c) continue; // omitir zonas fuera del tablero
+        if (!c) continue;
         const cx = x * size + size / 2;
         const cy = y * size + size / 2;
 
@@ -42,7 +64,7 @@ export default function PegSolitaireCanvas() {
         ctx.strokeStyle = "#333";
         ctx.stroke();
 
-        // hint (movimientos válidos), si algun valor M en x y en y de validMoves  coincide con el actual x e y del for es true
+        // hint (movimientos válidos)
         const esHint = ctrl.validMoves.some((m) => m.x === x && m.y === y);
         if (esHint) {
           ctx.fillStyle = "rgba(0, 255, 0, 0.3)";
@@ -50,13 +72,11 @@ export default function PegSolitaireCanvas() {
         }
 
         // fichas, excepto la que se está arrastrando
-        //verifica si la actual es la que se esta arrastrando
         const esOrigenArrastrado =
           dragging &&
           ctrl.selected &&
           ctrl.selected.x === x &&
           ctrl.selected.y === y;
-          //si no esta siendo arrastrada pero si seleccionada (atributo del controller que guarda la ficha seleccionada) la dibuja celeste en el lugar sino marron
         if (c && c.ocupado && !esOrigenArrastrado) {
           ctx.beginPath();
           ctx.arc(cx, cy, size / 3, 0, Math.PI * 2);
@@ -67,7 +87,6 @@ export default function PegSolitaireCanvas() {
     }
 
     // Dibuja ficha en arrastre (si hay)
-    //
     if (dragging && ctrl && ctrl.selected) {
       const canvasRect = canvas.getBoundingClientRect();
       const drawX = dragPos.x - canvasRect.left - dragOffset.x;
@@ -80,22 +99,25 @@ export default function PegSolitaireCanvas() {
       ctx.stroke();
     }
   }
-// devuelve la posicion del mouse en clientX y clientY
+
   function getClientPos(e) {
+    if (e.type.includes('touch')) {
+      return { 
+        clientX: e.touches[0].clientX, 
+        clientY: e.touches[0].clientY 
+      };
+    }
     return { clientX: e.clientX, clientY: e.clientY };
   }
-  // convierte la posicion del mouse en coordenadas del tablero
+
   function getCellCoords(clientX, clientY) {
     const rect = canvasRef.current.getBoundingClientRect();
-    //ajusta la posicion del mouse relativa al canvas
     const relX = clientX - rect.left;
     const relY = clientY - rect.top;
-    //si esta fuera del canvas devuelve null
     if (relX < 0 || relY < 0) return null;
 
     const x = Math.floor(relX / size);
     const y = Math.floor(relY / size);
-    //verifica que este dentro de la cruz
     const dentro =
       x >= 0 && y >= 0 && x < 7 && y < 7 && ((x >= 2 && x <= 4) || (y >= 2 && y <= 4));
     if (!dentro) return null;
@@ -108,21 +130,18 @@ export default function PegSolitaireCanvas() {
   ============================ */
 
   function handleMouseDown(e) {
-    //si no cargo el controller sale
     if (!controller) return;
 
-    //tanto click izquierdo como derecho o boton central
     e.preventDefault();
-    //guarda la posicion del mouse
     const { clientX, clientY } = getClientPos(e);
-    //guarda en pos las coordenadas del casillero donde hizo click
     const pos = getCellCoords(clientX, clientY);
     if (!pos) return;
 
-    const c = controller.model.getCasillero(pos.x, pos.y);
+    const { x, y, rect } = pos; // CORREGIDO: usar las variables del objeto pos
+    const c = controller.model.getCasillero(x, y);
 
     if (c && c.ocupado) {
-      controller.selectPiece(pos.x, pos.y);
+      controller.selectPiece(x, y); // CORREGIDO: usar x, y de pos
       setDragging(true);
       setDragOrigin({ x, y });
       setDragPos({ x: clientX, y: clientY });
@@ -140,13 +159,8 @@ export default function PegSolitaireCanvas() {
     e.preventDefault();
 
     const { clientX, clientY } = getClientPos(e);
-
-    const pos = getCellCoords(clientX, clientY);
-    if (pos) {
-      // Solo actualiza si el cursor está dentro del tablero
-      setDragPos({ x: clientX, y: clientY });
-      draw(controller);
-    }
+    setDragPos({ x: clientX, y: clientY });
+    draw(controller);
   }
 
   function handleMouseUp(e) {
@@ -158,34 +172,64 @@ export default function PegSolitaireCanvas() {
 
     if (pos) {
       const { x, y } = pos;
-      controller.movePiece(x, y);
+      controller.movePiece(x, y, setFichasRestantes);
     } else {
-      controller.clearSelection(); // si suelta fuera del tablero
+      controller.clearSelection();
     }
 
     setDragging(false);
     setDragOrigin(null);
     setDragOffset({ x: 0, y: 0 });
     setDragPos({ x: 0, y: 0 });
-
     draw(controller);
   }
 
+  const handleRestart = () => {
+    detenerCronometro();
+    setTiempoAlcanzado(false); // Resetear el flag de tiempo alcanzado
+    setFichasRestantes(cantFichas);
+    
+    const tablero = new Tablero(7, 7);
+    const ctrl = new GameController(tablero, () => draw(ctrl));
+    setController(ctrl);
+    draw(ctrl);
+    
+    // Iniciar cronómetro después de un pequeño delay para evitar conflictos
+    setTimeout(() => {
+      iniciarCronometro();
+    }, 100);
+  }
+
   return (
-    <canvas
-      ref={canvasRef}
-      width={420}
-      height={420}
-      style={{
-        border: "1px solid black",
-        cursor: dragging ? "grabbing" : "pointer",
-      }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onTouchStart={handleMouseDown}
-      onTouchMove={handleMouseMove}
-      onTouchEnd={handleMouseUp}
-    />
+    <>
+      <div className="cronometro-peg">
+        <div>
+          Tiempo: {formatearTiempo(levelTimer.tiempo).minutos}:{formatearTiempo(levelTimer.tiempo).segundos}
+        </div>
+        <div>
+          Máximo: {tiempoMaximo} minuto{tiempoMaximo !== 1 ? 's' : ''}
+        </div>
+        {tiempoAlcanzado && <div style={{color: 'red', fontWeight: 'bold'}}>¡TIEMPO AGOTADO!</div>}
+      </div>
+      <canvas
+        ref={canvasRef}
+        width={420}
+        height={420}
+        style={{
+          border: "1px solid black",
+          cursor: dragging ? "grabbing" : "pointer",
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      />
+      <div className="peg-info">
+        <p>Fichas restantes: {fichasRestantes}</p>
+        <button onClick={handleRestart}>Reiniciar</button>
+      </div>
+    </>
   );
 }
