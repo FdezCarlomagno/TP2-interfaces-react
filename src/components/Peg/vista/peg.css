@@ -1,0 +1,18 @@
+.peg-info {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+
+.cronometro-peg {
+    display: flex;
+    font-weight: bold;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    background-color: #1a1a1a;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}

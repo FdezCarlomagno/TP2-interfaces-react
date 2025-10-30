@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-import PegSolitaire from "../pegSolitaire/PegSolitaire";
+import Peg from "../Peg/vista/Peg";
 import './GameScreen.css'
 import gamehubLogo from '../../assets/imageLogo.svg'
 import BlockaGame from "../blockaGame/BlockaGame";
@@ -49,7 +49,7 @@ return (
             </div>
 
             <div className="game-play-area">
-              {location.pathname.includes('/juegos/peg') && <PegSolitaire />}
+              {location.pathname.includes('/juegos/peg') && <Peg />}
               {location.pathname.includes('/juegos/blocka') && <BlockaGame onExit={handleExitBlocka} />}
             </div>
           </div>
