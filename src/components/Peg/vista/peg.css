@@ -1,7 +1,23 @@
 .peg-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     font-weight: bold;
+    margin-top: 0.5rem;
+}
+
+.reset {
+    padding: 0.5rem;
+    border-radius: 12px;
+    background-color: #1a1a1a;
+    border: none;
+    transition: all 100ms ease-in-out;
+}
+
+
+.reset:hover {
+    background-color: #313131;
+    transform: translateY(-2px);
 }
 
 
@@ -12,7 +28,16 @@
     justify-content: space-between;
     gap: 1rem;
     background-color: #1a1a1a;
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 12px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.peg-canvas-wrapper {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
