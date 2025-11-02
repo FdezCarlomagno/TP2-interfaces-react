@@ -10,6 +10,7 @@ export default function useGame(
   dragPos,
   dragOffset
 ) {
+  
 
   function draw() {
     const canvas = canvasRef.current;
@@ -98,6 +99,6 @@ export default function useGame(
   return {
     getCellCoords,
     getClientPos,
-    draw
+    draw,
   }
 }

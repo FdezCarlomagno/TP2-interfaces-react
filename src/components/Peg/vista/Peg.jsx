@@ -9,6 +9,7 @@ import pelotaImg3 from "../../../assets/imgs/football2.png"
 import pelotaImg4 from "../../../assets/imgs/football3.png"
 import pelotaImg5 from "../../../assets/imgs/football4.png"
 
+
 import useGame from "../Game/useGame";
 import useHandler from "../Game/useHandler";
 import toast, { Toaster } from "react-hot-toast";
@@ -66,15 +67,23 @@ export default function Peg() {
     dragPos,
     cantFichas,
     iniciarCronometro,
-    detenerCronometro
+    detenerCronometro,
+    getRandomImage
   )
+
+  function getRandomImage(onLoad) {
+    const pelotaImages = [pelotaImg, pelotaImg2, pelotaImg3, pelotaImg4, pelotaImg5];
+    const img = new Image();
+    img.src = pelotaImages[Math.floor(Math.random() * pelotaImages.length)];
+    img.onload = () => {setPelotaImage(img);
+      if(onLoad) onLoad(img);
+    };
+
+  }
 
   // Init
   useEffect(() => {
-    const img = new Image();
-    img.src = pelotaImg;
-    img.onload = () => setPelotaImage(img);
-
+    getRandomImage();
     iniciarCronometro();
     const tablero = new Tablero(7, 7);
     const ctrl = new GameController(tablero, () => draw(ctrl));

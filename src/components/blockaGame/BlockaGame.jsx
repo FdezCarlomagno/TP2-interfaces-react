@@ -212,6 +212,7 @@ export default function BlockaGame({ size = 260, initialLevel = 0, onExit }) {
       else if (e.button === 2) rotateQuadrant(quadrant, -90);
     };
 
+    // para q al hacer clic derecho no salga el menú contextual
     const onContext = (ev) => ev.preventDefault();
 
     canvas.addEventListener("pointerdown", onPointerDown);
