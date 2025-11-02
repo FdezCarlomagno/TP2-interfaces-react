@@ -1,8 +1,9 @@
 export class Casillero {
-  constructor(x, y, ocupado = false) {
+  constructor(x, y, ocupado = false, tipo = "pelota1") {
     this.x = x;
     this.y = y;
     this.ocupado = ocupado;
+    this.tipo = tipo
   }
 }
 
@@ -20,10 +21,7 @@ export class Tablero {
       const fila = [];
       for (let x = 0; x < this.columnas; x++) {
         // Configuración tipo cruz (7x7), los dos primeros y ultimos de las primeras dos filas y ultimas dos son nulos
-        const valido =
-          (x >= 2 && x <= 4) || (y >= 2 && y <= 4)
-            ? true
-            : false;
+        const valido = this.esValido(x,y)
             //lo agrega al casillero si es valido y no es el del centro
         fila.push(new Casillero(x, y, valido && !(x === 3 && y === 3)));
       }
@@ -43,6 +41,30 @@ export class Tablero {
       return null; // fuera del tablero o en zona no válida ya que es una cruz
     }
     return this.casilleros[y][x];
+  }
+
+  esValido(x, y){
+    return (x >= 2 && x <= 4) || (y >= 2 && y <= 4) ? true : false
+  }
+
+  usuarioPierde(){
+    for(let y = 0; y < this.filas; y++){
+      for(let x = 0; x < this.columnas; x++){
+        const casillero = this.getCasillero(x,y)
+        if(!casillero || !casillero.ocupado){
+          continue
+        }
+
+        if(this.posiblesMovimientos(x , y).length > 0){
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  usuarioGana(){
+    return this.getCasillero(3, 3).ocupado
   }
 
   posiblesMovimientos(cx, cy) {

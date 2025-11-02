@@ -17,6 +17,14 @@ export class GameController {
     }
   }
 
+  usuarioPierde(){
+    return this.model.usuarioPierde()
+  }
+
+  usuarioGana(){
+    return this.model.usuarioGana()
+  }
+
   movePiece(nx, ny, fichaSetter) {
     if (!this.selected) return;
     const destino = this.model.getCasillero(nx, ny);

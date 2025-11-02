@@ -4,6 +4,7 @@ import Peg from "../Peg/vista/Peg";
 import './GameScreen.css'
 import gamehubLogo from '../../assets/imageLogo.svg'
 import BlockaGame from "../blockaGame/BlockaGame";
+import BlockaGameV2 from "../blockaGameV2/BlockaGameV2";
 
 const GenericGameScreen = ({game, isPremium}) => {
   const location = useLocation();
@@ -50,7 +51,7 @@ return (
 
             <div className="game-play-area">
               {location.pathname.includes('/juegos/peg') && <Peg />}
-              {location.pathname.includes('/juegos/blocka') && <BlockaGame onExit={handleExitBlocka} />}
+              {location.pathname.includes('/juegos/blocka') && <BlockaGameV2 onExit={handleExitBlocka} />}
             </div>
           </div>
         )}

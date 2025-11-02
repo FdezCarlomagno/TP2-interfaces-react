@@ -194,17 +194,12 @@
 }
 
 
-.close-game.reset {
-  position: absolute;
-  top: 40px;
-  right: -100px;
-  width: 100px;
-}
+
 
 .close-game {
   position: absolute;
-  top: 0px;
-  right: -100px;
+  top: 20px;
+  right: -200px;
   background: none;
   width: 100px;
   border: none;

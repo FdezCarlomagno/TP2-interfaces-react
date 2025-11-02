@@ -19,9 +19,10 @@ export default function useHandler(
     draw,
     cellSize,
     dragPos,
-    cantFichas
+    cantFichas,
+    iniciarCronometro,
+    detenerCronometro
 ){
-    const { detenerCronometro, iniciarCronometro} = useTimer()
 
      // Handlers
       function handleMouseDown(e) {
@@ -68,8 +69,8 @@ export default function useHandler(
       }
     
       const handleRestart = () => {
-        console.log("restart")
-        detenerCronometro();
+          console.log("restart")
+          detenerCronometro();
           setTiempoAlcanzado(false);
           setFichasRestantes(cantFichas);
           const tablero = new Tablero(7, 7);
@@ -80,7 +81,6 @@ export default function useHandler(
           setController(ctrl);
           draw(ctrl);
           iniciarCronometro();
-      
       };
     
       return {

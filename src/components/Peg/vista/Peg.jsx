@@ -4,8 +4,14 @@ import { GameController } from "../controller/PegController";
 import useTimer from '../Timer/useTimer';
 import "./peg.css";
 import pelotaImg from "../../../assets/imgs/Pelotafutbol.png";
+import pelotaImg2 from "../../../assets/imgs/football1.png"
+import pelotaImg3 from "../../../assets/imgs/football2.png"
+import pelotaImg4 from "../../../assets/imgs/football3.png"
+import pelotaImg5 from "../../../assets/imgs/football4.png"
+
 import useGame from "../Game/useGame";
 import useHandler from "../Game/useHandler";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Peg() {
   const { levelTimer, detenerCronometro, iniciarCronometro, formatearTiempo } = useTimer();
@@ -58,7 +64,9 @@ export default function Peg() {
     draw,
     cellSize,
     dragPos,
-    cantFichas
+    cantFichas,
+    iniciarCronometro,
+    detenerCronometro
   )
 
   // Init
@@ -75,8 +83,10 @@ export default function Peg() {
   }, []);
 
   useEffect(() => {
-    if (controller) draw(controller);
-  }, [pelotaImage]);
+    if (controller) {
+      draw(controller);
+    }
+  }, [pelotaImage, controller]);
 
   // Tiempo máximo
   useEffect(() => {
@@ -86,11 +96,42 @@ export default function Peg() {
       setTiempoAlcanzado(true);
       detenerCronometro();
       setTimeout(() => {
-        alert("Tiempo máximo alcanzado, reiniciando...");
-        handleRestart();
+        toast.error("Tiempo máximo alcanzado, reiniciando...");
+        handleRestart()
       }, 200);
     }
   }, [levelTimer.tiempo]);
+
+  useEffect(() => {
+    let pierde = usuarioPierde()
+    console.log("usuario pierde:", pierde)
+    if(pierde){
+      toast.error("No quedan movimientos! Reiniciando...")
+       setTimeout(() => {
+          handleRestart()
+       }, 2000)
+    } else if(fichasRestantes === 1 && usuarioGana()){
+      toast.success("Has ganado el juego! Reiniciando...")
+      setTimeout(() => {
+        handleRestart()
+      }, 3000)
+    }
+  }, [fichasRestantes])
+
+  const usuarioPierde = () => {
+    if(controller){
+    console.log("usuario pierde?")
+      return controller.usuarioPierde()
+    }
+    return false;
+  }
+
+  const usuarioGana = () => {
+    if(controller){
+      console.log("usuario gana?")
+      return controller.usuarioGana()
+    }
+  }
 
 
   return (
@@ -100,6 +141,29 @@ export default function Peg() {
         <div>Máximo: {tiempoMaximo} min</div>
         {tiempoAlcanzado && <div style={{ color: 'red', fontWeight: 'bold' }}>¡TIEMPO AGOTADO!</div>}
       </div>
+
+        <Toaster
+          position="top-center"
+          containerStyle={{
+            position: "absolute",
+            top: "0px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1000,
+            width: "300px",
+          }}
+          toastOptions={{
+            style: {
+              background: "#0b1116",
+              color: "#fff",
+              fontSize: "14px",
+              borderRadius: "8px",
+              padding: "10px 16px",
+              textAlign: "left",
+            },
+            duration: 2000,
+          }}
+        />
 
       <div className="peg-canvas-wrapper">
         <canvas
