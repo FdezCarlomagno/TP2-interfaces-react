@@ -1,29 +1,49 @@
+import pelotaImg from "../../../assets/imgs/Pelotafutbol.png";
+import pelotaImg2 from "../../../assets/imgs/football1.png"
+import pelotaImg3 from "../../../assets/imgs/football2.png"
+import pelotaImg4 from "../../../assets/imgs/football3.png"
+import pelotaImg5 from "../../../assets/imgs/football4.png"
+
+export class Ficha {
+  constructor(tipo, imagen){
+    this.tipo = tipo
+    this.imagen = imagen
+  }
+}
+
 export class Casillero {
-  constructor(x, y, ocupado = false, tipo = "pelota1") {
+  constructor(x, y, ocupado = false, ficha) {
     this.x = x;
     this.y = y;
+    this.ficha = ficha
     this.ocupado = ocupado;
-    this.tipo = tipo
   }
 }
 
 export class Tablero {
-  constructor(filas, columnas) {
+  constructor(filas, columnas, imagenes = []) {
     this.filas = filas;
     this.columnas = columnas;
     this.casilleros = [];
-    this.initTablero();
+    this.initTablero(imagenes);
   }
 
-  initTablero() {
+  initTablero(imagenes) {
     //inicializa el tablero en forma de cruz (7x7), el 7x7 esta pasado desde la vista
     for (let y = 0; y < this.filas; y++) {
       const fila = [];
       for (let x = 0; x < this.columnas; x++) {
         // Configuración tipo cruz (7x7), los dos primeros y ultimos de las primeras dos filas y ultimas dos son nulos
         const valido = this.esValido(x,y)
-            //lo agrega al casillero si es valido y no es el del centro
-        fila.push(new Casillero(x, y, valido && !(x === 3 && y === 3)));
+        let ficha = null
+        if(valido &&  !(x === 3 && y === 3)){
+
+        //lo agrega al casillero si es valido y no es el del centro
+        const img = imagenes[Math.floor(Math.random() * imagenes.length)]
+        const tipo = `tipo-${Math.floor(Math.random() * imagenes.length)}`;
+        ficha = new Ficha(tipo, img)
+        }
+        fila.push(new Casillero(x, y, ficha !== null, ficha));
       }
       this.casilleros.push(fila);
     }
@@ -94,21 +114,28 @@ export class Tablero {
   }
 
   mover(cx, cy, nx, ny, fichaSetter) {
-    //casillero intermedio entre origen C y destino N
-    const medio = this.getCasillero((cx + nx) / 2, (cy + ny) / 2);
-    const origen = this.getCasillero(cx, cy);
-    const destino = this.getCasillero(nx, ny);
-    //si todo es valido realiza el movimiento (desocupa el origen, el medio xq come la ficha y ocupa el destino)
-    if (origen && destino && medio && medio.ocupado && destino.ocupado === false) {
-      origen.ocupado = false;
-      medio.ocupado = false;
-      destino.ocupado = true;
-      console.log("ficha comida")
-      fichaSetter((prev) => prev - 1)
-    }
-  }
+  const medio = this.getCasillero((cx + nx) / 2, (cy + ny) / 2);
+  const origen = this.getCasillero(cx, cy);
+  const destino = this.getCasillero(nx, ny);
 
-  resetGame(){
+  if (origen && destino && medio && medio.ocupado && !destino.ocupado) {
+    // Mover el objeto ficha
+    destino.ficha = origen.ficha;
+    origen.ficha = null;
+    medio.ficha = null;
+
+    // Actualizar flags
+    destino.ocupado = true;
+    origen.ocupado = false;
+    medio.ocupado = false;
+
+    fichaSetter(prev => prev - 1);
+  }
+}
+
+
+  resetGame(imagenes = []){
     this.initTablero()
+    this.initTablero(imagenes)
   }
 }

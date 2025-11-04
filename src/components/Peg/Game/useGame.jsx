@@ -1,16 +1,19 @@
-
+import pelotaImg from "../../../assets/imgs/Pelotafutbol.png";
+import pelotaImg2 from "../../../assets/imgs/football1.png"
+import pelotaImg3 from "../../../assets/imgs/football2.png"
+import pelotaImg4 from "../../../assets/imgs/football3.png"
+import pelotaImg5 from "../../../assets/imgs/football4.png"
 
 export default function useGame(
   ctrl,
   canvasRef,
   dragging,
-  pelotaImage,
   cellSize,
   setCellSize,
   dragPos,
   dragOffset
 ) {
-  
+
 
   function draw() {
     const canvas = canvasRef.current;
@@ -49,32 +52,42 @@ export default function useGame(
         const esOrigenArrastrado =
           dragging && ctrl.selected && ctrl.selected.x === x && ctrl.selected.y === y;
 
-        if (c.ocupado && !esOrigenArrastrado && pelotaImage) {
-          ctx.drawImage(
-            pelotaImage,
-            cx - cellSize / 3,
-            cy - cellSize / 3,
-            (cellSize / 3) * 2,
-            (cellSize / 3) * 2
-          );
+        if (c.ocupado && c.ficha && !esOrigenArrastrado) {
+          const img = c.ficha.imagen;
+          if (img) {
+            ctx.drawImage(
+              img,
+              cx - cellSize / 3,
+              cy - cellSize / 3,
+              (cellSize / 3) * 2,
+              (cellSize / 3) * 2
+            );
+          }
         }
+
       }
     }
 
     // dragging piece
-    if (dragging && ctrl.selected && pelotaImage) {
+    if (dragging && ctrl.selected) {
       const rect = canvas.getBoundingClientRect();
       const drawX = dragPos.x - rect.left - dragOffset.x;
       const drawY = dragPos.y - rect.top - dragOffset.y;
 
-      ctx.drawImage(
-        pelotaImage,
-        drawX - cellSize / 3,
-        drawY - cellSize / 3,
-        (cellSize / 3) * 2,
-        (cellSize / 3) * 2
-      );
+      const selCasillero = ctrl.model.getCasillero(ctrl.selected.x, ctrl.selected.y);
+      const img = selCasillero?.ficha?.imagen;
+
+      if (img) {
+        ctx.drawImage(
+          img,
+          drawX - cellSize / 3,
+          drawY - cellSize / 3,
+          (cellSize / 3) * 2,
+          (cellSize / 3) * 2
+        );
+      }
     }
+
   }
 
 

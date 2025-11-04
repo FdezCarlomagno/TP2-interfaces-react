@@ -113,7 +113,7 @@ const Game = () => {
               <GenericGameScreen game={peg} isPremium={false} />
               {/* Gameplays debajo del juego (misma columna izquierda) */}
               <div className="gameplay-under-media">
-                <GameplayCarousel />
+                <GameplayCarousel game="peg"/>
               </div>
             </div>
             <aside className="game-grid-side">

@@ -2,6 +2,11 @@ import useTimer from "../Timer/useTimer";
 import useGame from "./useGame";
 import { Tablero } from "../model/PegModel";
 import { GameController } from "../controller/PegController";
+import pelotaImg from "../../../assets/imgs/Pelotafutbol.png";
+import pelotaImg2 from "../../../assets/imgs/football1.png"
+import pelotaImg3 from "../../../assets/imgs/football2.png"
+import pelotaImg4 from "../../../assets/imgs/football3.png"
+import pelotaImg5 from "../../../assets/imgs/football4.png"
 
 export default function useHandler(
   controller,
@@ -21,7 +26,6 @@ export default function useHandler(
   cantFichas,
   iniciarCronometro,
   detenerCronometro,
-  getRandomImage
 ) {
   // Handlers
   function handleMouseDown(e) {
@@ -69,20 +73,32 @@ export default function useHandler(
 
   const handleRestart = () => {
     console.log("restart");
+
     detenerCronometro();
     setTiempoAlcanzado(false);
     setFichasRestantes(cantFichas);
-    const tablero = new Tablero(7, 7);
-    const ctrl = new GameController(tablero, null); // inicializamos con null
 
-    // Ahora sí le asignamos el callback que apunta al nuevo controller
-    ctrl.viewCallback = () => draw(ctrl);
-    setController(ctrl);
-    getRandomImage(() => {
-      draw(ctrl);
-      iniciarCronometro();
+    //Crear las imágenes aleatorias igual que al inicio
+    const imagenes = [pelotaImg, pelotaImg2, pelotaImg3, pelotaImg4, pelotaImg5].map(src => {
+      const img = new Image();
+      img.src = src;
+      return img;
     });
+
+    //Crear el nuevo tablero con las fichas individuales
+    const tablero = new Tablero(7, 7, imagenes);
+
+    //Crear el nuevo controlador con el tablero
+    const ctrl = new GameController(tablero, null);
+
+    //Asignar callback de dibujo al nuevo controlador
+    ctrl.viewCallback = () => draw(ctrl);
+
+    setController(ctrl);
+    draw(ctrl);
+    iniciarCronometro();
   };
+
 
   return {
     handleMouseDown,
