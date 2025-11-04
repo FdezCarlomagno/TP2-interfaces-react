@@ -22,7 +22,7 @@ export default function useGame(
     const ctx = canvas.getContext("2d");
     const tablero = ctrl.model;
 
-    const canvasSize = canvas.width; // 420
+    const canvasSize = canvas.width; // 300
     const newSize = canvasSize / 7;
     if (newSize !== cellSize) setCellSize(newSize);
 
