@@ -85,18 +85,26 @@ export default function Peg() {
   //init
   useEffect(() => {
     const imagenes = [pelotaImg, pelotaImg2, pelotaImg3, pelotaImg4, pelotaImg5].map(src => {
-      const img = new Image();
+      return new Promise((resolve) => {
+        const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null); // fallback
       img.src = src;
-      return img;
+        
+      })
     });
+  
+    Promise.all(imagenes).then((imagenes) => {
+    const imagenesValidas = imagenes.filter(img => img !== null);
 
-    const tablero = new Tablero(7, 7, imagenes);
+    const tablero = new Tablero(7, 7, imagenesValidas);
     const ctrl = new GameController(tablero, () => draw(ctrl));
 
     setController(ctrl);
-    draw(ctrl);
+    draw(ctrl); // ← Ahora SÍ están cargadas
     iniciarCronometro();
-  }, []);
+  });
+  }, [cellSize]);
 
  useEffect(() => {
   if (!showInstructions && controller) {
