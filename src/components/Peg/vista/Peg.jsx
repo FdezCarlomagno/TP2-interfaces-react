@@ -31,6 +31,10 @@ export default function Peg() {
   const [tiempoAlcanzado, setTiempoAlcanzado] = useState(false);
   const [pelotaImage, setPelotaImage] = useState(null);
 
+  // Estado para animación de ficha comida
+  const [animatingPiece, setAnimatingPiece] = useState(null);
+  const [animationProgress, setAnimationProgress] = useState(0);
+
   const {
     getCellCoords,
     getClientPos,
@@ -42,7 +46,9 @@ export default function Peg() {
     cellSize,
     setCellSize,
     dragPos,
-    dragOffset
+    dragOffset,
+    animatingPiece,
+    animationProgress
   )
 
   const {
@@ -97,11 +103,15 @@ export default function Peg() {
     Promise.all(imagenes).then((imagenes) => {
     const imagenesValidas = imagenes.filter(img => img !== null);
 
-    const tablero = new Tablero(7, 7, imagenesValidas);
-    const ctrl = new GameController(tablero, () => draw(ctrl));
+    const tablero = new Tablero(9, 9, imagenesValidas);
+    const ctrl = new GameController(
+      tablero,
+      () => draw(ctrl),
+      (fichaEliminada) => animateEatenPiece(fichaEliminada)
+    );
 
     setController(ctrl);
-    draw(ctrl); // ← Ahora SÍ están cargadas
+    draw(ctrl);
     iniciarCronometro();
   });
   }, [cellSize]);
@@ -171,6 +181,31 @@ export default function Peg() {
     }
     setShowInstructions(!showInstructions)
   }
+
+  // Función para animar la ficha comida
+  const animateEatenPiece = (ficha) => {
+    if (!ficha) return;
+    setAnimatingPiece(ficha);
+    setAnimationProgress(0);
+
+    const duration = 500; // 500ms
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      setAnimationProgress(progress);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setAnimatingPiece(null);
+        setAnimationProgress(0);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  };
 
 
 return (

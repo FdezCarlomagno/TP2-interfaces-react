@@ -21,7 +21,7 @@ export class Casillero {
 }
 
 export class Tablero {
-  constructor(filas, columnas, imagenes = []) {
+  constructor(filas =9, columnas=9, imagenes = []) {
     this.filas = filas;
     this.columnas = columnas;
     this.casilleros = [];
@@ -36,7 +36,7 @@ export class Tablero {
         // Configuración tipo cruz (7x7), los dos primeros y ultimos de las primeras dos filas y ultimas dos son nulos
         const valido = this.esValido(x,y)
         let ficha = null
-        if(valido &&  !(x === 3 && y === 3)){
+        if(valido &&  !(x === 4 && y === 4)){
 
         //lo agrega al casillero si es valido y no es el del centro
         const img = imagenes[Math.floor(Math.random() * imagenes.length)]
@@ -56,7 +56,7 @@ export class Tablero {
       y < 0 ||
       y >= this.filas ||
       x >= this.columnas ||
-      !((x >= 2 && x <= 4) || (y >= 2 && y <= 4))
+      !this.esValido(x, y)
     ) {
       return null; // fuera del tablero o en zona no válida ya que es una cruz
     }
@@ -64,7 +64,7 @@ export class Tablero {
   }
 
   esValido(x, y){
-    return (x >= 2 && x <= 4) || (y >= 2 && y <= 4) ? true : false
+    return (x >= 3 && x <= 5) || (y >= 3 && y <= 5) ? true : false
   }
 
   usuarioPierde(){
@@ -114,28 +114,31 @@ export class Tablero {
   }
 
   mover(cx, cy, nx, ny, fichaSetter) {
-  const medio = this.getCasillero((cx + nx) / 2, (cy + ny) / 2);
-  const origen = this.getCasillero(cx, cy);
-  const destino = this.getCasillero(nx, ny);
+    const medio = this.getCasillero((cx + nx) / 2, (cy + ny) / 2);
+    const origen = this.getCasillero(cx, cy);
+    const destino = this.getCasillero(nx, ny);
 
-  if (origen && destino && medio && medio.ocupado && !destino.ocupado) {
-    // Mover el objeto ficha
-    destino.ficha = origen.ficha;
-    origen.ficha = null;
-    medio.ficha = null;
+    if (origen && destino && medio && medio.ocupado && !destino.ocupado) {
+      // Mover el objeto ficha
+      destino.ficha = origen.ficha;
+      origen.ficha = null;
+      const eatenFicha = medio.ficha;
+      medio.ficha = null;
 
-    // Actualizar flags
-    destino.ocupado = true;
-    origen.ocupado = false;
-    medio.ocupado = false;
+      // Actualizar flags
+      destino.ocupado = true;
+      origen.ocupado = false;
+      medio.ocupado = false;
 
-    fichaSetter(prev => prev - 1);
+      fichaSetter(prev => prev - 1);
+      return eatenFicha; // Retornar la ficha comida para animación
+    }
+    return null;
   }
-}
 
 
   resetGame(imagenes = []){
-    this.initTablero()
+    // this.initTablero()
     this.initTablero(imagenes)
   }
 }

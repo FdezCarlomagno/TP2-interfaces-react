@@ -86,7 +86,7 @@ export default function useHandler(
     });
 
     //Crear el nuevo tablero con las fichas individuales
-    const tablero = new Tablero(7, 7, imagenes);
+    const tablero = new Tablero(9, 9, imagenes);
 
     //Crear el nuevo controlador con el tablero
     const ctrl = new GameController(tablero, null);

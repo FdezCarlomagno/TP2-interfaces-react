@@ -1,7 +1,8 @@
 export class GameController {
-  constructor(model, viewCallback) {
+  constructor(model, viewCallback, animateEatenPieceCallback) {
     this.model = model;
     this.viewCallback = viewCallback;
+    this.animateEatenPieceCallback = animateEatenPieceCallback;
     this.selected = null;
     this.validMoves = [];
   }
@@ -32,7 +33,10 @@ export class GameController {
       destino &&
       this.validMoves.find((m) => m.x === destino.x && m.y === destino.y)
     ) {
-      this.model.mover(this.selected.x, this.selected.y, destino.x, destino.y, fichaSetter);
+      const eatenPiece = this.model.mover(this.selected.x, this.selected.y, destino.x, destino.y, fichaSetter);
+      if (eatenPiece && this.animateEatenPieceCallback) {
+        this.animateEatenPieceCallback(eatenPiece);
+      }
     }
     this.selected = null;
     this.validMoves = [];

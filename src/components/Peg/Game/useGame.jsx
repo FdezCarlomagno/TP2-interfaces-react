@@ -11,10 +11,32 @@ export default function useGame(
   cellSize,
   setCellSize,
   dragPos,
-  dragOffset
+  dragOffset,
+  animatingPiece,
+  animationProgress
 ) {
 
 
+  // Utils
+  function getClientPos(e) {
+    return e.touches
+      ? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
+      : { clientX: e.clientX, clientY: e.clientY };
+  }
+
+  function getCellCoords(clientX, clientY) {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const relX = clientX - rect.left;
+    const relY = clientY - rect.top;
+    const x = Math.floor(relX / cellSize);
+    const y = Math.floor(relY / cellSize);
+    const dentro = x >= 0 && y >= 0 && x < 9 && y < 9 && ((x >= 3 && x <= 5) || (y >= 3 && y <= 5));
+    return dentro ? { x, y, rect } : null;
+  }
+
+
+
+  // Modificar la función draw para incluir la ficha en animación
   function draw() {
     const canvas = canvasRef.current;
     if (!canvas || !ctrl) return;
@@ -22,15 +44,15 @@ export default function useGame(
     const ctx = canvas.getContext("2d");
     const tablero = ctrl.model;
 
-    const canvasSize = canvas.width; // 300
-    const newSize = canvasSize / 7;
+    const canvasSize = canvas.width;
+    const newSize = canvasSize / 9;
     if (newSize !== cellSize) setCellSize(newSize);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Dibujar el tablero normal
     for (let y = 0; y < tablero.filas; y++) {
       for (let x = 0; x < tablero.columnas; x++) {
-
         const c = tablero.getCasillero(x, y);
         if (!c) continue;
 
@@ -49,8 +71,7 @@ export default function useGame(
           ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
         }
 
-        const esOrigenArrastrado =
-          dragging && ctrl.selected && ctrl.selected.x === x && ctrl.selected.y === y;
+        const esOrigenArrastrado = dragging && ctrl.selected && ctrl.selected.x === x && ctrl.selected.y === y;
 
         if (c.ocupado && c.ficha && !esOrigenArrastrado) {
           const img = c.ficha.imagen;
@@ -64,11 +85,39 @@ export default function useGame(
             );
           }
         }
-
       }
     }
 
-    // dragging piece
+    // Dibujar pieza en animación si existe
+    if (animatingPiece && animatingPiece.imagen) {
+      // Necesitamos saber la posición del medio. Como no tenemos el destino, asumimos que es el último movimiento válido.
+      // Para simplificar, podemos calcular basado en el movimiento actual, pero como no tenemos el destino aquí,
+      // mejor pasamos la posición del medio desde el controller.
+
+      // Por ahora, hardcodear una posición para testear, luego ajustaremos.
+      const cx = 4 * cellSize + cellSize / 2; // Centro del tablero
+      const cy = 4 * cellSize + cellSize / 2;
+
+      // Escala: de 1x a 1.5x
+      const scale = 1 + animationProgress * 0.5;
+      const size = (cellSize / 3) * 2 * scale;
+
+      // Opacidad: de 1 a 0
+      ctx.globalAlpha = 1 - animationProgress;
+
+      ctx.drawImage(
+        animatingPiece.imagen,
+        cx - size / 2,
+        cy - size / 2,
+        size,
+        size
+      );
+
+      // Restaurar opacidad
+      ctx.globalAlpha = 1;
+    }
+
+    // Dibujar pieza siendo arrastrada
     if (dragging && ctrl.selected) {
       const rect = canvas.getBoundingClientRect();
       const drawX = dragPos.x - rect.left - dragOffset.x;
@@ -87,27 +136,7 @@ export default function useGame(
         );
       }
     }
-
   }
-
-
-  // Utils
-  function getClientPos(e) {
-    return e.touches
-      ? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
-      : { clientX: e.clientX, clientY: e.clientY };
-  }
-
-  function getCellCoords(clientX, clientY) {
-    const rect = canvasRef.current.getBoundingClientRect();
-    const relX = clientX - rect.left;
-    const relY = clientY - rect.top;
-    const x = Math.floor(relX / cellSize);
-    const y = Math.floor(relY / cellSize);
-    const dentro = x >= 0 && y >= 0 && x < 7 && y < 7 && ((x >= 2 && x <= 4) || (y >= 2 && y <= 4));
-    return dentro ? { x, y, rect } : null;
-  }
-
 
   return {
     getCellCoords,
