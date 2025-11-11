@@ -20,10 +20,10 @@
     background-color: #31313198;
     backdrop-filter: blur();
     padding: 1rem;
-    width: 400px;
+    width: 500px;
     position: absolute;
-    top: -150px;
-    right: 0px;
+    top: -190px;
+    right: -80px;
     border-radius: 12px;
 }
 
@@ -41,6 +41,21 @@
     top: 64px;
     right: -200px;
 }
+
+.boost {
+    position: absolute;
+    padding: 0.7rem;
+    top: 112px;
+    right: -200px;
+}
+
+.boost:disabled {
+    background-color: #313131;
+    color: gray;
+    cursor: not-allowed;
+}
+
+
 
 
 .reset:hover {

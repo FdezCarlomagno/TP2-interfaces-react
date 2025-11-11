@@ -5,7 +5,7 @@ import pelotaImg4 from "../../../assets/imgs/football3.png"
 import pelotaImg5 from "../../../assets/imgs/football4.png"
 
 export class Ficha {
-  constructor(tipo, imagen){
+  constructor(tipo, imagen) {
     this.tipo = tipo
     this.imagen = imagen
   }
@@ -21,7 +21,7 @@ export class Casillero {
 }
 
 export class Tablero {
-  constructor(filas =9, columnas=9, imagenes = []) {
+  constructor(filas = 9, columnas = 9, imagenes = []) {
     this.filas = filas;
     this.columnas = columnas;
     this.casilleros = [];
@@ -34,20 +34,34 @@ export class Tablero {
       const fila = [];
       for (let x = 0; x < this.columnas; x++) {
         // Configuración tipo cruz (7x7), los dos primeros y ultimos de las primeras dos filas y ultimas dos son nulos
-        const valido = this.esValido(x,y)
+        const valido = this.esValido(x, y)
         let ficha = null
-        if(valido &&  !(x === 4 && y === 4)){
+        if (valido && !(x === 4 && y === 4)) {
 
-        //lo agrega al casillero si es valido y no es el del centro
-        const img = imagenes[Math.floor(Math.random() * imagenes.length)]
-        const tipo = `tipo-${Math.floor(Math.random() * imagenes.length)}`;
-        ficha = new Ficha(tipo, img)
+          //lo agrega al casillero si es valido y no es el del centro
+          const img = imagenes[Math.floor(Math.random() * imagenes.length)]
+          const tipo = `tipo-${Math.floor(Math.random() * imagenes.length)}`;
+          ficha = new Ficha(tipo, img)
         }
         fila.push(new Casillero(x, y, ficha !== null, ficha));
       }
       this.casilleros.push(fila);
     }
   }
+
+  getAllEmptyCasilleros() {
+    const vacios = [];
+    for (let y = 0; y < this.filas; y++) {
+      for (let x = 0; x < this.columnas; x++) {
+        const c = this.getCasillero(x, y);
+        if (c && !c.ocupado) {
+          vacios.push(c);
+        }
+      }
+    }
+    return vacios;
+  }
+
 
   getCasillero(x, y) {
     //sin esto te tomaria como valido cualquier casillero fuera de la cruz ya que existe en el array y estan vacios (sin fichas)
@@ -63,19 +77,19 @@ export class Tablero {
     return this.casilleros[y][x];
   }
 
-  esValido(x, y){
+  esValido(x, y) {
     return (x >= 3 && x <= 5) || (y >= 3 && y <= 5) ? true : false
   }
 
-  usuarioPierde(){
-    for(let y = 0; y < this.filas; y++){
-      for(let x = 0; x < this.columnas; x++){
-        const casillero = this.getCasillero(x,y)
-        if(!casillero || !casillero.ocupado){
+  usuarioPierde() {
+    for (let y = 0; y < this.filas; y++) {
+      for (let x = 0; x < this.columnas; x++) {
+        const casillero = this.getCasillero(x, y)
+        if (!casillero || !casillero.ocupado) {
           continue
         }
 
-        if(this.posiblesMovimientos(x , y).length > 0){
+        if (this.posiblesMovimientos(x, y).length > 0) {
           return false;
         }
       }
@@ -83,7 +97,7 @@ export class Tablero {
     return true;
   }
 
-  usuarioGana(){
+  usuarioGana() {
     return this.getCasillero(3, 3).ocupado
   }
 
@@ -102,7 +116,7 @@ export class Tablero {
 
     //define el casillero a saltar (medio) que debe estar ocupado y el destino que debe estar vacio
     for (let { dx, dy } of saltos) {
-        //la mitad del salto es ek casillero intermedio
+      //la mitad del salto es ek casillero intermedio
       const medio = this.getCasillero(cx + dx / 2, cy + dy / 2);
       const destino = this.getCasillero(cx + dx, cy + dy);
       if (medio && destino && medio.ocupado && !destino.ocupado) {
@@ -119,10 +133,16 @@ export class Tablero {
     const destino = this.getCasillero(nx, ny);
 
     if (origen && destino && medio && medio.ocupado && !destino.ocupado) {
-      // Mover el objeto ficha
+      // Guardar copia de la ficha comida ANTES de eliminarla
+      const eatenFicha = {
+        x: medio.x,
+        y: medio.y,
+        img: medio.ficha?.imagen || null,
+      };
+
+      // Mover la ficha
       destino.ficha = origen.ficha;
       origen.ficha = null;
-      const eatenFicha = medio.ficha;
       medio.ficha = null;
 
       // Actualizar flags
@@ -131,13 +151,14 @@ export class Tablero {
       medio.ocupado = false;
 
       fichaSetter(prev => prev - 1);
-      return eatenFicha; // Retornar la ficha comida para animación
+      return eatenFicha; // devolvemos un objeto listo para animar
     }
     return null;
   }
 
 
-  resetGame(imagenes = []){
+
+  resetGame(imagenes = []) {
     // this.initTablero()
     this.initTablero(imagenes)
   }

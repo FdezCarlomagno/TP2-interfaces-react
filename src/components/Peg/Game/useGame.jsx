@@ -86,6 +86,24 @@ export default function useGame(
           }
         }
       }
+
+      if (animatingPiece) {
+        const ctx = canvas.getContext("2d");
+        const { x, y, img } = animatingPiece;
+
+        const scale = 1 - animationProgress; // se achica hasta desaparecer
+        const alpha = 1 - animationProgress; // se desvanece
+        const size = cellSize * scale;
+
+        const drawX = x * cellSize + cellSize / 2;
+        const drawY = y * cellSize + cellSize / 2;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(img, drawX - size / 2, drawY - size / 2, size, size);
+        ctx.restore();
+      }
+
     }
 
     // Dibujar pieza en animación si existe

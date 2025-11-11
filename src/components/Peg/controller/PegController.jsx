@@ -7,22 +7,28 @@ export class GameController {
     this.validMoves = [];
   }
 
-  selectPiece(x, y) {
-    //le pide las coordenadas al modelo
+  selectPiece(x, y, boostActivo = false) {
     const c = this.model.getCasillero(x, y);
     if (c && c.ocupado) {
       this.selected = c;
-      this.validMoves = this.model.posiblesMovimientos(x, y);
-      //refrescar la vista
+
+      if (boostActivo) {
+        // Todos los casilleros válidos y vacíos se vuelven posibles movimientos
+        this.validMoves = this.model.getAllEmptyCasilleros();
+      } else {
+        this.validMoves = this.model.posiblesMovimientos(x, y);
+      }
+
       this.viewCallback();
     }
   }
 
-  usuarioPierde(){
+
+  usuarioPierde() {
     return this.model.usuarioPierde()
   }
 
-  usuarioGana(){
+  usuarioGana() {
     return this.model.usuarioGana()
   }
 
@@ -33,7 +39,14 @@ export class GameController {
       destino &&
       this.validMoves.find((m) => m.x === destino.x && m.y === destino.y)
     ) {
-      const eatenPiece = this.model.mover(this.selected.x, this.selected.y, destino.x, destino.y, fichaSetter);
+      const eatenPiece = this.model.mover(
+        this.selected.x,
+        this.selected.y,
+        destino.x,
+        destino.y,
+        fichaSetter
+      );
+
       if (eatenPiece && this.animateEatenPieceCallback) {
         this.animateEatenPieceCallback(eatenPiece);
       }
@@ -51,7 +64,7 @@ export class GameController {
     this.viewCallback();
   }
 
-  resetGame(){
+  resetGame() {
     this.selected = null;
     this.validMoves = [];
     this.model.resetGame()
