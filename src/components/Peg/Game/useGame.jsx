@@ -59,21 +59,22 @@ export default function useGame(
         const cx = x * cellSize + cellSize / 2;
         const cy = y * cellSize + cellSize / 2;
 
-        // casilla
+        // Dibuja casillero
         ctx.fillStyle = "#f0d9b5";
         ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
         ctx.strokeStyle = "#333";
         ctx.strokeRect(x * cellSize, y * cellSize, cellSize, cellSize);
 
+        //Rellena los casilleros válidos para saltar de Verde
         const esHint = ctrl.validMoves.some(m => m.x === x && m.y === y);
         if (esHint) {
           ctx.fillStyle = "rgba(0,255,0,0.3)";
           ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
         }
 
+        
         const esOrigenArrastrado = dragging && ctrl.selected && ctrl.selected.x === x && ctrl.selected.y === y;
-
-        if (c.ocupado && c.ficha && !esOrigenArrastrado) {
+        if (c.ocupado && c.ficha && !esOrigenArrastrado) { //Verifica que no se dibuje en el Tablero la Ficha que está siendo Arrastrada
           const img = c.ficha.imagen;
           if (img) {
             ctx.drawImage(
@@ -87,6 +88,7 @@ export default function useGame(
         }
       }
 
+      //Pieza que es comida
       if (animatingPiece) {
         const ctx = canvas.getContext("2d");
         const { x, y, img } = animatingPiece;
@@ -104,35 +106,6 @@ export default function useGame(
         ctx.restore();
       }
 
-    }
-
-    // Dibujar pieza en animación si existe
-    if (animatingPiece && animatingPiece.imagen) {
-      // Necesitamos saber la posición del medio. Como no tenemos el destino, asumimos que es el último movimiento válido.
-      // Para simplificar, podemos calcular basado en el movimiento actual, pero como no tenemos el destino aquí,
-      // mejor pasamos la posición del medio desde el controller.
-
-      // Por ahora, hardcodear una posición para testear, luego ajustaremos.
-      const cx = 4 * cellSize + cellSize / 2; // Centro del tablero
-      const cy = 4 * cellSize + cellSize / 2;
-
-      // Escala: de 1x a 1.5x
-      const scale = 1 + animationProgress * 0.5;
-      const size = (cellSize / 3) * 2 * scale;
-
-      // Opacidad: de 1 a 0
-      ctx.globalAlpha = 1 - animationProgress;
-
-      ctx.drawImage(
-        animatingPiece.imagen,
-        cx - size / 2,
-        cy - size / 2,
-        size,
-        size
-      );
-
-      // Restaurar opacidad
-      ctx.globalAlpha = 1;
     }
 
     // Dibujar pieza siendo arrastrada

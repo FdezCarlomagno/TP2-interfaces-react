@@ -32,18 +32,20 @@ export default function useHandler(
   setMessiBoostDisponible,
   animateEatenPiece // callback para pasar al controlador nuevo en restart
 ) {
+  //CLIC
   function handleMouseDown(e) {
     if (!controller) return;
-    const { clientX, clientY } = getClientPos(e);
-    const pos = getCellCoords(clientX, clientY);
+    const { clientX, clientY } = getClientPos(e); //Obtiene las coordenadas de dónde se hizo clic en píxeles
+    const pos = getCellCoords(clientX, clientY); //Traduce esos píxeles a un casillero(Fila y Columna)
     if (!pos) return;
 
     const { x, y, rect } = pos;
     const c = controller.model.getCasillero(x, y);
-    if (!c?.ocupado) return;
+    if (!c?.ocupado) return; //Si está no ocupado no se puede arrastrar
 
-    controller.selectPiece(x, y, modoBoostActivo);
-    setDragging(true);
+    //Activación del arrastre
+    controller.selectPiece(x, y, modoBoostActivo); //Va al Controller, Model y Vista
+    setDragging(true); //Interruptor
     setDragOrigin({ x, y });
     setDragPos({ x: clientX, y: clientY });
 
@@ -55,11 +57,12 @@ export default function useHandler(
     draw(controller);
   }
 
+  //ARRASTRE
   function handleMouseMove(e) {
-    if (!dragging) return;
+    if (!dragging) return; //Comprueba que estés arrastrando una ficha
     const { clientX, clientY } = getClientPos(e);
-    setDragPos({ x: clientX, y: clientY });
-    draw(controller);
+    setDragPos({ x: clientX, y: clientY }); //Va cambiando la pos donde se Arrastra la Ficha
+    draw(controller); //Dibuja el arrastre(si no, no se ve la ficha moviéndose)
   }
 
   function handleMouseUp(e) {

@@ -117,8 +117,8 @@ export class Tablero {
     //define el casillero a saltar (medio) que debe estar ocupado y el destino que debe estar vacio
     for (let { dx, dy } of saltos) {
       //la mitad del salto es ek casillero intermedio
-      const medio = this.getCasillero(cx + dx / 2, cy + dy / 2);
-      const destino = this.getCasillero(cx + dx, cy + dy);
+      const medio = this.getCasillero(cx + dx / 2, cy + dy / 2); //Obtiene los 4 próximos (Fichas a saltar)
+      const destino = this.getCasillero(cx + dx, cy + dy); //Obtiene los 4 que le siguen (Casilleros a ocupar)
       if (medio && destino && medio.ocupado && !destino.ocupado) {
         //guarda las coordenadas de los destinos validos y las retorna
         moves.push(destino);
@@ -127,7 +127,7 @@ export class Tablero {
     return moves;
   }
 
-  mover(cx, cy, nx, ny, fichaSetter) {
+  mover(cx, cy, nx, ny, fichaSetter) { //4, 8, 6, 8, por ej.
     const medio = this.getCasillero((cx + nx) / 2, (cy + ny) / 2);
     const origen = this.getCasillero(cx, cy);
     const destino = this.getCasillero(nx, ny);
