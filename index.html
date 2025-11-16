@@ -17,5 +17,9 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.addEventListener('keydown', e=>{ if(e.code==='Space' && e.target===document.body) e.preventDefault(); });
+
+    </script>
   </body>
 </html>

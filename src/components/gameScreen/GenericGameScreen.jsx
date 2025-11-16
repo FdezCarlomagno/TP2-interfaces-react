@@ -5,6 +5,7 @@ import './GameScreen.css'
 import gamehubLogo from '../../assets/imageLogo.svg'
 import BlockaGame from "../blockaGame/BlockaGame";
 import BlockaGameV2 from "../blockaGameV2/BlockaGameV2";
+import FlappyBird from '../flappyBird/view/flappyBird.view'
 
 const GenericGameScreen = ({game, isPremium}) => {
   const location = useLocation();
@@ -53,9 +54,16 @@ return (
               {location.pathname.includes('/juegos/peg') && <Peg />}
               {location.pathname.includes('/juegos/blocka') && <BlockaGameV2 onExit={handleExitBlocka} />}
             </div>
+          
           </div>
         )}
       </div>
+
+      {isPlaying && <>
+        <div className="game-play-area-flappy-bird">
+            {location.pathname.includes('/juegos/flappy-bird') && <FlappyBird />}
+        </div>
+      </>}
 
       {/* Control bar */}
       <div className="control-bar">

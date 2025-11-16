@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+
+
+.flappy-bird-screen {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    
+    /* Valores EXACTOS para 122x24px con 3 frames */
+    --frame-width: 34px;
+    --frame-height: 24px;
+    --spacing: 10px;
+    --frames: 3;
+    --fps: 10;
+}
+
+/* Capas base */
+.bg-layer1,
+.bg-layer2,
+.bg-layer3,
+.bg-layer4,
+.bg-layer5,
+.bg-layer6,
+.bg-layer7,
+.bg-layer8 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    background-size: 50% 100%;
+    background-position: 0 bottom;
+    will-change: transform;
+}
+
+/* Animación fluida sin cortes usando transform */
+@keyframes parallaxScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.bg-layer1 {
+    background-image: url("../../../assets/parallax/layer1.png");
+    z-index: 8;
+    animation: parallaxScroll 4s linear infinite;
+}
+
+.bg-layer2 {
+    background-image: url("../../../assets/parallax/layer2.png");
+    z-index: 7;
+    animation: parallaxScroll 8s linear infinite;
+}
+
+.bg-layer3 {
+    background-image: url("../../../assets/parallax/layer3.png");
+    z-index: 6;
+    animation: parallaxScroll 16s linear infinite;
+}
+
+.bg-layer4 {
+    background-image: url("../../../assets/parallax/layer4.png");
+    z-index: 5;
+    animation: parallaxScroll 20s linear infinite;
+}
+
+.bg-layer5 {
+    background-image: url("../../../assets/parallax/layer5.png");
+    z-index: 4;
+    animation: parallaxScroll 24s linear infinite;
+}
+
+.bg-layer6 {
+    background-image: url("../../../assets/parallax/layer6.png");
+    z-index: 3;
+    animation: parallaxScroll 26s linear infinite;
+}
+
+.bg-layer7 {
+    background-image: url("../../../assets/parallax/layer7.png");
+    z-index: 2;
+    animation: parallaxScroll 28s linear infinite;
+}
+
+.bg-layer8 {
+    background-image: url("../../../assets/parallax/layer8.png");
+    z-index: 1;
+    animation: parallaxScroll 30s linear infinite;
+}
+
+.start-flappy-bird {
+    position: absolute;
+    z-index: 100;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.5rem 3rem;
+    border: none;
+    background-color: #f7bd42;
+    border-radius: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 1rem;
+    color: #fff;
+    text-shadow: 3px 3px 0px #000;
+    box-shadow:
+        0 8px 0 #c89d35,
+        0 8px 0 2px #000,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.1s;
+    image-rendering: pixelated;
+    letter-spacing: 2px;
+    animation: buttonBounce 2s ease-in-out infinite;
+}
+
+.exit-flappy-bird {
+    position: absolute;
+    z-index: 100;
+    top: 5%;
+    left: 8%;
+    transform: translate(-50%, -50%);
+    padding: 0.5rem 1.2rem;
+    border: none;
+    background-color: #f7bd42;
+    border-radius: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: #fff;
+    text-shadow: 3px 3px 0px #000;
+    box-shadow:
+        0 8px 0 #c89d35,
+        0 8px 0 2px #000,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.1s;
+    image-rendering: pixelated;
+    letter-spacing: 2px;
+}
+
+.pause-flappy-bird {
+    position: absolute;
+    z-index: 100;
+    top: 5%;
+    left: 92%;
+    transform: translate(-50%, -50%);
+    padding: 0.5rem 1.2rem;
+    border: none;
+    background-color: #f7bd42;
+    border-radius: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: #fff;
+    text-shadow: 3px 3px 0px #000;
+    box-shadow:
+        0 8px 0 #c89d35,
+        0 8px 0 2px #000,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.1s;
+    image-rendering: pixelated;
+    letter-spacing: 2px;
+}
+
+.resume {
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes buttonBounce {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -55%) scale(1.05);
+    }
+}
+
+.start-flappy-bird:hover,
+.exit-flappy-bird:hover,
+.pause-flappy-bird:hover {
+    background-color: #ffcc55;
+    animation: none;
+    transform: translate(-50%, -52%);
+}
+
+.start-flappy-bird:active,
+.exit-flappy-bird:active,
+.pause-flappy-bird:active {
+    animation: none;
+    transform: translate(-50%, -48%);
+    box-shadow:
+        0 4px 0 #c89d35,
+        0 4px 0 2px #000,
+        0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+
+.flappy-bird-title {
+    position: absolute;
+    z-index: 100;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 4rem;
+    color: #fff;
+    text-align: center;
+    text-shadow:
+        6px 6px 0px #000,
+        8px 8px 0px #f7bd42,
+        10px 10px 0px #c89d35;
+    letter-spacing: 4px;
+    image-rendering: pixelated;
+}
+
+.score-display {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 2rem;
+    color: #fff;
+    text-shadow:
+        4px 4px 0px #000,
+        6px 6px 0px #f7bd42;
+    letter-spacing: 2px;
+}
+
+
+/* El sprite */
+.flappy {
+    width: 34px;
+    height: 24px;
+    background-image: url('../../../assets/flappyBird/bird/flappy_spritesheet.png');
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    /* CLAVE: usar steps(3) para que salte frame por frame */
+    animation: flap 0.3s steps(3) infinite;
+    image-rendering: pixelated;
+}
+
+.pause-hint {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: #fff;
+    text-shadow: 
+        2px 2px 0px #000;
+    letter-spacing: 1px;
+}
+
+
+/* Animación con valores exactos en píxeles */
+@keyframes flap {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -132px 0;  /* -(34+10) × 2 = -88px */
+    }
+}
+
+/* Escalado */
+.flappy.scale-2 {
+    transform: scale(2);
+    transform-origin: left top;
+}
+
+/* Versión responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    .flappy-bird-title {
+        font-size: 2.5rem;
+        text-shadow:
+            4px 4px 0px #000,
+            6px 6px 0px #f7bd42,
+            8px 8px 0px #c89d35;
+    }
+}
+
+@media (max-width: 480px) {
+    .flappy-bird-title {
+        font-size: 1.8rem;
+        text-shadow:
+            3px 3px 0px #000,
+            5px 5px 0px #f7bd42,
+            7px 7px 0px #c89d35;
+    }
+}
