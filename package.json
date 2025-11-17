@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://FdezCarlomagno.github.io/TP2-interfaces-react",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -19,7 +18,8 @@
     "react-dom": "^19.1.1",
     "react-google-recaptcha": "^3.1.0",
     "react-hot-toast": "^2.6.0",
-    "react-router-dom": "^7.9.3"
+    "react-router-dom": "^7.9.3",
+    "framer-motion": "^10.12.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

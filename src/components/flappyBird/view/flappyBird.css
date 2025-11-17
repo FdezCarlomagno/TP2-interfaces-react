@@ -252,6 +252,12 @@
     image-rendering: pixelated;
 }
 
+/* Positioning for sprite moved to CSS; left/top remain dynamic inline */
+.flappy {
+    position: absolute;
+    z-index: 50;
+}
+
 .pause-hint {
     position: absolute;
     top: 70%;
@@ -283,6 +289,40 @@
     transform-origin: left top;
 }
 
+/* Make the bird render at 2x by default (matches previous behavior) */
+.flappy {
+    transform: scale(2);
+    transform-origin: left top;
+}
+
+/* Force pipes visible and crisp */
+.pipe {
+    z-index: 20;
+    image-rendering: pixelated;
+    background-size: 70px auto !important;
+    background-repeat: repeat-y !important;
+}
+
+/* Pipe base styles moved out of inline styles; uses --pipe-bg variable set inline */
+.pipe {
+    position: absolute;
+    width: 70px;
+    background-image: var(--pipe-bg);
+    background-position: top;
+}
+
+.pipe.pipe-top {
+    transform: scaleY(-1);
+    background-position: bottom;
+}
+
+.pipe.pipe-bottom {
+    background-position: top;
+}
+
+/* Pipe hit animation: pulse and fade without changing scaleY transform */
+/* pipe-hit removed: pipes are animated with framer-motion to remain visible */
+
 /* Versión responsive para pantallas pequeñas */
 @media (max-width: 768px) {
     .flappy-bird-title {
@@ -302,4 +342,51 @@
             5px 5px 0px #f7bd42,
             7px 7px 0px #c89d35;
     }
+}
+
+/* --------- EXPLOSION EFFECT (image/SVG) --------- */
+
+/* SVG sprite styles removed; explosion uses image-based keyframe animation now */
+
+.explosion-img {
+    position: absolute;
+    width: 96px;
+    height: 96px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 120;
+    image-rendering: pixelated;
+    animation: expl-img-explode 600ms cubic-bezier(.15,.8,.25,1) forwards;
+}
+
+/* Explosion image animation: starts small & transparent, grows fast and fades */
+@keyframes expl-img-explode {
+    0% { transform: translate(-50%, -50%) scale(0.25); opacity: 0.1; filter: blur(0px) }
+    40% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; filter: drop-shadow(0 0 18px rgba(255,130,50,0.9)) }
+    80% { transform: translate(-50%, -50%) scale(2.1); opacity: 1; filter: blur(1px) }
+    100% { transform: translate(-50%, -50%) scale(2.7); opacity: 0.7; filter: blur(6px) }
+}
+
+
+/* Canvas for particle explosions */
+.explosion-canvas {
+    display: none; /* removed: canvas particle system not used */
+}
+
+/* Bird disappearance handled via keyframes */
+.bird-hit {
+    animation: bird-fade 600ms cubic-bezier(.15,.8,.25,1) forwards;
+}
+
+@keyframes bird-fade {
+    0% { opacity: 1 }
+    25% { opacity: 0.25 }
+    50% { opacity: 0.5 }
+    100% { opacity: 0 }
+}
+
+@keyframes bird-explode {
+    0% { transform: scale(2) translate(0, 0) rotate(0deg); opacity: 1 }
+    25% { transform: scale(0.6) rotate(-8deg); opacity: 1 }
+    100% { transform: scale(0.2) rotate(22deg); opacity: 0 }
 }
