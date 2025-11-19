@@ -16,84 +16,48 @@
     --fps: 10;
 }
 
-/* Capas base */
-.bg-layer1,
-.bg-layer2,
-.bg-layer3,
-.bg-layer4,
-.bg-layer5,
-.bg-layer6,
-.bg-layer7,
-.bg-layer8 {
+.btn1 {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    background-repeat: repeat-x;
-    background-size: 50% 100%;
-    background-position: 0 bottom;
-    will-change: transform;
+    z-index: 100;
+    top: 20%;
+    left: 15%;
 }
 
-/* Animación fluida sin cortes usando transform */
-@keyframes parallaxScroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
+.btn2 {
+    position: absolute;
+    z-index: 100;
+    top: 40%;
+    left: 15%;
 }
 
-.bg-layer1 {
-    background-image: url("../../../assets/parallax/layer1.png");
-    z-index: 8;
-    animation: parallaxScroll 4s linear infinite;
+.btn3 {
+    position: absolute;
+    z-index: 100;
+    top: 60%;
+    left: 15%;
 }
 
-.bg-layer2 {
-    background-image: url("../../../assets/parallax/layer2.png");
-    z-index: 7;
-    animation: parallaxScroll 8s linear infinite;
+.button-background {
+    transform: translate(-50%, -50%);
+    padding: 1rem 2rem;
+    border: none;
+    background-color: #f7be4271;
+    border-radius: 0;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: rem;
+    color: #fff;
+    text-shadow: 3px 3px 0px #000;
+    box-shadow:
+        0 8px 0 #c89d35,
+        0 8px 0 2px #000,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.1s;
+    image-rendering: pixelated;
+    letter-spacing: 2px;
+
 }
 
-.bg-layer3 {
-    background-image: url("../../../assets/parallax/layer3.png");
-    z-index: 6;
-    animation: parallaxScroll 16s linear infinite;
-}
-
-.bg-layer4 {
-    background-image: url("../../../assets/parallax/layer4.png");
-    z-index: 5;
-    animation: parallaxScroll 20s linear infinite;
-}
-
-.bg-layer5 {
-    background-image: url("../../../assets/parallax/layer5.png");
-    z-index: 4;
-    animation: parallaxScroll 24s linear infinite;
-}
-
-.bg-layer6 {
-    background-image: url("../../../assets/parallax/layer6.png");
-    z-index: 3;
-    animation: parallaxScroll 26s linear infinite;
-}
-
-.bg-layer7 {
-    background-image: url("../../../assets/parallax/layer7.png");
-    z-index: 2;
-    animation: parallaxScroll 28s linear infinite;
-}
-
-.bg-layer8 {
-    background-image: url("../../../assets/parallax/layer8.png");
-    z-index: 1;
-    animation: parallaxScroll 30s linear infinite;
-}
 
 .start-flappy-bird {
     position: absolute;
@@ -119,6 +83,15 @@
     letter-spacing: 2px;
     animation: buttonBounce 2s ease-in-out infinite;
 }
+
+.selected {
+    background-color: #f78442;
+        box-shadow:
+        0 8px 0 #a8511f,
+        0 8px 0 2px #000,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
 
 .exit-flappy-bird {
     position: absolute;
@@ -188,7 +161,8 @@
 
 .start-flappy-bird:hover,
 .exit-flappy-bird:hover,
-.pause-flappy-bird:hover {
+.pause-flappy-bird:hover,
+.button-background:hover {
     background-color: #ffcc55;
     animation: none;
     transform: translate(-50%, -52%);
@@ -196,7 +170,8 @@
 
 .start-flappy-bird:active,
 .exit-flappy-bird:active,
-.pause-flappy-bird:active {
+.pause-flappy-bird:active,
+.button-background:active {
     animation: none;
     transform: translate(-50%, -48%);
     box-shadow:

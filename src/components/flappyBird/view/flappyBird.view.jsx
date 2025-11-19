@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import './flappyBird.css'
+import './parallax.css'
 import { Bird } from '../model/Bird'
 import { Pipe } from '../model/Pipe'
 import pipeGreen from '../../../assets/flappyBird/pipes/pipe-green.png'
@@ -15,12 +16,19 @@ const GAME_STATES = {
     STOPPED: 'STOPPED'
 }
 
+const PARALLAX_BACKGROUNDS = {
+    BG1: 'BG1',
+    BG2: 'BG2',
+    BG3: 'BG3'
+}
+
 export default function FlappyBird() {
     const [gameState, setGameState] = useState(GAME_STATES.NOT_RUNNING)
+    const [background, setBackground] = useState(PARALLAX_BACKGROUNDS.BG1)
+    const [explosion, setExplosion] = useState(null)
     const [score, setScore] = useState(0)
     const [birdPosition, setBirdPosition] = useState({ x: 100, y: 250 })
     const [pipes, setPipes] = useState([])
-    const [explosion, setExplosion] = useState(null)
     
     const birdRef = useRef(null)
     const gameLoopRef = useRef(null)
@@ -108,7 +116,7 @@ export default function FlappyBird() {
                     handleGameOver(bird.x, bird.y, { src: explosionImg })
                     return
                 }
-                
+
                 // Verificar si el pájaro pasó la tubería (sumar puntos)
                 if (pipe.hasPassed(bird)) {
                     setScore(prev => prev + 1)
@@ -117,7 +125,7 @@ export default function FlappyBird() {
 
             // Eliminar tuberías que salieron de la pantalla
             pipesRef.current = pipesRef.current.filter(pipe => !pipe.isOffScreen())
-            
+
             // Actualizar estado de las tuberías para renderizado
             setPipes([...pipesRef.current])
         }, 1000 / 60) // 60 FPS
@@ -233,8 +241,8 @@ export default function FlappyBird() {
     }, [gameState])
 
     return (
-        <div 
-            className="flappy-bird-screen" 
+        <div
+            className="flappy-bird-screen"
             ref={screenRef}
             onClick={handleJump}
         >
@@ -252,7 +260,7 @@ export default function FlappyBird() {
                     }}>
                         PAUSA
                     </button>
-                    
+
                     {/* Score Display */}
                     <div className='score-display'>
                         {score}
@@ -290,9 +298,9 @@ export default function FlappyBird() {
                         </div>
                     ))}
 
-                    {/* El pájaro con spritesheet — desaparición controlada por keyframes CSS */}
-                    <div
-                        className={`flappy ${explosion ? 'bird-hit' : ''}`}
+                    {/* El pájaro con spritesheet */}
+                    <div 
+                        className="flappy scale-2" 
                         style={{
                             left: `${birdPosition.x}px`,
                             top: `${birdPosition.y}px`
@@ -322,15 +330,32 @@ export default function FlappyBird() {
                 </>
             )}
 
-            <div className='bg-layer1'></div>
-            <div className='bg-layer2'></div>
-            <div className='bg-layer3'></div>
-            <div className='bg-layer4'></div>
-            <div className='bg-layer5'></div>
-            <div className='bg-layer6'></div>
-            <div className='bg-layer7'></div>
-            <div className='bg-layer8'></div>
-            {/* particle canvas removed; using framer-motion for pipe/impact animation */}
+                 {background == PARALLAX_BACKGROUNDS.BG1 && <>
+                <div className='bg-layer1'></div>
+                <div className='bg-layer2'></div>
+                <div className='bg-layer3'></div>
+                <div className='bg-layer4'></div>
+                <div className='bg-layer5'></div>
+                <div className='bg-layer6'></div>
+                <div className='bg-layer7'></div>
+                <div className='bg-layer8'></div>
+            </>}
+            {background == PARALLAX_BACKGROUNDS.BG2 && <>
+                <div className='bg2-layer1'></div>
+                <div className='bg2-layer2'></div>
+                <div className='bg2-layer3'></div>
+                <div className='bg2-layer4'></div>
+                <div className='bg2-layer5'></div>
+                <div className='bg2-layer6'></div>
+                <div className='bg2-layer7'></div>
+            </>}
+            {background == PARALLAX_BACKGROUNDS.BG3 && <>
+                <div className='bg3-layer1'></div>
+                <div className='bg3-layer2'></div>
+                <div className='bg3-layer3'></div>
+                <div className='bg3-layer4'></div>
+                <div className='bg3-layer5'></div>
+            </>}
 
             {gameState === GAME_STATES.NOT_RUNNING && (
                 <>
@@ -338,6 +363,25 @@ export default function FlappyBird() {
                     <button className='start-flappy-bird' onClick={handleStartGame}>
                         EMPEZAR JUEGO
                     </button>
+                    <div className='background-selector'>
+                        <div className='background-selector-buttons'>
+                            <button className={`button-background btn1 ${background === PARALLAX_BACKGROUNDS.BG1 && 'selected'} `} onClick={() => {
+                                setBackground(PARALLAX_BACKGROUNDS.BG1)
+                            }}>
+                                Ciudad
+                            </button>
+                            <button className={`button-background btn2 ${background === PARALLAX_BACKGROUNDS.BG2 && 'selected'} `} onClick={() => {
+                                setBackground(PARALLAX_BACKGROUNDS.BG2)
+                            }}>
+                                Bosque
+                            </button>
+                            <button className={`button-background btn3 ${background === PARALLAX_BACKGROUNDS.BG3 && 'selected'} `}onClick={() => {
+                                setBackground(PARALLAX_BACKGROUNDS.BG3)
+                            }}>
+                                Montaña
+                            </button>
+                        </div>
+                    </div>
                 </>
             )}
         </div>

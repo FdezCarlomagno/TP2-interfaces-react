@@ -1,0 +1,170 @@
+/* Capas base */
+.bg-layer1,
+.bg-layer2,
+.bg-layer3,
+.bg-layer4,
+.bg-layer5,
+.bg-layer6,
+.bg-layer7,
+.bg-layer8,
+.bg2-layer1,
+.bg2-layer2,
+.bg2-layer3,
+.bg2-layer4,
+.bg2-layer5,
+.bg2-layer6,
+.bg2-layer7,
+.bg3-layer1,
+.bg3-layer2,
+.bg3-layer3,
+.bg3-layer4,
+.bg3-layer5 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    background-size: 50% 100%;
+    background-position: 0 bottom;
+    will-change: transform;
+}
+
+/* Animación fluida sin cortes usando transform */
+@keyframes parallaxScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.bg-layer1 {
+    background-image: url("../../../assets/parallax/layer1.png");
+    z-index: 8;
+    animation: parallaxScroll 4s linear infinite;
+}
+
+.bg-layer2 {
+    background-image: url("../../../assets/parallax/layer2.png");
+    z-index: 7;
+    animation: parallaxScroll 8s linear infinite;
+}
+
+.bg-layer3 {
+    background-image: url("../../../assets/parallax/layer3.png");
+    z-index: 6;
+    animation: parallaxScroll 16s linear infinite;
+}
+
+.bg-layer4 {
+    background-image: url("../../../assets/parallax/layer4.png");
+    z-index: 5;
+    animation: parallaxScroll 20s linear infinite;
+}
+
+.bg-layer5 {
+    background-image: url("../../../assets/parallax/layer5.png");
+    z-index: 4;
+    animation: parallaxScroll 24s linear infinite;
+}
+
+.bg-layer6 {
+    background-image: url("../../../assets/parallax/layer6.png");
+    z-index: 3;
+    animation: parallaxScroll 26s linear infinite;
+}
+
+.bg-layer7 {
+    background-image: url("../../../assets/parallax/layer7.png");
+    z-index: 2;
+    animation: parallaxScroll 28s linear infinite;
+}
+
+.bg-layer8 {
+    background-image: url("../../../assets/parallax/layer8.png");
+    z-index: 1;
+    animation: parallaxScroll 30s linear infinite;
+}
+
+/**
+SEGUNDO BACKGROUND DE PARALLAX
+*/
+
+.bg2-layer1 {
+    background-image: url("../../../assets/parallaxBg2/layer1-bg2.png");
+    z-index: 7;
+    animation: parallaxScroll 4s linear infinite;
+}
+
+.bg2-layer2 {
+    background-image: url("../../../assets/parallaxBg2/layer2-bg2.png");
+    z-index: 6;
+    animation: parallaxScroll 8s linear infinite;
+}
+
+.bg2-layer3 {
+    background-image: url("../../../assets/parallaxBg2/layer3-bg2.png");
+    z-index: 5;
+    animation: parallaxScroll 12s linear infinite;
+}
+
+.bg2-layer4 {
+    background-image: url("../../../assets/parallaxBg2/layer4-bg2.png");
+    z-index: 4;
+    animation: parallaxScroll 16s linear infinite;
+}
+
+.bg2-layer5 {
+    background-image: url("../../../assets/parallaxBg2/layer5-bg2.png");
+    z-index: 3;
+    animation: parallaxScroll 24s linear infinite;
+}
+
+.bg2-layer6 {
+    background-image: url("../../../assets/parallaxBg2/layer6-bg2.png");
+    z-index: 2;
+    animation: parallaxScroll 26s linear infinite;
+}
+
+.bg2-layer7 {
+    background-image: url("../../../assets/parallaxBg2/layer7-bg2.png");
+    z-index: 1;
+    animation: parallaxScroll 28s linear infinite;
+}
+
+/**
+TERCER BACKGROUND PARALLAX
+*/
+
+.bg3-layer1 {
+    background-image: url("../../../assets/parallaxBg3/layer1-bg3.png");
+    z-index: 1;
+    animation: parallaxScroll 24s linear infinite;
+}
+
+.bg3-layer2 {
+    background-image: url("../../../assets/parallaxBg3/layer2-bg3.png");
+    z-index: 2;
+    animation: parallaxScroll 16s linear infinite;
+}
+
+.bg3-layer3 {
+    background-image: url("../../../assets/parallaxBg3/layer3-bg3.png");
+    z-index: 3;
+    animation: parallaxScroll 12s linear infinite;
+}
+
+.bg3-layer4 {
+    background-image: url("../../../assets/parallaxBg3/layer4-bg3.png");
+    z-index: 4;
+    animation: parallaxScroll 8s linear infinite;
+}
+
+.bg3-layer5 {
+    background-image: url("../../../assets/parallaxBg3/layer5-bg3.png");
+    z-index: 5;
+    animation: parallaxScroll 4s linear infinite;
+}
