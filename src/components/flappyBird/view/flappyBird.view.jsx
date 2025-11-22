@@ -5,6 +5,7 @@ import './parallax.css'
 import { Bird } from '../model/Bird'
 import { Pipe } from '../model/Pipe'
 import pipeGreen from '../../../assets/flappyBird/pipes/pipe-green.png'
+import pipeGreenInvertido from '../../../assets/flappyBird/pipes/pipe-green-invertido.png'
 import toast from 'react-hot-toast'
 import explosionSfx from '../../../assets/flappyBird/Explosion.mp3'
 import explosionImg from '../../../assets/flappyBird/Explosion.png'
@@ -29,12 +30,14 @@ export default function FlappyBird() {
     const [score, setScore] = useState(0)
     const [birdPosition, setBirdPosition] = useState({ x: 100, y: 250 })
     const [pipes, setPipes] = useState([])
-    
+    const [pipeInterval, setPipeInterval] = useState(3000)
+
     const birdRef = useRef(null)
     const gameLoopRef = useRef(null)
     const screenRef = useRef(null)
     const pipeTimerRef = useRef(null)
     const pipesRef = useRef([])
+    const scoreRef = useRef(0)
     const explosionActiveRef = useRef(false)
     const explosionAudioRef = useRef(null)
 
@@ -69,22 +72,46 @@ export default function FlappyBird() {
         }
     }, [gameState])
 
+    // Elimina este estado:
+    // const [pipeInterval, setPipeInterval] = useState(3000)
+
+    // Y en startPipeGeneration:
     const startPipeGeneration = () => {
-        // Generar una tubería cada 2.5 segundos
-        pipeTimerRef.current = setInterval(() => {
+        const generatePipe = () => {
             const screenWidth = screenRef.current?.clientWidth || 800
             const screenHeight = screenRef.current?.clientHeight || 600
-            const newPipe = new Pipe(screenWidth, screenHeight)
+
+            // Usar scoreRef.current para obtener el valor actual
+            const currentScore = scoreRef.current
+            const gap = Math.max(120, 200 - currentScore * 5)
+            const newPipe = new Pipe(screenWidth, screenHeight, gap)
             pipesRef.current.push(newPipe)
-        }, 2500)
+
+            // Calcular intervalo directamente
+            const nextInterval = Math.max(1500, 3000 - currentScore * 100)
+            console.log("Next pipe in:", nextInterval, "ms - Score:", currentScore)
+
+            pipeTimerRef.current = setTimeout(generatePipe, nextInterval)
+        }
+
+        generatePipe()
     }
+
+    // Este useEffect es crucial
+    useEffect(() => {
+        scoreRef.current = score
+        console.log("Score updated to:", score) // Para debug
+    }, [score])
+    // Y elimina esta línea del game loop:
+    // setPipeInterval(prev => prev - 50)
 
     const stopPipeGeneration = () => {
         if (pipeTimerRef.current) {
-            clearInterval(pipeTimerRef.current)
+            clearTimeout(pipeTimerRef.current)
             pipeTimerRef.current = null
         }
     }
+
 
     const startGameLoop = () => {
         gameLoopRef.current = setInterval(() => {
@@ -210,7 +237,7 @@ export default function FlappyBird() {
             const a = explosionAudioRef.current
             if (a) {
                 a.currentTime = 0
-                a.play().catch(() => {})
+                a.play().catch(() => { })
             }
         } catch (e) {
             // ignore playback errors
@@ -276,7 +303,7 @@ export default function FlappyBird() {
                                     left: `${pipe.x}px`,
                                     top: 0,
                                     height: `${pipe.gapTop}px`,
-                                    '--pipe-bg': `url(${pipeGreen})`
+                                    '--pipe-bg': `url(${pipeGreenInvertido})`,
                                 }}
                                 initial={{ scale: 1, filter: 'none' }}
                                 animate={pipe.hit ? { scale: 1.06, filter: 'drop-shadow(0 0 10px rgba(255,140,40,0.6))' } : { scale: 1, filter: 'none' }}
@@ -299,8 +326,8 @@ export default function FlappyBird() {
                     ))}
 
                     {/* El pájaro con spritesheet */}
-                    <div 
-                        className="flappy scale-2" 
+                    <div
+                        className="flappy scale-2"
                         style={{
                             left: `${birdPosition.x}px`,
                             top: `${birdPosition.y}px`
@@ -330,7 +357,7 @@ export default function FlappyBird() {
                 </>
             )}
 
-                 {background == PARALLAX_BACKGROUNDS.BG1 && <>
+            {background == PARALLAX_BACKGROUNDS.BG1 && <>
                 <div className='bg-layer1'></div>
                 <div className='bg-layer2'></div>
                 <div className='bg-layer3'></div>
@@ -375,7 +402,7 @@ export default function FlappyBird() {
                             }}>
                                 Bosque
                             </button>
-                            <button className={`button-background btn3 ${background === PARALLAX_BACKGROUNDS.BG3 && 'selected'} `}onClick={() => {
+                            <button className={`button-background btn3 ${background === PARALLAX_BACKGROUNDS.BG3 && 'selected'} `} onClick={() => {
                                 setBackground(PARALLAX_BACKGROUNDS.BG3)
                             }}>
                                 Montaña
