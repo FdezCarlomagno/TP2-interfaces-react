@@ -25,6 +25,8 @@ export default function FlappyBird() {
         background,
         explosion,
         score,
+        powerUps,
+        isShrunk,
         birdPosition,
         pipes,
         screenRef,
@@ -117,7 +119,7 @@ export default function FlappyBird() {
 
                     {/* El pájaro con spritesheet */}
                     <div
-                        className="flappy scale-2"
+                        className={`flappy scale-2 ${isShrunk ? 'shrunk' : ''}`}
                         style={{
                             left: `${birdPosition.x}px`,
                             top: `${birdPosition.y}px`
@@ -132,6 +134,19 @@ export default function FlappyBird() {
                             style={{ left: `${explosion.x}px`, top: `${explosion.y}px` }}
                         />
                     )}
+                    {/* Render power-ups */}
+                    {powerUps.map((p, idx) => (
+                        <div
+                            key={idx}
+                            className="powerup"
+                            style={{
+                                left: `${p.x}px`,
+                                top: `${p.y}px`,
+                                width: `${p.width}px`,
+                                height: `${p.height}px`
+                            }}
+                        />
+                    ))}
                 </>
             )}
 

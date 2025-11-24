@@ -9,6 +9,10 @@ export class Bird {
         this.width = 34;   // ancho real frame pájaro
         this.height = 24;  // alto real
 
+        // Mantener tamaño base para poder restaurarlo tras efectos (power-ups)
+        this.baseWidth = this.width
+        this.baseHeight = this.height
+
     }
 
     jump() {
@@ -47,5 +51,19 @@ export class Bird {
         this.x = x
         this.y = y
         this.velocity = 0
+        // Restaurar tamaño al reiniciar
+        this.resetSize()
+    }
+
+    // Cambia el tamaño actual del pájaro (en px)
+    setSize(width, height) {
+        this.width = width
+        this.height = height
+    }
+
+    // Restaura el tamaño base
+    resetSize() {
+        this.width = this.baseWidth
+        this.height = this.baseHeight
     }
 }

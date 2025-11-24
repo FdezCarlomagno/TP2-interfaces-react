@@ -270,6 +270,24 @@
     transform-origin: left top;
 }
 
+/* Estado reducido por power-up */
+.flappy.shrunk {
+    transform: scale(1.2);
+    transform-origin: left top;
+}
+
+/* Power-up visual */
+.powerup {
+    position: absolute;
+    z-index: 40;
+    background: linear-gradient(135deg,#ffd86b,#ff8a00);
+    border: 2px solid #fff3b8;
+    border-radius: 6px;
+    box-shadow: 0 6px 0 #c67a00;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
 /* Force pipes visible and crisp */
 .pipe {
     z-index: 20;

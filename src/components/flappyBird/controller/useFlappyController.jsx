@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Bird } from '../model/Bird'
 import { Pipe } from '../model/Pipe'
+import { PowerUp } from '../model/PowerUp'
 import toast from 'react-hot-toast'
 import explosionSfx from '../../../assets/flappyBird/Explosion.mp3'
 import explosionImg from '../../../assets/flappyBird/Explosion.png'
@@ -24,12 +25,17 @@ export function useFlappyController() {
     const [score, setScore] = useState(0)
     const [birdPosition, setBirdPosition] = useState({ x: 100, y: 250 })
     const [pipes, setPipes] = useState([])
+    const [powerUps, setPowerUps] = useState([])
+    const [isShrunk, setIsShrunk] = useState(false)
 
     const birdRef = useRef(null)
     const gameLoopRef = useRef(null)
     const screenRef = useRef(null)
     const pipeTimerRef = useRef(null)
     const pipesRef = useRef([])
+    const powerUpTimerRef = useRef(null)
+    const powerUpsRef = useRef([])
+    const shrinkTimerRef = useRef(null)
     const scoreRef = useRef(0)
     const explosionActiveRef = useRef(false)
     const explosionAudioRef = useRef(null)
@@ -52,14 +58,17 @@ export function useFlappyController() {
         if (gameState === GAME_STATES.RUNNING) {
             startGameLoop()
             startPipeGeneration()
+            startPowerUpGeneration()
         } else {
             stopGameLoop()
             stopPipeGeneration()
+            stopPowerUpGeneration()
         }
 
         return () => {
             stopGameLoop()
             stopPipeGeneration()
+            stopPowerUpGeneration()
         }
     }, [gameState])
 
@@ -81,6 +90,27 @@ export function useFlappyController() {
         generatePipe()
     }, [])
 
+    const startPowerUpGeneration = useCallback(() => {
+        const generate = () => {
+            const screenWidth = screenRef.current?.clientWidth || 800
+            const screenHeight = screenRef.current?.clientHeight || 600
+            const p = new PowerUp(screenWidth, screenHeight)
+            powerUpsRef.current.push(p)
+            // programar siguiente powerup aleatorio entre 8s y 15s
+            const next = Math.floor(Math.random() * (15000 - 8000)) + 8000
+            powerUpTimerRef.current = setTimeout(generate, next)
+            setPowerUps([...powerUpsRef.current])
+        }
+        generate()
+    }, [])
+
+    const stopPowerUpGeneration = useCallback(() => {
+        if (powerUpTimerRef.current) {
+            clearTimeout(powerUpTimerRef.current)
+            powerUpTimerRef.current = null
+        }
+    }, [])
+
     const stopPipeGeneration = useCallback(() => {
         if (pipeTimerRef.current) {
             clearTimeout(pipeTimerRef.current)
@@ -97,6 +127,43 @@ export function useFlappyController() {
             bird.update()
             setBirdPosition({ x: bird.x, y: bird.y })
             pipesRef.current.forEach(pipe => pipe.update())
+            // actualizar powerups
+            powerUpsRef.current.forEach(p => p.update())
+
+            // colisiones con powerups
+            for (let i = 0; i < powerUpsRef.current.length; i++) {
+                const p = powerUpsRef.current[i]
+                if (p.collected) continue
+                const pb = p.getHitbox()
+                const bb = bird.getHitbox()
+                const overlap = !(bb.x + bb.width < pb.x || bb.x > pb.x + pb.width || bb.y + bb.height < pb.y || bb.y > pb.y + pb.height)
+                if (overlap) {
+                    // recoger powerup: shrink + 3 puntos
+                    p.collected = true
+                    // remover del array
+                    powerUpsRef.current = powerUpsRef.current.filter(u => u !== p)
+                    setPowerUps([...powerUpsRef.current])
+                    // Sumar puntos
+                    setScore(prev => prev + 3)
+                    // aplicar shrink al pájaro
+                    if (birdRef.current) {
+                        // reiniciar timer si ya había
+                        if (shrinkTimerRef.current) {
+                            clearTimeout(shrinkTimerRef.current)
+                        }
+                        const newW = Math.max(10, Math.round(birdRef.current.baseWidth * 0.6))
+                        const newH = Math.max(8, Math.round(birdRef.current.baseHeight * 0.6))
+                        birdRef.current.setSize(newW, newH)
+                        setIsShrunk(true)
+                        // restaurar después de 20s
+                        shrinkTimerRef.current = setTimeout(() => {
+                            if (birdRef.current) birdRef.current.resetSize()
+                            setIsShrunk(false)
+                            shrinkTimerRef.current = null
+                        }, 20000)
+                    }
+                }
+            }
 
             if (bird.checkCollision(screenHeight)) {
                 handleGameOver(bird.x, screenHeight - bird.height / 2, { src: explosionImg })
@@ -114,7 +181,9 @@ export function useFlappyController() {
             }
 
             pipesRef.current = pipesRef.current.filter(pipe => !pipe.isOffScreen())
+            powerUpsRef.current = powerUpsRef.current.filter(p => !p.isOffScreen() && !p.collected)
             setPipes([...pipesRef.current])
+            setPowerUps([...powerUpsRef.current])
         }, 1000 / 60)
     }, [])
 
@@ -137,6 +206,13 @@ export function useFlappyController() {
         setScore(0)
         pipesRef.current = []
         setPipes([])
+        // Ensure any shrink state is cleared on new game
+        if (shrinkTimerRef.current) {
+            clearTimeout(shrinkTimerRef.current)
+            shrinkTimerRef.current = null
+        }
+        if (birdRef.current) birdRef.current.resetSize()
+        setIsShrunk(false)
         setGameState(GAME_STATES.RUNNING)
     }, [])
 
@@ -145,6 +221,14 @@ export function useFlappyController() {
         stopPipeGeneration()
         pipesRef.current = []
         setPipes([])
+        // Clear powerup/shrink state when exiting
+        stopPowerUpGeneration()
+        if (shrinkTimerRef.current) {
+            clearTimeout(shrinkTimerRef.current)
+            shrinkTimerRef.current = null
+        }
+        if (birdRef.current) birdRef.current.resetSize()
+        setIsShrunk(false)
         setGameState(GAME_STATES.NOT_RUNNING)
         setScore(0)
     }, [stopGameLoop, stopPipeGeneration])
@@ -187,6 +271,14 @@ export function useFlappyController() {
     const handleGameOver = useCallback(async (x, y, opts = {}) => {
         stopGameLoop()
         stopPipeGeneration()
+        stopPowerUpGeneration()
+        if (shrinkTimerRef.current) {
+            clearTimeout(shrinkTimerRef.current)
+            shrinkTimerRef.current = null
+        }
+        // restore visual state on game over
+        if (birdRef.current) birdRef.current.resetSize()
+        setIsShrunk(false)
         if (typeof x === 'number' && typeof y === 'number') {
             await showExplosion(x, y, opts)
         }
@@ -199,6 +291,8 @@ export function useFlappyController() {
         background,
         explosion,
         score,
+        powerUps,
+        isShrunk,
         birdPosition,
         pipes,
         screenRef,
