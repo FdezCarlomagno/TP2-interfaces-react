@@ -34,6 +34,27 @@ const Controls = ({ game }) => {
                         </p>
                     </div>
                 </div>
+            ) : game.id === 'flappy-bird' ? (
+                <div className="controls-section">
+                    <h3 className="controls-title">Controles</h3>
+                    <div className="controls-info">
+                        <p className="control-item">
+                            <span className="control-label">Movimiento del pajaro</span>
+                            <span className="control-value">espacio y click</span>
+                        </p>
+                    </div>
+
+                    <h3 className="actions-title">Acciones:</h3>
+                    <div className="actions-info">
+                        <p className="action-item">
+                            <span className="action-label">Tocar click o espacio:</span> Hace que el pájaro vuele hacia arriba
+                        </p>
+                        
+                        <p className="action-item">
+                            <span className="action-label">Objetivo:</span> Hacer que el pajarito sortee los obstaculos volando
+                        </p>
+                    </div>
+                </div>
             ) : (
                 <div className="controls-section">
                     <h3 className="controls-title">Controles</h3>
