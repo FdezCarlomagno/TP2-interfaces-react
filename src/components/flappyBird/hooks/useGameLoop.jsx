@@ -1,50 +1,152 @@
-import { useRef, useCallback, useEffect } from 'react'
-import { Bird } from '../model/Bird'
-import explosionImg from '../../../assets/flappyBird/Explosion.png'
+import { useCallback } from "react"
+import { SHRINK_TIME, SHRINK_SCALE } from "../config/gameConfig"
 
-export const useGameLoop = (screenRef, gameState, onGameOver, onScoreUpdate) => {
-    const birdRef = useRef(null)
-    const gameLoopRef = useRef(null)
-    const pipesRef = useRef([])
-    const scoreRef = useRef(0)
+export default function useGameLoop(
+    gameLoopRef,
+    screenRef,
+    birdRef,
+    setBirdPosition,
+    pipesRef,
+    powerUpsRef,
+    shrinkTimerRef,
+    setScore,
+    setIsShrunk,
+    handleGameOverRef,
+    setPipes,
+    setPowerUps,
+    pointAudioRef,
+    swooshAudioRef
+) {
+
+    // ───────────────────────────────────────────────
+    // HELPERS
+    // ───────────────────────────────────────────────
+
+    const updateBird = () => {
+        const bird = birdRef.current
+        bird.update()
+        setBirdPosition({ x: bird.x, y: bird.y })
+    }
+
+    const updateEntities = () => {
+        pipesRef.current.forEach(p => p.update())
+        powerUpsRef.current.forEach(p => p.update())
+    }
+
+    const handlePowerUpCollision = (bird) => {
+        for (const pu of powerUpsRef.current) {
+            if (pu.collected) continue
+
+            const b = bird.getHitbox()
+            const h = pu.getHitbox()
+
+            const touching = !(
+                b.x + b.width < h.x ||
+                b.x > h.x + h.width ||
+                b.y + b.height < h.y ||
+                b.y > h.y + h.height
+            )
+
+            if (touching) {
+                collectPowerUp(pu, bird)
+            }
+        }
+    }
+
+    const collectPowerUp = (pu, bird) => {
+        const a = pointAudioRef.current
+        if (!a) return
+        a.currentTime = 0
+        a.play().catch(() => { })
+        pu.collected = true
+
+        powerUpsRef.current = powerUpsRef.current.filter(x => x !== pu)
+        setPowerUps([...powerUpsRef.current])
+
+        setScore(prev => prev + 3)
+        applyShrink(bird)
+    }
+
+    const applyShrink = (bird) => {
+        if (shrinkTimerRef.current) clearTimeout(shrinkTimerRef.current)
+
+        bird.setSize(
+            Math.round(bird.baseWidth * SHRINK_SCALE),
+            Math.round(bird.baseHeight * SHRINK_SCALE)
+        )
+
+        setIsShrunk(true)
+
+        shrinkTimerRef.current = setTimeout(() => {
+            bird.resetSize()
+            setIsShrunk(false)
+            shrinkTimerRef.current = null
+            const a = swooshAudioRef.current
+            if (!a) return
+            a.currentTime = 0
+            a.play().catch(() => { })
+        }, SHRINK_TIME)
+
+    }
+
+    const handleWorldBoundsCollision = (bird, screenH) => {
+        if (bird.checkCollision(screenH)) {
+            handleGameOverRef.current?.(bird.x, bird.y)
+            return true
+        }
+        return false
+    }
+
+    const handlePipeCollision = (bird) => {
+        for (const pipe of pipesRef.current) {
+
+            if (pipe.checkCollision(bird)) {
+                handleGameOverRef.current?.(bird.x, bird.y)
+                return true
+            }
+
+            if (pipe.hasPassed(bird)) {
+                setScore(s => s + 1)
+            }
+        }
+        return false
+    }
+
+    const cleanupEntities = () => {
+        pipesRef.current = pipesRef.current.filter(p => !p.isOffScreen())
+        powerUpsRef.current = powerUpsRef.current.filter(p => !p.isOffScreen() && !p.collected)
+
+        setPipes([...pipesRef.current])
+        setPowerUps([...powerUpsRef.current])
+    }
+
+    // ───────────────────────────────────────────────
+    // MAIN LOOP
+    // ───────────────────────────────────────────────
+    const tick = () => {
+        const bird = birdRef.current
+        const screenH = screenRef.current?.clientHeight || 600
+        if (!bird) return
+
+        updateBird()
+        updateEntities()
+        handlePowerUpCollision(bird)
+
+        if (handleWorldBoundsCollision(bird, screenH)) return
+        if (handlePipeCollision(bird)) return
+
+        cleanupEntities()
+    }
+
+    // ───────────────────────────────────────────────
+    // PUBLIC API
+    // ───────────────────────────────────────────────
 
     const startGameLoop = useCallback(() => {
-        gameLoopRef.current = setInterval(() => {
-            const bird = birdRef.current
-            const screenHeight = screenRef.current?.clientHeight || 600
+        if (gameLoopRef.current) return
 
-            if (!bird) return
-
-            // Actualizar física del pájaro
-            bird.update()
-
-            // Actualizar tuberías
-            pipesRef.current.forEach(pipe => pipe.update())
-
-            // Verificar colisión con el suelo
-            if (bird.checkCollision(screenHeight)) {
-                onGameOver(bird.x, screenHeight - bird.height / 2, { src: explosionImg })
-                return
-            }
-
-            // Verificar colisiones con tuberías y puntos
-            for (let pipe of pipesRef.current) {
-                if (pipe.checkCollision(bird)) {
-                    onGameOver(bird.x, bird.y, { src: explosionImg })
-                    return
-                }
-
-                // Verificar si el pájaro pasó la tubería (sumar puntos)
-                if (pipe.hasPassed(bird)) {
-                    onScoreUpdate(prev => prev + 1)
-                }
-            }
-
-            // Eliminar tuberías que salieron de la pantalla
-            pipesRef.current = pipesRef.current.filter(pipe => !pipe.isOffScreen())
-
-        }, 1000 / 60) // 60 FPS
-    }, [screenRef, onGameOver, onScoreUpdate])
+        gameLoopRef.current = setInterval(tick, 1000 / 60)
+    }, [])
 
     const stopGameLoop = useCallback(() => {
         if (gameLoopRef.current) {
@@ -53,59 +155,8 @@ export const useGameLoop = (screenRef, gameState, onGameOver, onScoreUpdate) => 
         }
     }, [])
 
-    const initializeBird = useCallback((x = 100, y = 250) => {
-        birdRef.current = new Bird(x, y)
-    }, [])
-
-    const resetBird = useCallback((x = 100, y = 250) => {
-        if (birdRef.current) {
-            birdRef.current.reset(x, y)
-        }
-    }, [])
-
-    const getBirdPosition = useCallback(() => {
-        return birdRef.current ? { x: birdRef.current.x, y: birdRef.current.y } : { x: 100, y: 250 }
-    }, [])
-
-    const jump = useCallback(() => {
-        if (birdRef.current) {
-            birdRef.current.jump()
-        }
-    }, [])
-
-    const clearPipes = useCallback(() => {
-        pipesRef.current = []
-    }, [])
-
-    const addPipe = useCallback((pipe) => {
-        pipesRef.current.push(pipe)
-    }, [])
-
-    const getPipes = useCallback(() => {
-        return [...pipesRef.current]
-    }, [])
-
-    // Control del game loop basado en el estado del juego
-    useEffect(() => {
-        if (gameState === 'RUNNING') {
-            startGameLoop()
-        } else {
-            stopGameLoop()
-        }
-
-        return () => {
-            stopGameLoop()
-        }
-    }, [gameState, startGameLoop, stopGameLoop])
-
     return {
-        initializeBird,
-        resetBird,
-        getBirdPosition,
-        jump,
-        clearPipes,
-        addPipe,
-        getPipes,
-        scoreRef
+        startGameLoop,
+        stopGameLoop
     }
 }
