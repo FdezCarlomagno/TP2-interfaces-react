@@ -15,6 +15,11 @@ import peg3 from "../../../assets/imgs/peg-solitaire3.png";
 import peg4 from "../../../assets/imgs/peg-solitaire4.png";
 import peg5 from "../../../assets/imgs/peg-solitaire5.png";
 
+import flappy1 from "../../../assets/imgs/flappy1.png";
+import flappy2 from "../../../assets/imgs/flappy2.png";
+import flappy3 from "../../../assets/imgs/flappy3.png";
+import flappy4 from "../../../assets/imgs/flappy4.png";
+
 // 🎮 Dataset de Blocka Game
 const GAMEPLAY_BLOCKA = [
   { 
@@ -132,9 +137,81 @@ const GAMEPLAY_PEG = [
     avatar: messi5
   }
 ];
+const FLAPPYBIRD_VIDEOS = [
+  {
+    id: 1,
+    image: flappy1,
+    title: "Flappy Bird - Cómo GANAR en 3 minutos (TRUCO 100% REAL)",
+    channel: "BirdMaster",
+    views: "127K vistas",
+    time: "Hace 1 día",
+    duration: "10:21",
+    avatar: flappy1
+  },
+  {
+    id: 2,
+    image: flappy2,
+    title: "El TRUCO DEFINITIVO para PASAR Flappy Bird sin morir",
+    channel: "LogicGamer",
+    views: "89K vistas",
+    time: "Hace 2 días",
+    duration: "08:47",
+    avatar: flappy2
+  },
+  {
+    id: 3,
+    image: flappy3,
+    title: "Mi SPEEDRUN en Flappy Bird  RÉCORD ARGENTINO 9999",
+    channel: "MessiPlays",
+    views: "156K vistas",
+    time: "Hace 4 días",
+    duration: "06:59",
+    avatar: flappy3
+  },
+  {
+    id: 4,
+    image: flappy4,
+    title: "Flappy Bird - Guía Completa para Principiantes 2025",
+    channel: "GamingAcademy",
+    views: "94K vistas",
+    time: "Hace 1 semana",
+    duration: "15:30",
+    avatar: flappy4
+  },
+  {
+    id: 5,
+    image: flappy1,  // ← repite ciclo
+    title: "¿Puedes SUPERAR Flappy Bird con SOLO 1 VIDA? (Challenge)",
+    channel: "PuzzlePro",
+    views: "203K vistas",
+    time: "Hace 5 días",
+    duration: "11:11",
+    avatar: flappy1
+  },
+  {
+    id: 6,
+    image: flappy2,  // ← repite ciclo
+    title: "Los 10 ERRORES que te hacen PERDER en Flappy Bird",
+    channel: "FlappyPro",
+    views: "68K vistas",
+    time: "Hace 6 días",
+    duration: "09:05",
+    avatar: flappy2
+  },
+  {
+    id: 7,
+    image: flappy3,  // ← repite ciclo
+    title: "Flappy Bird pero con los OJOS VENDADOS (World Record)",
+    channel: "InsaneGamer",
+    views: "312K vistas",
+    time: "Hace 2 semanas",
+    duration: "13:42",
+    avatar: flappy3
+  }
+];
 
 export default function GameplayCarousel({ game = "blocka" }) {
-  const ITEMS = game === "peg" ? GAMEPLAY_PEG : GAMEPLAY_BLOCKA;
+  const ITEMS = game === "peg" ? GAMEPLAY_PEG :game==="flappyBird"?FLAPPYBIRD_VIDEOS :GAMEPLAY_BLOCKA;
 
   const [index, setIndex] = React.useState(0);
   const containerRef = React.useRef(null);

@@ -13,6 +13,7 @@ import GameplayCarousel from "../components/carruseles/gameplayCarousel/Gameplay
 import blockaFondo from "../assets/imgs/blockaFondo.jpg";
 import Controls from "../components/gameDetails/Controls";
 import Sombra from "../components/sombra/Sombra";
+import flappyImg from '../assets/imgs/flappy.png';
 
 const Game = () => {
   const { gameId } = useParams();
@@ -61,8 +62,8 @@ const Game = () => {
   const flappyBird = {
     id: "flappy-bird",
     name: "Flappy Bird",
-    background_image_low_res: pegImg,
-    background_image: pegImg,
+    background_image_low_res: flappyImg,
+    background_image: flappyImg,
     rating: 4.0,
     released: "2013-05-24",
     genres: [{ name: "Arcade" }, { name: "Casual" }],
@@ -170,7 +171,7 @@ const Game = () => {
               <div className="game-media">
                 <GenericGameScreen game={flappyBird} isPremium={false} />
                 <div className="gameplay-under-media">
-                  <GameplayCarousel />
+                  <GameplayCarousel game="flappyBird" />
                 </div>
               </div>
               <aside className="game-grid-side">

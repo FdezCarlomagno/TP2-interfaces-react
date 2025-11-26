@@ -5,6 +5,7 @@ import { useAppContext } from "../../../context/AppContext"
 import "./carruselPrincipal.css"
 import { useNavigate } from "react-router-dom"
 import blockaImgFondo from "../../../assets/imgs/blockaFondo.jpg" 
+import flappyImg from "../../../assets/imgs/flappy.png"
 
 
 const VideogamesCarousel = () => {
@@ -30,6 +31,33 @@ const VideogamesCarousel = () => {
     rating: 4.2,
     released: "2023-01-15",
   }
+  const flappyBird = {
+      id: "flappy-bird",
+      name: "Flappy Bird",
+      background_image_low_res: flappyImg,
+      background_image: flappyImg,
+      rating: 4.0,
+      released: "2013-05-24",
+      genres: [{ name: "Arcade" }, { name: "Casual" }],
+      description:
+        "Flappy Bird es un juego arcade creado por Dong Nguyen. Controlás un pájaro que debe atravesar huecos entre tuberías sin chocar. Su dificultad extrema lo volvió viral en 2014.",
+      platforms: [
+        { platform: { name: "iOS" } },
+        { platform: { name: "Android" } },
+        { platform: { name: "Web" } },
+      ],
+      publishers: [{ name: "dotGears" }],
+      developers: [{ name: "Dong Nguyen" }],
+      tags: [
+        { name: "Arcade" },
+        { name: "Difícil" },
+        { name: "Reflejos" },
+        { name: "Retro" },
+      ],
+      screenshots: [{ image: "/flappy1.jpg" }, { image: "/flappy2.jpg" }],
+      movies: [{ data: { max: "/flappy-trailer.mp4" } }],
+      website: "https://flappybird.io",
+    };
 
 
   /**
@@ -47,6 +75,7 @@ const VideogamesCarousel = () => {
   
   const games = contextGames.slice(0, 8)
   games.unshift(blockaGame)
+  games.unshift(flappyBird)
   const nav = useNavigate()
 
  // Responsive items calculation
