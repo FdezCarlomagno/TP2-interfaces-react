@@ -8,12 +8,14 @@ import Pipes from './components/objects/Pipes'
 import Bird from './components/objects/Bird'
 import Explosion from './components/UI/Explosion'
 import PowerUp from './components/objects/PowerUp'
+import Eagles from './components/objects/Eagles'
 import { GAME_STATES, PARALLAX_BACKGROUNDS } from '../config/gameConfig'
 import InGameUI from './components/UI/InGameUI'
 import BG1 from './components/UI/Backgrounds/Background1'
 import BG2 from './components/UI/Backgrounds/Background2'
 import BG3 from './components/UI/Backgrounds/Background3'
 import StartScreen from './components/UI/StartScreen'
+import DebugHitboxes from './components/UI/DebugHitboxes'
 
 
 export default function FlappyBird() {
@@ -23,10 +25,12 @@ export default function FlappyBird() {
         explosion,
         score,
         powerUps,
+        eagles,
         isShrunk,
         birdPosition,
         pipes,
         screenRef,
+        birdRef,  // ✅ NEW: Needed for debug
         handleJump,
         handleStartGame,
         handleExitGame,
@@ -63,6 +67,12 @@ export default function FlappyBird() {
                     {/* Renderizar tuberías */}
                     <Pipes pipes={pipes}/>
 
+                    {/* Renderizar power-ups */}
+                    <PowerUp powerUps={powerUps}/>
+
+                    {/* Renderizar águilas */}
+                    <Eagles eagles={eagles}/>
+
                     {/* El pájaro con spritesheet */}
                     <Bird 
                         isShrunk={isShrunk} 
@@ -71,8 +81,8 @@ export default function FlappyBird() {
 
                     <Explosion explosion={explosion}/>
 
-                    {/* Renderizar power-ups */}
-                   <PowerUp powerUps={powerUps}></PowerUp>
+                    {/* ✅ DEBUG: Shows hitboxes - REMOVE AFTER FIXING
+                    <DebugHitboxes birdRef={birdRef} eagles={eagles} /> */}
                 </>
             )}
 

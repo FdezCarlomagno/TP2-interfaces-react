@@ -10,6 +10,7 @@ import audio_die from '../../../assets/flappyBird/audio/audio_die.wav'
 import { PARALLAX_BACKGROUNDS, GAME_STATES } from '../config/gameConfig'
 import usePipes from '../hooks/usePipes'
 import usePowerUp from '../hooks/usePowerUp'
+import useEagles from '../hooks/useEagles'  // NEW
 import useGameLoop from '../hooks/useGameLoop'
 import useExplosion from '../hooks/useExplosion'
 
@@ -20,6 +21,7 @@ export function useFlappyController() {
     const [birdPosition, setBirdPosition] = useState({ x: 100, y: 250 })
     const [pipes, setPipes] = useState([])
     const [powerUps, setPowerUps] = useState([])
+    const [eagles, setEagles] = useState([])  // NEW
     const [isShrunk, setIsShrunk] = useState(false)
 
     const birdRef = useRef(null)
@@ -27,6 +29,7 @@ export function useFlappyController() {
 
     const pipesRef = useRef([])
     const powerUpsRef = useRef([])
+    const eaglesRef = useRef([])  // NEW
     const scoreRef = useRef(0)
 
     const gameLoopRef = useRef(null)
@@ -96,7 +99,7 @@ export function useFlappyController() {
     const { explosion, showExplosion } = useExplosion(explosionAudioRef)
 
     // ────────────────────────────────────────────────────────
-    // PIPES + POWERUPS
+    // PIPES + POWERUPS + EAGLES
     // ────────────────────────────────────────────────────────
     const { startPipeGeneration, stopPipeGeneration } = usePipes(
         scoreRef,
@@ -113,6 +116,13 @@ export function useFlappyController() {
         powerUpTimerRef
     )
 
+    // NEW: Eagles hook
+    const { startEagleGeneration, stopEagleGeneration } = useEagles(
+        screenRef,
+        eaglesRef,
+        setEagles
+    )
+
 
     // ────────────────────────────────────────────────────────
     // GAME LOOP (con handleGameOverRef)
@@ -124,12 +134,14 @@ export function useFlappyController() {
         setBirdPosition,
         pipesRef,
         powerUpsRef,
+        eaglesRef,  // NEW
         shrinkTimerRef,
         setScore,
         setIsShrunk,
         handleGameOverRef,
         setPipes,
         setPowerUps,
+        setEagles,  // NEW
         pointAudioRef,
         swooshAudioRef
     )
@@ -161,6 +173,7 @@ export function useFlappyController() {
         stopGameLoop()
         stopPipeGeneration()
         stopPowerUpGeneration()
+        stopEagleGeneration()  // NEW
 
         if (shrinkTimerRef.current) clearTimeout(shrinkTimerRef.current)
         birdRef.current?.resetSize()
@@ -169,8 +182,13 @@ export function useFlappyController() {
         await showExplosion(x, y, opts)
 
         setGameState(GAME_STATES.NOT_RUNNING)
-        toast.error(`Game Over! Score: ${scoreRef.current}`)
-    }, [stopGameLoop, stopPipeGeneration, stopPowerUpGeneration, showExplosion])
+        
+        // NEW: Different message if hit by eagle
+        const message = opts.hitByEagle 
+            ? `Caught by Eagle! Score: ${scoreRef.current}`
+            : `Game Over! Score: ${scoreRef.current}`
+        toast.error(message)
+    }, [stopGameLoop, stopPipeGeneration, stopPowerUpGeneration, stopEagleGeneration, showExplosion])
 
     // *** Seteamos la ref acá ***
     handleGameOverRef.current = handleGameOver
@@ -184,16 +202,19 @@ export function useFlappyController() {
             startGameLoop()
             startPipeGeneration()
             startPowerUpGeneration()
+            startEagleGeneration()  // NEW
         } else {
             stopGameLoop()
             stopPipeGeneration()
             stopPowerUpGeneration()
+            stopEagleGeneration()  // NEW
         }
 
         return () => {
             stopGameLoop()
             stopPipeGeneration()
             stopPowerUpGeneration()
+            stopEagleGeneration()  // NEW
         }
     }, [gameState])
 
@@ -211,9 +232,11 @@ export function useFlappyController() {
 
         pipesRef.current = []
         powerUpsRef.current = []
+        eaglesRef.current = []  // NEW
 
         setPipes([])
         setPowerUps([])
+        setEagles([])  // NEW
 
         setGameState(GAME_STATES.RUNNING)
     }, [])
@@ -222,19 +245,22 @@ export function useFlappyController() {
         stopGameLoop()
         stopPipeGeneration()
         stopPowerUpGeneration()
+        stopEagleGeneration()  // NEW
 
         pipesRef.current = []
         powerUpsRef.current = []
+        eaglesRef.current = []  // NEW
 
         setPipes([])
         setPowerUps([])
+        setEagles([])  // NEW
 
         birdRef.current?.resetSize()
         setIsShrunk(false)
         setScore(0)
 
         setGameState(GAME_STATES.NOT_RUNNING)
-    }, [stopGameLoop, stopPipeGeneration, stopPowerUpGeneration])
+    }, [stopGameLoop, stopPipeGeneration, stopPowerUpGeneration, stopEagleGeneration])
 
     const handleResumeGame = useCallback(() => {
         setGameState(GAME_STATES.RUNNING)
@@ -248,10 +274,12 @@ export function useFlappyController() {
         explosion,
         score,
         powerUps,
+        eagles,  // NEW
         isShrunk,
         birdPosition,
         pipes,
         screenRef,
+        birdRef,  // NEW: Expose for debug
         handleJump,
         handleStartGame,
         handleExitGame,

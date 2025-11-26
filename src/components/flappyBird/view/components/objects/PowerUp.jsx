@@ -1,19 +1,25 @@
-import '../../../view/flappyBird.css'
-import '../../../view/parallax.css'
+/**
+ * PowerUp.jsx - Coin version
+ * Renders spinning coins as power-ups
+ */
+
+import React from 'react'
 
 export default function PowerUp({ powerUps }) {
-    return <>
-        {powerUps.map((p, idx) => (
-            <div
-                key={idx}
-                className="powerup"
-                style={{
-                    left: `${p.x}px`,
-                    top: `${p.y}px`,
-                    width: `${p.width}px`,
-                    height: `${p.height}px`
-                }}
-            />
-        ))}
-    </>
+    if (!powerUps || powerUps.length === 0) return null
+
+    return (
+        <>
+            {powerUps.map((powerUp, index) => (
+                <div
+                    key={`powerup-${index}`}
+                    className={`coin ${powerUp.collected ? 'collected' : ''}`}
+                    style={{
+                        left: `${powerUp.x}px`,
+                        top: `${powerUp.y}px`,
+                    }}
+                />
+            ))}
+        </>
+    )
 }
